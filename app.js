@@ -1,6 +1,9 @@
-// URL del reverso oficial
+// === CONFIGURACIÓN DEL ÁLBUM ===
+
+// Reverso de carta
 const REVERSO = "https://i.ibb.co/F443KZqx/00-REVERSO.png";
 
+// Array de cartas (24 en total)
 const CARDS = [
   // Escudos
   { id: 1, nombre: "Escudo 1K", tipo: "escudo", imagen: "https://i.ibb.co/XXXXXX/escudo1k.png" },
@@ -16,7 +19,7 @@ const CARDS = [
   { id: 11, nombre: "Escudo Ultimate Móstoles", tipo: "escudo", imagen: "https://i.ibb.co/XXXXXX/escudomostoles.png" },
   { id: 12, nombre: "Escudo Xbuyer Team", tipo: "escudo", imagen: "https://i.ibb.co/XXXXXX/escudoxbuyer.png" },
 
-  // Presidentas/Presidentes
+  // Presidentes/as
   { id: 13, nombre: "Mayichi (1K)", tipo: "presidenta", imagen: "https://i.ibb.co/XXXXXX/mayichi.png" },
   { id: 14, nombre: "Ama Blitz (Aniquiladoras FC)", tipo: "presidenta", imagen: "https://i.ibb.co/XXXXXX/amablitz.png" },
   { id: 15, nombre: "Adri Contreras + Mercedes Roa (El Barrio)", tipo: "presidente", imagen: "https://i.ibb.co/XXXXXX/adri-mercedes.png" },
@@ -31,161 +34,124 @@ const CARDS = [
   { id: 24, nombre: "Javi Buyer + Eric Minibuyer (Xbuyer Team)", tipo: "presidente", imagen: "https://i.ibb.co/XXXXXX/javi-eric.png" }
 ];
 
+// === VARIABLES DE JUEGO ===
+let monedas = parseInt(localStorage.getItem("monedas_queens")) || 2000;
+let album = JSON.parse(localStorage.getItem("album_queens")) || [];
 
-// ====== VARIABLES Y LOCALSTORAGE ======
-const STORAGE_KEY = "album_cromos_queens";
-const STORAGE_COINS = "monedas_queens";
-const STORAGE_DAILY = "daily_bonus_queens";
-const STORAGE_TWITTER = "bonus_twitter_queens";
-const STORAGE_TWITCH = "bonus_twitch_queens";
+// === ACTUALIZAR PANEL DE MONEDAS ===
+function updateMonedas() {
+  document.getElementById("monedas-panel").textContent = "Monedas: " + monedas;
+  localStorage.setItem("monedas_queens", monedas);
+}
+updateMonedas();
 
-const TAM_SOBRE = 5;
-const COSTE_SOBRE = 1000;
-
-let monedas = parseInt(localStorage.getItem(STORAGE_COINS)) || 5000;
-let coleccion = JSON.parse(localStorage.getItem(STORAGE_KEY)) || Array(CARDS.length).fill(false);
-
-// ====== RENDER ALBUM ======
-function renderAlbum() {
+// === MOSTRAR ÁLBUM ===
+function mostrarAlbum() {
   const grid = document.getElementById("album-grid");
   grid.innerHTML = "";
-  CARDS.forEach((card, idx) => {
-    const obtenida = coleccion[idx];
-    const div = document.createElement("div");
-    div.className = "card-slot";
-    div.innerHTML = `
-      <div class="thumb">
-        <img src="${obtenida ? card.imagen : REVERSO}" alt="">
-      </div>
-    `;
-    grid.appendChild(div);
+
+  CARDS.forEach(card => {
+    const cardDiv = document.createElement("div");
+    cardDiv.classList.add("cromo");
+
+    const img = document.createElement("img");
+    if (album.includes(card.id)) {
+      img.src = card.imagen;
+    } else {
+      img.src = REVERSO;
+    }
+    img.alt = card.nombre;
+
+    const p = document.createElement("p");
+    p.textContent = card.nombre;
+
+    cardDiv.appendChild(img);
+    cardDiv.appendChild(p);
+    grid.appendChild(cardDiv);
   });
-
-  document.getElementById("monedas-panel").textContent = "Monedas: " + monedas;
 }
+mostrarAlbum();
 
-// ====== ABRIR SOBRE ======
+// === ABRIR SOBRE (5 CROMOS, COSTE 1000 MONEDAS) ===
 function abrirSobre() {
-  if (monedas < COSTE_SOBRE) {
-    alert("No tienes suficientes monedas para abrir un sobre.");
+  if (monedas < 1000) {
+    alert("No tienes suficientes monedas.");
     return;
   }
 
-  monedas -= COSTE_SOBRE;
-  localStorage.setItem(STORAGE_COINS, monedas);
+  monedas -= 1000;
+  updateMonedas();
 
-  const nuevos = [];
-  for (let i = 0; i < TAM_SOBRE; i++) {
-    const idx = Math.floor(Math.random() * CARDS.length);
-    const card = CARDS[idx];
-    const eraNuevo = !coleccion[idx];
-    coleccion[idx] = true;
-    nuevos.push(card.nombre + (eraNuevo ? " ⭐" : ""));
+  let pack = [];
+  for (let i = 0; i < 5; i++) {
+    const randomCard = CARDS[Math.floor(Math.random() * CARDS.length)];
+    pack.push(randomCard);
+    if (!album.includes(randomCard.id)) {
+      album.push(randomCard.id);
+    }
   }
 
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(coleccion));
-  renderAlbum();
-  document.getElementById("last-pack").textContent = "Has conseguido: " + nuevos.join(", ");
+  localStorage.setItem("album_queens", JSON.stringify(album));
+  mostrarAlbum();
+
+  // Mostrar últimas cartas obtenidas
+  const packView = document.getElementById("pack-view");
+  packView.style.display = "block";
+  document.getElementById("album-view").style.display = "none";
+
+  let html = "<h3>¡Has abierto un sobre! 🎁</h3><div class='grid'>";
+  pack.forEach(c => {
+    html += `<div class="cromo"><img src="${c.imagen}" alt="${c.nombre}"><p>${c.nombre}</p></div>`;
+  });
+  html += "</div>";
+  document.getElementById("last-pack").innerHTML = html;
 }
 
-// ====== RECOMPENSAS ======
-function reclamarDiarias() {
-  const ultimo = parseInt(localStorage.getItem(STORAGE_DAILY)) || 0;
-  const ahora = Date.now();
-  if (ahora - ultimo < 86400000) {
-    alert("Ya reclamaste hoy, vuelve más tarde.");
-    return;
-  }
-  monedas += 2000;
-  localStorage.setItem(STORAGE_COINS, monedas);
-  localStorage.setItem(STORAGE_DAILY, ahora);
-  renderAlbum();
-  alert("¡Has reclamado 2000 monedas diarias!");
-}
-
-function bonusTwitter() {
-  if (localStorage.getItem(STORAGE_TWITTER)) {
-    alert("Ya has reclamado este bonus.");
-    return;
-  }
-  monedas += 10000;
-  localStorage.setItem(STORAGE_COINS, monedas);
-  localStorage.setItem(STORAGE_TWITTER, "true");
-  renderAlbum();
-  alert("¡Has reclamado 10000 monedas por Twitter!");
-}
-
-function bonusTwitch() {
-  if (localStorage.getItem(STORAGE_TWITCH)) {
-    alert("Ya has reclamado este bonus.");
-    return;
-  }
-  monedas += 10000;
-  localStorage.setItem(STORAGE_COINS, monedas);
-  localStorage.setItem(STORAGE_TWITCH, "true");
-  renderAlbum();
-  alert("¡Has reclamado 10000 monedas por Twitch!");
-}
-
-// ====== EVENTOS ======
-document.getElementById("btn-open").addEventListener("click", abrirSobre);
-document.getElementById("btn-daily").addEventListener("click", reclamarDiarias);
-document.getElementById("btn-twitter").addEventListener("click", bonusTwitter);
-document.getElementById("btn-twitch").addEventListener("click", bonusTwitch);
-
-// Botón Abrir sobre
+// === EVENTOS DEL MENÚ ===
 document.getElementById("btn-open").addEventListener("click", abrirSobre);
 
-// Botón Ver álbum
 document.getElementById("btn-album").addEventListener("click", () => {
   document.getElementById("album-view").style.display = "block";
   document.getElementById("pack-view").style.display = "none";
 });
 
-// Botón Reclamar diario
+// Reclamar diario (2000 monedas cada 24h)
 document.getElementById("btn-daily").addEventListener("click", () => {
   const lastClaim = localStorage.getItem("last_daily");
   const now = Date.now();
   if (!lastClaim || now - lastClaim > 24*60*60*1000) {
     monedas += 2000;
-    localStorage.setItem("monedas_queens", monedas);
+    updateMonedas();
     localStorage.setItem("last_daily", now);
     alert("Has reclamado 2000 monedas diarias 🎉");
-    document.getElementById("monedas-panel").textContent = "Monedas: " + monedas;
   } else {
     alert("Ya has reclamado tus monedas diarias. Vuelve mañana ⏰");
   }
 });
 
-// Botón Reclamar Twitch
+// Reclamar Twitch (+10000 monedas una vez)
 document.getElementById("btn-twitch").addEventListener("click", () => {
   if (!localStorage.getItem("bonus_twitch")) {
     monedas += 10000;
-    localStorage.setItem("monedas_queens", monedas);
+    updateMonedas();
     localStorage.setItem("bonus_twitch", "true");
     alert("Has reclamado 10000 monedas por seguir en Twitch 🎮");
-    document.getElementById("monedas-panel").textContent = "Monedas: " + monedas;
     window.open("https://twitch.tv/izandhh", "_blank");
   } else {
     alert("Ya reclamaste este bonus.");
   }
 });
 
-// Botón Reclamar Twitter
+// Reclamar Twitter (+10000 monedas una vez)
 document.getElementById("btn-twitter").addEventListener("click", () => {
   if (!localStorage.getItem("bonus_twitter")) {
     monedas += 10000;
-    localStorage.setItem("monedas_queens", monedas);
+    updateMonedas();
     localStorage.setItem("bonus_twitter", "true");
     alert("Has reclamado 10000 monedas por seguir en X 🐦");
-    document.getElementById("monedas-panel").textContent = "Monedas: " + monedas;
     window.open("https://x.com/izandhh", "_blank");
   } else {
     alert("Ya reclamaste este bonus.");
   }
 });
-
-
-// ====== INICIO ======
-renderAlbum();
 
