@@ -2,93 +2,85 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Álbum Queens League Oysho</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Álbum Queens League</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <!-- Barra superior con logo y redes -->
+  <header>
+    <div class="header-left">
+      <h1>Álbum Queens League</h1>
+    </div>
+    <div class="header-right">
+      <a href="https://www.instagram.com/queensleague" target="_blank">
+        <img src="https://i.ibb.co/R4snZts1/INSTAGRAM.png" alt="Instagram" class="liga-icon">
+      </a>
+      <a href="https://twitter.com/QueensLeague" target="_blank">
+        <img src="https://i.ibb.co/nqMPfypC/X-Twitter.png" alt="Twitter/X" class="liga-icon">
+      </a>
+      <a href="https://www.tiktok.com/@queensleague" target="_blank">
+        <img src="https://i.ibb.co/FtZQ0j9/TIK-TOK.png" alt="TikTok" class="liga-icon">
+      </a>
+      <a href="https://queensleague.pro" target="_blank">
+        <img src="https://marcadorvirtual.top/storage/media/ligas/kings-league_logo-queens.webp" 
+             alt="Queens League" class="liga-logo">
+      </a>
+    </div>
+  </header>
 
-  <!-- CONTADOR DE MONEDAS -->
+  <!-- Contador de monedas -->
   <div id="monedas-panel">Monedas: 0</div>
 
-  <!-- REDES DE LA LIGA -->
-  <div class="liga-header">
-   <a href="https://www.instagram.com/queensleague" target="_blank">
-      <img src="https://i.ibb.co/R4snZts1/INSTAGRAM.png" alt="Instagram" class="liga-icon">
-    </a>
-    <a href="https://twitter.com/QueensLeague" target="_blank">
-      <img src="https://i.ibb.co/nqMPfypC/X-Twitter.png" alt="X/Twitter" class="liga-icon">
-    </a>
-    <a href="https://www.tiktok.com/@queensleague" target="_blank">
-      <img src="https://i.ibb.co/FtZQ0j9/TIK-TOK.png" alt="TikTok" class="liga-icon">
-    </a>
-     <a href="https://queensleague.pro" target="_blank">
-      <img src="https://marcadorvirtual.top/storage/media/ligas/kings-league_logo-queens.webp" 
-           alt="Queens League" class="liga-logo">
-    </a>
-  </div>
+  <!-- Pantalla de inicio -->
+  <main id="welcome-screen">
+    <h2>¡Bienvenido a la colección virtual de cromos de la Queens League Oysho!</h2>
+    <button id="btn-open">🎁 Abrir Sobre (1000 monedas)</button>
+    <button id="btn-album">📖 Ver Álbum</button>
+  </main>
 
-  <!-- PORTADA -->
-  <div id="welcome-screen">
-    <h1>¡Bienvenido a la colección virtual de cromos de la Queens League Oysho!</h1>
-    <img src="https://kingsleague-cdn.kama.football/account/production/competition/371084638.png" 
-         alt="Queens League Logo" class="welcome-logo">
-  </div>
-
-  <!-- MENÚ FIJO ABAJO -->
-  <nav class="menu">
-    <button id="btn-open">🎁 Abrir sobre</button>
-    <button id="btn-album">📖 Ver álbum</button>
-    <button id="btn-daily">⏰ Reclamar diario (+2000)</button>
-    <button id="btn-twitch">
-      <img src="https://i.ibb.co/20XdMbkc/TWITCH.png" class="icon"> Reclamar Twitch (+10000)
-    </button>
-    <button id="btn-twitter">
-      <img src="https://i.ibb.co/nqMPfypC/X-Twitter.png" class="icon"> Reclamar X (+10000)
-    </button>
-  </nav>
-
-  <!-- BARRA DE CÓDIGOS -->
-  <section id="codigos-section">
-    <p class="codigo-texto">Pon el código que tu streamer de Queens te ha dado para reclamar la recompensa (solo una vez por usuario):</p>
-    <input type="text" id="codigo-input" placeholder="Introduce código de jugadora">
-    <button id="btn-canjear">Canjear código</button>
-  </section>
-
-<!-- SECCIONES PRINCIPALES -->
-<main id="main-app">
+  <!-- Vista de abrir sobre -->
   <section id="pack-view" style="display:none;">
+    <h2>Sobre Abierto</h2>
     <div id="last-pack" class="grid"></div>
+    <button id="btn-album">Ir al Álbum</button>
   </section>
 
+  <!-- Vista del álbum -->
   <section id="album-view" style="display:none;">
-    <h2>ESCUDOS</h2>
+    <h2>Tu Álbum</h2>
+    <div id="contador-album">0/36 cartas</div>
+    <button id="btn-vender">💰 Vender duplicadas</button>
+
+    <h3>ESCUDOS</h3>
     <div id="escudos-grid" class="grid"></div>
 
-    <h2>PRESIDENTAS/ES</h2>
+    <h3>PRESIDENTAS/ES</h3>
     <div id="presidentes-grid" class="grid"></div>
 
-    <h2>SUPERCAMPEONAS</h2>
+    <h3>SUPERCAMPEONAS</h3>
     <div id="supercampeonas-grid" class="grid"></div>
-  </section>
-</main>
 
-  <!-- FOOTER -->
+    <button id="btn-open">Abrir otro sobre</button>
+  </section>
+
+  <!-- Modal para ver cromos -->
+  <div id="modal" class="modal">
+    <span id="modal-close">&times;</span>
+    <img id="modal-img" src="" alt="Cromo grande">
+  </div>
+
+  <!-- Footer -->
   <footer>
-    <p class="footer-note">
-      Hecho por IzanDHH con ❤️ para la comunidad de la Queens
-    </p>
-    <p class="footer-note">
-      DISCLAIMER: No tenemos los derechos de imagen de las jugadoras, que pertenecen a Kosmos Holdings (Queens League). Esta página está hecha únicamente para seguir con el fandom de la Queens League y abrir cromos virtuales.
+    <p>Hecho por <strong>IzanDHH</strong> con ❤️ para la comunidad de la Queens</p>
+    <p>
+      ⚠️ Disclaimer: No tenemos los derechos de imagen de las jugadoras, que pertenecen a 
+      <strong>Kosmos Holdings (Queens League)</strong>.  
+      Esta página está hecha únicamente como proyecto fan para seguir con el fandom de la Queens League.
     </p>
   </footer>
 
-  <!-- MODAL CARTA -->
-  <div id="modal" class="modal">
-    <span id="modal-close">&times;</span>
-    <img class="modal-content" id="modal-img">
-  </div>
-
+  <!-- Script -->
   <script src="app.js"></script>
 </body>
 </html>
-
