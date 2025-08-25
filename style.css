@@ -88,3 +88,36 @@ button:hover {
   background: #374151;
   cursor: not-allowed;
 }
+
+.menu {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  background: #1f2937;
+  padding: 12px;
+}
+
+.menu button {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #374151;
+  color: white;
+  border: none;
+  padding: 10px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.2s;
+}
+
+.menu button:hover {
+  background: #4b5563;
+}
+
+.menu .icon {
+  height: 18px;
+  width: 18px;
+}
+
