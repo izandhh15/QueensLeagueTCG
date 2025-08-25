@@ -109,10 +109,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // === PANEL DE CÓDIGOS ===
   const CODIGOS = {
-    "AroneyGonzalez":10000,"MarSerracanta":10000,"ElenaBenitez":10000,"MenendezFaya":10000,
-    "AndreaChini":10000,"ElTronoKL":10000,"UniversoKings":10000,"SRonzero":10000,
-    "ZonaRayo":10000,"Porcinismoo":10000,"NarcisBoza":10000,"NikolRamos":10000,
-    "ZonaMostoles":10000,"CZXR":10000
+    "AroneyGonzalez":10000,
+    "MarSerracanta":10000,
+    "ElenaBenitez":10000,
+    "MenendezFaya":10000,
+    "AndreaChini":10000,
+    "ElTronoKL":10000,
+    "UniversoKings":10000,
+    "SRonzero":10000,
+    "ZonaRayo":10000,
+    "Porcinismoo":10000,
+    "NarcisBoza":10000,
+    "NikolRamos":10000,
+    "ZonaMostoles":10000,
+    "CZXR":10000
   };
 
   document.getElementById("btn-canjear").addEventListener("click", () => {
