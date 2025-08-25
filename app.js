@@ -1,6 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-  // === CONFIGURACIÓN ===
   const REVERSO = "https://i.ibb.co/F443KZqx/00-REVERSO.png";
 
   const CARDS = [
@@ -30,61 +29,82 @@ document.addEventListener("DOMContentLoaded", () => {
     { id:24,nombre:"Javi Buyer + Eric Minibuyer (Xbuyer Team)",tipo:"presidenta",imagen:"https://i.ibb.co/KjRXYVtY/24-Hnos-Buyer.png"}
   ];
 
+  // ===== ESTADO =====
   let monedas = parseInt(localStorage.getItem("monedas_queens")) || 2000;
   let album = JSON.parse(localStorage.getItem("album_queens")) || [];
 
   const welcomeScreen = document.getElementById("welcome-screen");
-  const albumView = document.getElementById("album-view");
-  const packView = document.getElementById("pack-view");
-  const albumGrid = document.getElementById("album-grid");
-  const lastPack = document.getElementById("last-pack");
-  const monedasPanel = document.getElementById("monedas-panel");
+  const mainApp = document.getElementById("main-app");
 
+  // ===== FUNCIONES =====
   function updateMonedas() {
-    monedasPanel.textContent = "Monedas: " + monedas;
+    document.getElementById("monedas-panel").textContent = "Monedas: " + monedas;
     localStorage.setItem("monedas_queens", monedas);
   }
   updateMonedas();
 
   function hideWelcome() {
     welcomeScreen.style.display = "none";
+    mainApp.style.display = "block";
   }
 
   function mostrarAlbum() {
-    albumGrid.innerHTML = "";
+    const grid = document.getElementById("album-grid");
+    grid.innerHTML = "";
 
-    // Separar por tipo
-    const tipos = ["escudo", "presidenta"];
-    tipos.forEach(tipo => {
-      const titulo = document.createElement("h2");
-      titulo.textContent = tipo === "escudo" ? "ESCUDOS" : "PRESIDENTAS/ES";
-      albumGrid.appendChild(titulo);
+    // Separar tipos
+    const escudos = CARDS.filter(c => c.tipo === "escudo");
+    const presidentas = CARDS.filter(c => c.tipo === "presidenta");
 
-      const cont = document.createElement("div");
-      cont.classList.add("grid");
-
-      CARDS.filter(c => c.tipo === tipo).forEach(c => {
+    // ESCUDOS
+    if (escudos.length) {
+      const h2 = document.createElement("h2");
+      h2.textContent = "ESCUDOS";
+      grid.appendChild(h2);
+      const divGrid = document.createElement("div");
+      divGrid.classList.add("grid");
+      escudos.forEach(card => {
         const div = document.createElement("div");
         div.classList.add("cromo");
         const img = document.createElement("img");
-        img.src = album.includes(c.id) ? c.imagen : REVERSO;
-        img.alt = c.nombre;
+        img.src = album.includes(card.id) ? card.imagen : REVERSO;
+        img.alt = card.nombre;
         const p = document.createElement("p");
-        p.textContent = c.nombre;
+        p.textContent = card.nombre;
         div.appendChild(img);
         div.appendChild(p);
-        cont.appendChild(div);
+        divGrid.appendChild(div);
       });
+      grid.appendChild(divGrid);
+    }
 
-      albumGrid.appendChild(cont);
-    });
+    // PRESIDENTAS/ES
+    if (presidentas.length) {
+      const h2 = document.createElement("h2");
+      h2.textContent = "PRESIDENTAS/ES";
+      grid.appendChild(h2);
+      const divGrid = document.createElement("div");
+      divGrid.classList.add("grid");
+      presidentas.forEach(card => {
+        const div = document.createElement("div");
+        div.classList.add("cromo");
+        const img = document.createElement("img");
+        img.src = album.includes(card.id) ? card.imagen : REVERSO;
+        img.alt = card.nombre;
+        const p = document.createElement("p");
+        p.textContent = card.nombre;
+        div.appendChild(img);
+        div.appendChild(p);
+        divGrid.appendChild(div);
+      });
+      grid.appendChild(divGrid);
+    }
   }
 
   function abrirSobre() {
+    hideWelcome();
     if (monedas < 1000) { alert("No tienes suficientes monedas."); return; }
     monedas -= 1000; updateMonedas();
-    hideWelcome();
-
     let pack = [];
     for (let i = 0; i < 5; i++) {
       const c = CARDS[Math.floor(Math.random() * CARDS.length)];
@@ -93,16 +113,56 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     localStorage.setItem("album_queens", JSON.stringify(album));
 
-    packView.style.display = "block";
-    albumView.style.display = "none";
+    document.getElementById("pack-view").style.display = "block";
+    document.getElementById("album-view").style.display = "none";
 
     let html = "<h3>¡Has abierto un sobre! 🎁</h3><div class='grid'>";
-    pack.forEach(c => { html += `<div class="cromo"><img src="${c.imagen}" alt="${c.nombre}"><p>${c.nombre}</p></div>`; });
+    pack.forEach(c => { html += `<div class="cromo"><img src="${c.imagen}" alt="${c.nombre}"><p>${c.nombre}</p></div>` });
     html += "</div>";
-    lastPack.innerHTML = html;
+    document.getElementById("last-pack").innerHTML = html;
   }
 
-  // Códigos de monedas
+  // ===== EVENTOS MENÚ =====
+  document.getElementById("btn-open").addEventListener("click", abrirSobre);
+  document.getElementById("btn-album").addEventListener("click", () => {
+    hideWelcome();
+    mostrarAlbum();
+    document.getElementById("album-view").style.display = "block";
+    document.getElementById("pack-view").style.display = "none";
+  });
+
+  document.getElementById("btn-daily").addEventListener("click", () => {
+    hideWelcome();
+    const last = localStorage.getItem("last_daily");
+    const now = Date.now();
+    if (!last || now - last > 24*60*60*1000) {
+      monedas += 2000; updateMonedas();
+      localStorage.setItem("last_daily", now);
+      alert("Has reclamado 2000 monedas diarias 🎉");
+    } else alert("Ya reclamaste hoy ⏰");
+  });
+
+  document.getElementById("btn-twitch").addEventListener("click", () => {
+    hideWelcome();
+    if (!localStorage.getItem("bonus_twitch")) {
+      monedas += 10000; updateMonedas(); 
+      localStorage.setItem("bonus_twitch", "true");
+      alert("Has reclamado 10000 monedas por Twitch 🎮");
+      window.open("https://twitch.tv/izandhh", "_blank");
+    } else alert("Ya reclamaste este bonus.");
+  });
+
+  document.getElementById("btn-twitter").addEventListener("click", () => {
+    hideWelcome();
+    if (!localStorage.getItem("bonus_twitter")) {
+      monedas += 10000; updateMonedas(); 
+      localStorage.setItem("bonus_twitter", "true");
+      alert("Has reclamado 10000 monedas por X 🐦");
+      window.open("https://x.com/izandhh", "_blank");
+    } else alert("Ya reclamaste este bonus.");
+  });
+
+  // ===== CÓDIGOS =====
   const CODIGOS = {
     "AroneyGonzalez":10000,
     "MarSerracanta":10000,
@@ -120,44 +180,6 @@ document.addEventListener("DOMContentLoaded", () => {
     "CZXR":10000
   };
 
-  // EVENTOS DEL MENÚ
-  document.getElementById("btn-open").addEventListener("click", abrirSobre);
-
-  document.getElementById("btn-album").addEventListener("click", () => {
-    hideWelcome();
-    mostrarAlbum();
-    albumView.style.display = "block";
-    packView.style.display = "none";
-  });
-
-  document.getElementById("btn-daily").addEventListener("click", () => {
-    hideWelcome();
-    const last = localStorage.getItem("last_daily"); const now = Date.now();
-    if (!last || now - last > 24 * 60 * 60 * 1000) {
-      monedas += 2000; updateMonedas(); localStorage.setItem("last_daily", now);
-      alert("Has reclamado 2000 monedas diarias 🎉");
-    } else alert("Ya reclamaste hoy ⏰");
-  });
-
-  document.getElementById("btn-twitch").addEventListener("click", () => {
-    hideWelcome();
-    if (!localStorage.getItem("bonus_twitch")) {
-      monedas += 10000; updateMonedas(); localStorage.setItem("bonus_twitch", "true");
-      alert("Has reclamado 10000 monedas por Twitch 🎮");
-      window.open("https://twitch.tv/izandhh", "_blank");
-    } else alert("Ya reclamaste este bonus.");
-  });
-
-  document.getElementById("btn-twitter").addEventListener("click", () => {
-    hideWelcome();
-    if (!localStorage.getItem("bonus_twitter")) {
-      monedas += 10000; updateMonedas(); localStorage.setItem("bonus_twitter", "true");
-      alert("Has reclamado 10000 monedas por X 🐦");
-      window.open("https://x.com/izandhh", "_blank");
-    } else alert("Ya reclamaste este bonus.");
-  });
-
-  // EVENTO DE CANJEAR CÓDIGOS
   document.getElementById("btn-canjear").addEventListener("click", () => {
     hideWelcome();
     const input = document.getElementById("codigo-input");
@@ -174,9 +196,10 @@ document.addEventListener("DOMContentLoaded", () => {
       alert(`¡Código válido! Has recibido ${CODIGOS[codigo]} monedas 🎉`);
       input.value = "";
     } else {
-      alert("Código incorrecto ❌ o no válido.");
+      alert("Código incorrecto ❌");
     }
   });
 
 });
+
 
