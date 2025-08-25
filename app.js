@@ -79,7 +79,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Contador de álbum
     let totalCartas = CARDS.length;
-    let obtenidas = Object.keys(album).reduce((acc,id) => acc + 1,0);
+    let obtenidas = CARDS.filter(card => album[card.id] >= 1).length;
     let albumCont = document.createElement("p");
     albumCont.style.textAlign = "center";
     albumCont.textContent = `Cartas obtenidas: ${obtenidas}/${totalCartas}`;
