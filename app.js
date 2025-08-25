@@ -34,24 +34,16 @@ document.addEventListener("DOMContentLoaded", () => {
   let monedas = parseInt(localStorage.getItem("monedas_queens")) || 2000;
   let album = JSON.parse(localStorage.getItem("album_queens")) || [];
 
-  const welcomeScreen = document.getElementById("welcome-screen");
-  const mainApp = document.getElementById("main-app");
-
-  // === ACTUALIZAR MONEDAS ===
   function updateMonedas() {
     document.getElementById("monedas-panel").textContent = "Monedas: " + monedas;
     localStorage.setItem("monedas_queens", monedas);
   }
   updateMonedas();
 
-  // === MOSTRAR ALBUM ===
+  // === MOSTRAR ÁLBUM ===
   function mostrarAlbum() {
-    welcomeScreen.style.display = "none";
-    mainApp.style.display = "block";
-
     const escudosGrid = document.getElementById("escudos-grid");
     const presidentesGrid = document.getElementById("presidentes-grid");
-
     escudosGrid.innerHTML = "";
     presidentesGrid.innerHTML = "";
 
@@ -61,11 +53,8 @@ document.addEventListener("DOMContentLoaded", () => {
       const img = document.createElement("img");
       img.src = album.includes(card.id) ? card.imagen : REVERSO;
       img.alt = card.nombre;
+      img.addEventListener("click", () => abrirModal(card));
       div.appendChild(img);
-
-      div.addEventListener("click", () => {
-        showModal(card.imagen);
-      });
 
       if(card.tipo === "escudo") escudosGrid.appendChild(div);
       else presidentesGrid.appendChild(div);
@@ -74,72 +63,88 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // === ABRIR SOBRE ===
   function abrirSobre() {
-    if(monedas < 1000){ alert("No tienes suficientes monedas."); return; }
+    if (monedas < 1000) { alert("No tienes suficientes monedas."); return; }
     monedas -= 1000; updateMonedas();
-    welcomeScreen.style.display = "none";
-    mainApp.style.display = "block";
 
     let pack = [];
-    for(let i=0;i<5;i++){
+    for(let i=0; i<5; i++){
       const c = CARDS[Math.floor(Math.random()*CARDS.length)];
       pack.push(c);
       if(!album.includes(c.id)) album.push(c.id);
     }
     localStorage.setItem("album_queens", JSON.stringify(album));
 
+    document.getElementById("pack-view").style.display = "block";
+    document.getElementById("album-view").style.display = "none";
+    document.getElementById("welcome-screen").style.display = "none";
+
     const lastPackDiv = document.getElementById("last-pack");
     lastPackDiv.innerHTML = "";
-    pack.forEach(c => {
+    pack.forEach(c=>{
       const div = document.createElement("div");
       div.classList.add("cromo");
       const img = document.createElement("img");
       img.src = c.imagen;
       img.alt = c.nombre;
+      img.addEventListener("click", ()=>abrirModal(c));
       div.appendChild(img);
-      div.addEventListener("click", () => { showModal(c.imagen); });
       lastPackDiv.appendChild(div);
     });
-
-    document.getElementById("album-view").style.display = "none";
-    document.getElementById("pack-view").style.display = "flex";
   }
 
-  // === RECLAMAR DIARIO ===
+  // === MODAL DE CARTA ===
+  const modal = document.createElement("div");
+  modal.classList.add("modal");
+  modal.innerHTML = `<span id="modal-close">&times;</span><img class="modal-content" id="modal-img">`;
+  document.body.appendChild(modal);
+
+  function abrirModal(card){
+    document.getElementById("modal-img").src = card.imagen;
+    modal.style.display = "flex";
+  }
+
+  document.getElementById("modal-close").addEventListener("click", ()=>{modal.style.display="none";});
+  window.addEventListener("click", e=>{if(e.target===modal) modal.style.display="none";});
+
+  // === EVENTOS BOTONES ===
+  document.getElementById("btn-open").addEventListener("click", abrirSobre);
+
+  document.getElementById("btn-album").addEventListener("click", ()=>{
+    mostrarAlbum();
+    document.getElementById("album-view").style.display = "block";
+    document.getElementById("pack-view").style.display = "none";
+    document.getElementById("welcome-screen").style.display = "none";
+  });
+
+  // Diario
   document.getElementById("btn-daily").addEventListener("click", ()=>{
     const last = localStorage.getItem("last_daily");
     const now = Date.now();
     if(!last || now - last > 24*60*60*1000){
-      monedas += 2000;
-      updateMonedas();
-      localStorage.setItem("last_daily", now);
+      monedas += 2000; updateMonedas(); localStorage.setItem("last_daily", now);
       alert("Has reclamado 2000 monedas diarias 🎉");
     }else alert("Ya reclamaste hoy ⏰");
   });
 
-  // === RECLAMAR TWITCH/X ===
+  // Twitch
   document.getElementById("btn-twitch").addEventListener("click", ()=>{
     if(!localStorage.getItem("bonus_twitch")){
-      monedas += 10000; updateMonedas();
-      localStorage.setItem("bonus_twitch","true");
+      monedas += 10000; updateMonedas(); localStorage.setItem("bonus_twitch","true");
       alert("Has reclamado 10000 monedas por Twitch 🎮");
       window.open("https://twitch.tv/izandhh","_blank");
-    }else alert("Ya reclamaste este bonus.");
+    } else alert("Ya reclamaste este bonus.");
   });
 
+  // X/Twitter
   document.getElementById("btn-twitter").addEventListener("click", ()=>{
     if(!localStorage.getItem("bonus_twitter")){
-      monedas += 10000; updateMonedas();
-      localStorage.setItem("bonus_twitter","true");
+      monedas += 10000; updateMonedas(); localStorage.setItem("bonus_twitter","true");
       alert("Has reclamado 10000 monedas por X 🐦");
       window.open("https://x.com/izandhh","_blank");
-    }else alert("Ya reclamaste este bonus.");
+    } else alert("Ya reclamaste este bonus.");
   });
 
-  // === BOTONES MENU ===
-  document.getElementById("btn-open").addEventListener("click", abrirSobre);
-  document.getElementById("btn-album").addEventListener("click", mostrarAlbum);
-
-  // === PANEL DE CÓDIGOS ===
+  // === CÓDIGOS ===
   const CODIGOS = {
     "AroneyGonzalez":10000,
     "MarSerracanta":10000,
@@ -162,32 +167,16 @@ document.addEventListener("DOMContentLoaded", () => {
     const codigo = input.value.trim();
     if(!codigo) return alert("Introduce un código válido.");
 
-    const usado = JSON.parse(localStorage.getItem("codigos_usados") || "[]");
-    if(usado.includes(codigo)){
-      alert("Este código ya fue canjeado ❌"); return;
-    }
+    const usados = JSON.parse(localStorage.getItem("codigos_usados")||"[]");
+    if(usados.includes(codigo)){ alert("Este código ya fue canjeado ❌"); return;}
 
     if(CODIGOS[codigo]){
       monedas += CODIGOS[codigo]; updateMonedas();
-      usado.push(codigo);
-      localStorage.setItem("codigos_usados", JSON.stringify(usado));
+      usados.push(codigo);
+      localStorage.setItem("codigos_usados", JSON.stringify(usados));
       alert(`¡Código válido! Has recibido ${CODIGOS[codigo]} monedas 🎉`);
       input.value = "";
     }else alert("Código incorrecto ❌");
   });
 
-  // === MODAL CARTA ===
-  const modal = document.getElementById("modal-cromo");
-  const modalImg = document.getElementById("modal-img");
-  const modalClose = document.getElementById("modal-close");
-
-  function showModal(src){
-    modal.style.display = "block";
-    modalImg.src = src;
-  }
-
-  modalClose.onclick = function(){ modal.style.display = "none"; }
-  modal.onclick = function(e){ if(e.target === modal) modal.style.display = "none"; }
-
 });
-
