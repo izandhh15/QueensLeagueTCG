@@ -38,3 +38,6 @@ function renderAlbum() {
   const lastPack = document.getElementById("last-pack");
   if (conseguidos === CARDS.length) lastPack.textContent = "¡Álbum completado!";
 }
+const STORAGE_KEY = "album_cromos_queens";
+let coleccion = JSON.parse(localStorage.getItem(STORAGE_KEY)) || Array(CARDS.length).fill(false);
+renderAlbum();
