@@ -167,4 +167,8 @@ document.addEventListener("DOMContentLoaded", () => {
     } else alert("Código incorrecto ❌");
   });
 
+document.getElementById("album-view").style.display = "none";
+document.getElementById("pack-view").style.display = "none";
+
+  
 });
