@@ -1,7 +1,9 @@
 document.addEventListener("DOMContentLoaded", () => {
+
   const REVERSO = "https://i.ibb.co/F443KZqx/00-REVERSO.png";
 
   const CARDS = [
+    // ESCUDOS
     { id:1,nombre:"Escudo 1K",tipo:"escudo",imagen:"https://i.ibb.co/CpJ3c7B8/01-Escudo1-K.png"},
     { id:2,nombre:"Escudo Aniquiladoras FC",tipo:"escudo",imagen:"https://i.ibb.co/N2hVWpqv/02-Escudo-Aniquiladoras.png"},
     { id:3,nombre:"Escudo El Barrio",tipo:"escudo",imagen:"https://i.ibb.co/7JcZNXSQ/03-Escudo-Barrio.png"},
@@ -14,6 +16,8 @@ document.addEventListener("DOMContentLoaded", () => {
     { id:10,nombre:"Escudo Saiyans FC",tipo:"escudo",imagen:"https://i.ibb.co/9kxn2vn9/10-Escudo-Saiyans-FC.png"},
     { id:11,nombre:"Escudo Ultimate Móstoles",tipo:"escudo",imagen:"https://i.ibb.co/zVGgWPTf/11-Escudo-Ultimate-M-stoles.png"},
     { id:12,nombre:"Escudo Xbuyer Team",tipo:"escudo",imagen:"https://i.ibb.co/nM27z99j/12-Escudo-XBuyer-Team.png"},
+
+    // PRESIDENTAS/ES
     { id:13,nombre:"Mayichi (1K)",tipo:"presidenta",imagen:"https://i.ibb.co/MDN445S2/14-Amablitz.png"},
     { id:14,nombre:"Ama Blitz (Aniquiladoras FC)",tipo:"presidenta",imagen:"https://i.ibb.co/0p9Js9tm/13-Mayichi.png"},
     { id:15,nombre:"Adri Contreras + Mercedes Roa (El Barrio)",tipo:"presidenta",imagen:"https://i.ibb.co/V01ZjqVb/15-Mercedes-Roa-Adri-Contreras.png"},
@@ -25,74 +29,139 @@ document.addEventListener("DOMContentLoaded", () => {
     { id:21,nombre:"Spursito (Rayo de Barcelona)",tipo:"presidenta",imagen:"https://i.ibb.co/CpYRPJ7v/21-Spursito.png"},
     { id:22,nombre:"Totakeki (Saiyans FC)",tipo:"presidenta",imagen:"https://i.ibb.co/fYQ41S7r/22-Totakeki.png"},
     { id:23,nombre:"Noe9977 (Ultimate Móstoles)",tipo:"presidenta",imagen:"https://i.ibb.co/G4qQYCTY/23-Noe9977.png"},
-    { id:24,nombre:"Javi Buyer + Eric Minibuyer (Xbuyer Team)",tipo:"presidenta",imagen:"https://i.ibb.co/KjRXYVtY/24-Hnos-Buyer.png"}
+    { id:24,nombre:"Javi Buyer + Eric Minibuyer (Xbuyer Team)",tipo:"presidenta",imagen:"https://i.ibb.co/KjRXYVtY/24-Hnos-Buyer.png"},
+
+    // SUPERCAMPEONAS
+    { id:25,nombre:"Ainara Navas",tipo:"supercampeonas",imagen:"https://i.ibb.co/ZRzW9Lx8/25-SUPERCAMPEONAS-Ainara-Navas.png"},
+    { id:26,nombre:"Bea Pérez",tipo:"supercampeonas",imagen:"https://i.ibb.co/PswsRSBC/26-SUPERCAMPEONAS-Beatriz-Perez.png"},
+    { id:27,nombre:"Alba Ortiz",tipo:"supercampeonas",imagen:"https://i.ibb.co/qMhQgx0f/27-SUPERCAMPEONAS-Alba-Ortiz.png"},
+    { id:28,nombre:"Aroney González",tipo:"supercampeonas",imagen:"https://i.ibb.co/0yYfkK9x/28-SUPERCAMPEONAS-Aroney-Gonzalez.png"},
+    { id:29,nombre:"Paula Nieto",tipo:"supercampeonas",imagen:"https://i.ibb.co/F4WmsH3C/29-SUPERCAMPEONAS-Paula-Nieto.png"},
+    { id:30,nombre:"Blanca Cros",tipo:"supercampeonas",imagen:"https://i.ibb.co/H9Bnsd5/30-SUPERCAMPEONAS-Blanca-Cros.png"},
+    { id:31,nombre:"Mar Dalmau",tipo:"supercampeonas",imagen:"https://i.ibb.co/svv4Wrs0/31-SUPERCAMPEONAS-Mar-Dalmau.png"},
+    { id:32,nombre:"Zoraida Pichardo",tipo:"supercampeonas",imagen:"https://i.ibb.co/Cs806S8S/32-SUPERCAMPEONAS-Zoraida-Pichardo.png"},
+    { id:33,nombre:"Maria Pi",tipo:"supercampeonas",imagen:"https://i.ibb.co/7xWRkBtW/33-SUPERCAMPEONAS-Maria-Pi.png"},
+    { id:34,nombre:"Patricia Mascaró",tipo:"supercampeonas",imagen:"https://i.ibb.co/C5g5jLZv/34-SUPERCAMPEONAS-Patricia-Mascar.png"},
+    { id:35,nombre:"Berta Velasco",tipo:"supercampeonas",imagen:"https://i.ibb.co/vC7tvZD3/35-SUPERCAMPEONAS-Berta-Velasco.png"},
+    { id:36,nombre:"Paula Blas",tipo:"supercampeonas",imagen:"https://i.ibb.co/cKjf90R8/36-SUPERCAMPEONAS-Paula-Blas.png"}
   ];
 
   let monedas = parseInt(localStorage.getItem("monedas_queens")) || 2000;
-  let album = JSON.parse(localStorage.getItem("album_queens")) || [];
+  let album = JSON.parse(localStorage.getItem("album_queens")) || {};
+  let duplicadas = JSON.parse(localStorage.getItem("duplicadas_queens")) || {};
 
   const monedasPanel = document.getElementById("monedas-panel");
-  const welcome = document.getElementById("welcome-screen");
   const packView = document.getElementById("pack-view");
   const albumView = document.getElementById("album-view");
   const escudosGrid = document.getElementById("escudos-grid");
   const presidentesGrid = document.getElementById("presidentes-grid");
+  const supercampeonasGrid = document.getElementById("supercampeonas-grid");
   const lastPack = document.getElementById("last-pack");
 
-  // MODAL
+  // Modal
   const modal = document.getElementById("modal");
   const modalImg = document.getElementById("modal-img");
   const modalClose = document.getElementById("modal-close");
-
-  modalClose.onclick = () => { modal.style.display = "none"; }
+  modalClose.onclick = () => modal.style.display = "none";
 
   function updateMonedas() {
-    monedasPanel.textContent = "Monedas: " + monedas;
+    monedasPanel.textContent = `Monedas: ${monedas}`;
     localStorage.setItem("monedas_queens", monedas);
   }
-  updateMonedas();
 
-  function hideWelcome() {
-    welcome.style.display = "none";
+  function hideAllSections() {
+    packView.style.display = "none";
+    albumView.style.display = "none";
   }
 
-  // Mostrar álbum
   function mostrarAlbum() {
-    hideWelcome();
+    hideAllSections();
     albumView.style.display = "block";
-    packView.style.display = "none";
+
     escudosGrid.innerHTML = "";
     presidentesGrid.innerHTML = "";
+    supercampeonasGrid.innerHTML = "";
+
+    const tipos = {
+      escudo: escudosGrid,
+      presidenta: presidentesGrid,
+      supercampeonas: supercampeonasGrid
+    };
+
+    let totalCartas = CARDS.length;
+    let obtenidas = 0;
 
     CARDS.forEach(card => {
       const div = document.createElement("div");
       div.classList.add("cromo");
+
+      const count = album[card.id] || 0;
+      if(count > 0) obtenidas++;
+
       const img = document.createElement("img");
-      img.src = album.includes(card.id) ? card.imagen : REVERSO;
+      img.src = count > 0 ? card.imagen : REVERSO;
       img.alt = card.nombre;
       img.addEventListener("click", () => {
         modal.style.display = "flex";
         modalImg.src = card.imagen;
       });
+
       div.appendChild(img);
 
-      if(card.tipo === "escudo") escudosGrid.appendChild(div);
-      else presidentesGrid.appendChild(div);
+      if(count > 1) {
+        const span = document.createElement("span");
+        span.classList.add("duplicada-count");
+        span.textContent = `x${count}`;
+        div.appendChild(span);
+      }
+
+      tipos[card.tipo].appendChild(div);
     });
+
+    // Contador álbum y botón vender duplicadas
+    const infoDiv = document.getElementById("album-info");
+    if(!infoDiv) {
+      const divInfo = document.createElement("div");
+      divInfo.id = "album-info";
+      divInfo.innerHTML = `<p>Cartas obtenidas: ${obtenidas}/${totalCartas}</p>
+      <button id="vender-dup">Vender duplicadas (100 monedas c/u)</button>`;
+      albumView.prepend(divInfo);
+
+      document.getElementById("vender-dup").addEventListener("click", () => {
+        let totalVenta = 0;
+        for(let id in duplicadas){
+          totalVenta += duplicadas[id]*100;
+        }
+        if(totalVenta > 0){
+          monedas += totalVenta;
+          duplicadas = {};
+          updateMonedas();
+          alert(`Has vendido tus duplicadas y recibido ${totalVenta} monedas`);
+          localStorage.setItem("duplicadas_queens", JSON.stringify(duplicadas));
+          mostrarAlbum();
+        } else alert("No tienes duplicadas para vender.");
+      });
+    } else {
+      infoDiv.querySelector("p").textContent = `Cartas obtenidas: ${obtenidas}/${totalCartas}`;
+    }
   }
 
-  // Abrir sobre
   function abrirSobre() {
-    if(monedas < 1000) { alert("No tienes suficientes monedas."); return; }
-    hideWelcome();
-    monedas -= 1000; updateMonedas();
+    if(monedas < 1000) return alert("No tienes suficientes monedas.");
+    monedas -= 1000;
+    updateMonedas();
+    hideAllSections();
     packView.style.display = "block";
-    albumView.style.display = "none";
     lastPack.innerHTML = "<h3>¡Has abierto un sobre! 🎁</h3><div class='grid'></div>";
     const grid = lastPack.querySelector(".grid");
 
     for(let i=0;i<5;i++){
       const c = CARDS[Math.floor(Math.random()*CARDS.length)];
+      album[c.id] = album[c.id] ? album[c.id]+1 : 1;
+      if(album[c.id] > 1){
+        duplicadas[c.id] = (duplicadas[c.id] || 0) +1;
+      }
+
       const div = document.createElement("div");
       div.classList.add("cromo");
       const img = document.createElement("img");
@@ -104,12 +173,13 @@ document.addEventListener("DOMContentLoaded", () => {
       });
       div.appendChild(img);
       grid.appendChild(div);
-      if(!album.includes(c.id)) album.push(c.id);
     }
 
     localStorage.setItem("album_queens", JSON.stringify(album));
+    localStorage.setItem("duplicadas_queens", JSON.stringify(duplicadas));
   }
 
+  // Botones menú
   document.getElementById("btn-open").addEventListener("click", abrirSobre);
   document.getElementById("btn-album").addEventListener("click", mostrarAlbum);
 
@@ -147,30 +217,17 @@ document.addEventListener("DOMContentLoaded", () => {
   const CODIGOS = {
     "AroneyGonzalez":10000,
     "MarSerracanta":10000,
-    "ElenaBenitez":10000,
-    "MenendezFaya":10000,
-    "AndreaChini":10000,
-    "ElTronoKL":10000,
-    "UniversoKings":10000,
-    "SRonzero":10000,
-    "ZonaRayo":10000,
-    "Porcinismoo":10000,
-    "NarcisBoza":10000,
-    "NikolRamos":10000,
-    "ZonaMostoles":10000,
-    "CZXR":10000
+    "ElenaBenitez":10000
   };
 
   document.getElementById("btn-canjear").addEventListener("click", () => {
     const input = document.getElementById("codigo-input");
     const codigo = input.value.trim();
     if(!codigo) return alert("Introduce un código válido.");
-
     const usado = JSON.parse(localStorage.getItem("codigos_usados") || "[]");
     if(usado.includes(codigo)){
       alert("Este código ya fue canjeado ❌"); return;
     }
-
     if(CODIGOS[codigo]){
       monedas += CODIGOS[codigo]; updateMonedas();
       usado.push(codigo);
@@ -179,5 +236,8 @@ document.addEventListener("DOMContentLoaded", () => {
       input.value = "";
     } else alert("Código incorrecto ❌");
   });
+
+  // Inicialización
+  updateMonedas();
 
 });
