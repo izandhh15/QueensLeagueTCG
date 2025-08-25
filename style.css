@@ -30,7 +30,6 @@ body {
   flex-shrink: 0;
 }
 
-
 /* HEADER */
 header {
   display: flex;
@@ -39,12 +38,6 @@ header {
   background: #1b0533;
   padding: 12px 20px;
   position: relative;
-}
-
-header .logo {
-  height: 60px;
-  position: absolute;
-  left: 20px;
 }
 
 #monedas-panel {
