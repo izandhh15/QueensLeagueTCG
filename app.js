@@ -30,18 +30,15 @@ document.addEventListener("DOMContentLoaded", () => {
     { id:24,nombre:"Javi Buyer + Eric Minibuyer (Xbuyer Team)",tipo:"presidente",imagen:"https://i.ibb.co/XXXXXX/javi-eric.png"}
   ];
 
-  // VARIABLES
   let monedas = parseInt(localStorage.getItem("monedas_queens")) || 2000;
   let album = JSON.parse(localStorage.getItem("album_queens")) || [];
 
-  // ACTUALIZAR MONEDAS
   function updateMonedas() {
     document.getElementById("monedas-panel").textContent = "Monedas: " + monedas;
     localStorage.setItem("monedas_queens", monedas);
   }
   updateMonedas();
 
-  // MOSTRAR ÁLBUM
   function mostrarAlbum() {
     const grid = document.getElementById("album-grid");
     grid.innerHTML = "";
@@ -59,7 +56,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // ABRIR SOBRE
   function abrirSobre() {
     if (monedas < 1000) { alert("No tienes suficientes monedas."); return; }
     monedas -= 1000; updateMonedas();
@@ -80,9 +76,7 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("last-pack").innerHTML = html;
   }
 
-  // EVENTOS
   document.getElementById("btn-open").addEventListener("click", abrirSobre);
-
   document.getElementById("btn-album").addEventListener("click", () => {
     mostrarAlbum();
     document.getElementById("album-view").style.display = "block";
@@ -113,4 +107,34 @@ document.addEventListener("DOMContentLoaded", () => {
     } else alert("Ya reclamaste este bonus.");
   });
 
+  // === PANEL DE CÓDIGOS ===
+  const CODIGOS = {
+    "Aroney":10000,"Mayichi":10000,"AmaBlitz":10000,"AdriContreras":10000,
+    "GerardRomero":10000,"JoValicenti":10000,"Violeta":10000,"Perxitaa":10000,
+    "Rivers":10000,"Gemita":10000,"Spursito":10000,"Totakeki":10000,
+    "Noe9977":10000,"JaviBuyer":10000
+  };
+
+  document.getElementById("btn-canjear").addEventListener("click", () => {
+    const input = document.getElementById("codigo-input");
+    const codigo = input.value.trim();
+    if (!codigo) return alert("Introduce un código válido.");
+
+    const usado = JSON.parse(localStorage.getItem("codigos_usados") || "[]");
+    if (usado.includes(codigo)) {
+      alert("Este código ya fue canjeado ❌"); return;
+    }
+
+    if (CODIGOS[codigo]) {
+      monedas += CODIGOS[codigo]; updateMonedas();
+      usado.push(codigo);
+      localStorage.setItem("codigos_usados", JSON.stringify(usado));
+      alert(`¡Código válido! Has recibido ${CODIGOS[codigo]} monedas 🎉`);
+      input.value = "";
+    } else {
+      alert("Código incorrecto ❌");
+    }
+  });
+
 });
+
