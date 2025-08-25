@@ -1,3 +1,4 @@
+/* BODY Y FUENTES */
 body {
   font-family: Arial, sans-serif;
   margin: 0;
@@ -7,12 +8,14 @@ body {
   text-align: center;
 }
 
+/* HEADER */
 header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   background: #1b0533;
   padding: 12px 20px;
+  position: relative;
 }
 
 header .logo {
@@ -24,6 +27,40 @@ header .logo {
   font-weight: bold;
 }
 
+/* LOGO Y REDES DE LA LIGA */
+.liga-header {
+  position: absolute;
+  top: 12px;
+  right: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.liga-header a {
+  display: inline-block;
+}
+
+.liga-logo {
+  height: 50px;
+  transition: transform 0.2s;
+}
+
+.liga-logo:hover {
+  transform: scale(1.1);
+}
+
+.liga-icon {
+  height: 28px;
+  width: 28px;
+  transition: transform 0.2s;
+}
+
+.liga-icon:hover {
+  transform: scale(1.2);
+}
+
+/* MENÚ */
 .menu {
   display: flex;
   flex-wrap: wrap;
@@ -37,8 +74,8 @@ header .logo {
   display: flex;
   align-items: center;
   gap: 6px;
-  background-color: #06ccbd; /* botones */
-  color: #2a0a49; /* texto */
+  background-color: #06ccbd; /* botones aqua */
+  color: #2a0a49; /* texto morado */
   border: none;
   padding: 10px 14px;
   border-radius: 12px;
@@ -56,6 +93,11 @@ header .logo {
 .menu .icon {
   height: 18px;
   width: 18px;
+}
+
+/* BARRA DE CÓDIGOS */
+#codigos-section {
+  margin: 20px 0;
 }
 
 #codigos-section input {
@@ -83,6 +125,7 @@ header .logo {
   background-color: #04b3a4;
 }
 
+/* MAIN */
 main {
   padding: 20px;
 }
@@ -117,6 +160,7 @@ main {
   color: #06ccbd;
 }
 
+/* FOOTER */
 footer {
   padding: 20px;
   background: #1b0533;
@@ -130,4 +174,10 @@ footer a {
 
 footer a:hover {
   text-decoration: underline;
+}
+
+.footer-note {
+  margin-top: 10px;
+  font-size: 14px;
+  color: #06ccbd;
 }
