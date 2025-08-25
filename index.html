@@ -2,13 +2,31 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Álbum de Cromos</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Álbum Queens League Oysho</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>Álbum de Cromos</h1>
-  <button id="btn-sobre">Abrir sobre</button>
-  <div id="album" class="grid"></div>
+  <header class="topbar">
+    <h1>Álbum Queens League Oysho</h1>
+    <div class="actions">
+      <button id="btn-open">Abrir sobre</button>
+      <a href="https://x.com/izandhh" target="_blank" class="social-btn">Seguir a IzanDHH en X</a>
+      <a href="https://twitch.tv/izandhh" target="_blank" class="social-btn">Seguir a IzanDHH en Twitch</a>
+    </div>
+  </header>
+
+  <section class="panel">
+    <div id="stats" class="stats">0 / 0</div>
+    <div id="last-pack" class="last-pack"></div>
+  </section>
+
+  <main id="album" class="grid"></main>
+
+  <footer class="footer">
+    Hecho con ❤️ por IzanDHH
+  </footer>
+
   <script src="app.js"></script>
 </body>
 </html>
