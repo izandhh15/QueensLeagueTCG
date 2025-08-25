@@ -1,41 +1,35 @@
-/* === RESET BÁSICO === */
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-  font-family: Arial, sans-serif;
-}
-
-/* === BODY === */
+/* ===== ESTILO GENERAL ===== */
 body {
+  margin: 0;
+  font-family: Arial, sans-serif;
   background-color: #2a0a49;
   color: #fff;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
 }
 
-/* === MONEDAS === */
-.monedas-panel {
+h1, h2 {
+  text-align: center;
+  font-weight: bold;
+}
+
+/* ===== MONEDAS ===== */
+#monedas-panel {
   position: fixed;
   top: 10px;
   left: 10px;
-  background-color: #06ccbd;
+  background: #06ccbd;
   color: #2a0a49;
   padding: 5px 10px;
   border-radius: 5px;
-  font-weight: bold;
   z-index: 1000;
 }
 
-/* === REDES LIGA === */
+/* ===== REDES DE LA LIGA ===== */
 .liga-header {
   position: fixed;
   top: 10px;
   right: 10px;
   display: flex;
-  align-items: center;
-  gap: 8px;
+  gap: 10px;
   z-index: 1000;
 }
 
@@ -45,166 +39,135 @@ body {
 
 .liga-icon {
   width: 30px;
-  cursor: pointer;
 }
 
-/* === PORTADA === */
+/* ===== PORTADA ===== */
 #welcome-screen {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 120px 20px 80px 20px;
   text-align: center;
-}
-
-#welcome-screen h1 {
-  font-weight: bold;
-  margin-bottom: 20px;
-  font-size: 24px;
-  color: #06ccbd;
+  margin-top: 100px;
 }
 
 .welcome-logo {
-  width: 180px;
-  margin-bottom: 30px;
+  width: 150px;
+  display: block;
+  margin: 20px auto;
 }
 
-/* === BARRA DE CÓDIGOS === */
-#codigos-section {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 5px;
-  margin-bottom: 40px;
-}
-
-#codigos-section input {
-  padding: 8px 10px;
-  border-radius: 5px;
-  border: none;
-  width: 250px;
-}
-
-#codigos-section button {
-  padding: 8px 15px;
-  border-radius: 5px;
-  border: none;
-  background-color: #06ccbd;
-  color: #2a0a49;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-#codigos-text {
-  font-size: 12px;
-  color: #ccc;
-  margin-bottom: 5px;
-  text-align: center;
-}
-
-/* === FOOTER === */
-footer {
-  text-align: center;
-  padding: 10px 5px;
-  font-size: 12px;
-  color: #ccc;
-  margin-top: 20px;
-}
-
-/* === MENÚ INFERIOR === */
+/* ===== MENÚ FIJO ABAJO ===== */
 .menu {
   position: fixed;
   bottom: 0;
-  left: 0;
   width: 100%;
-  background-color: #06ccbd;
   display: flex;
   justify-content: space-around;
-  align-items: center;
+  background: #06ccbd;
+  color: #2a0a49;
   padding: 10px 0;
-  z-index: 999;
+  z-index: 1000;
 }
 
 .menu button {
-  background-color: #06ccbd;
+  background: #06ccbd;
   color: #2a0a49;
   border: none;
-  padding: 8px 12px;
+  padding: 10px 15px;
   border-radius: 5px;
-  font-weight: bold;
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 5px;
+  font-weight: bold;
+  font-size: 14px;
+  transition: transform 0.2s;
 }
 
-.menu button img.icon {
+.menu button:hover {
+  transform: scale(1.05);
+}
+
+.menu img.icon {
   width: 20px;
-  height: 20px;
+  margin-right: 5px;
+  vertical-align: middle;
 }
 
-/* === GRID DE CROMOS === */
+/* ===== FOOTER ===== */
+footer {
+  margin-top: 50px;
+  text-align: center;
+  font-size: 12px;
+  padding: 10px 0;
+}
+
+/* ===== GRIDS DE CARTAS ===== */
 .grid {
   display: flex;
   flex-wrap: wrap;
+  gap: 10px;
   justify-content: center;
-  gap: 15px;
-  margin: 20px 0;
-}
-
-.cromo {
-  width: 100px;
-  cursor: pointer;
+  padding: 20px;
 }
 
 .cromo img {
-  width: 100%;
-  border-radius: 8px;
-  border: 2px solid #06ccbd;
+  width: 100px;
+  cursor: pointer;
+  border-radius: 5px;
   transition: transform 0.2s;
 }
 
 .cromo img:hover {
-  transform: scale(1.05);
+  transform: scale(1.1);
 }
 
-/* === TITULOS ALBUM === */
-#album-view h2 {
-  text-align: center;
-  margin: 20px 0 10px 0;
-  font-weight: bold;
-  color: #06ccbd;
-}
-
-/* === MODAL CARTA === */
+/* ===== MODAL DE CARTA ===== */
 .modal {
   display: none;
   position: fixed;
-  z-index: 10000;
+  z-index: 2000;
   left: 0;
   top: 0;
   width: 100%;
   height: 100%;
-  overflow: auto;
-  background-color: rgba(0,0,0,0.8);
+  background: rgba(0,0,0,0.8);
+  justify-content: center;
+  align-items: center;
 }
 
 .modal-content {
-  margin: 10% auto;
-  display: block;
   max-width: 80%;
-  border-radius: 10px;
+  max-height: 80%;
 }
 
 #modal-close {
   position: absolute;
   top: 20px;
-  right: 40px;
-  color: #fff;
+  right: 30px;
   font-size: 40px;
-  font-weight: bold;
+  color: white;
   cursor: pointer;
 }
 
+/* ===== SECCIONES PRINCIPALES ===== */
+#main-app {
+  margin-top: 80px; /* Para que no se superponga con las redes y monedas */
+}
 
+/* ===== BARRA DE CÓDIGOS ===== */
+#codigos-section {
+  text-align: center;
+  margin: 20px 0;
+}
+
+#codigo-input {
+  padding: 5px 10px;
+  border-radius: 5px;
+  border: none;
+  margin-right: 5px;
+}
+
+#btn-canjear {
+  padding: 5px 10px;
+  border-radius: 5px;
+  border: none;
+  background: #06ccbd;
+  color: #2a0a49;
+  cursor: pointer;
+  font-weight: bold;
+}
