@@ -58,6 +58,31 @@ header .logo {
   width: 18px;
 }
 
+#codigos-section input {
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: none;
+  font-size: 14px;
+  width: 200px;
+  margin-right: 8px;
+}
+
+#codigos-section button {
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: none;
+  background-color: #06ccbd;
+  color: #2a0a49;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.2s, background 0.2s;
+}
+
+#codigos-section button:hover {
+  transform: scale(1.05);
+  background-color: #04b3a4;
+}
+
 main {
   padding: 20px;
 }
