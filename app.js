@@ -4,12 +4,12 @@ document.addEventListener("DOMContentLoaded", () => {
   const REVERSO = "https://i.ibb.co/F443KZqx/00-REVERSO.png";
 
   const CARDS = [
-    { id:1,nombre:"Escudo 1K",tipo:"escudo",imagen:"https://i.ibb.co/XXXXXX/escudo1k.png"},
-    { id:2,nombre:"Escudo Aniquiladoras FC",tipo:"escudo",imagen:"https://i.ibb.co/XXXXXX/escudoani.png"},
-    { id:3,nombre:"Escudo El Barrio",tipo:"escudo",imagen:"https://i.ibb.co/XXXXXX/escudobarrio.png"},
-    { id:4,nombre:"Escudo Jijantas FC",tipo:"escudo",imagen:"https://i.ibb.co/XXXXXX/escudojijantas.png"},
-    { id:5,nombre:"Escudo Kunitas",tipo:"escudo",imagen:"https://i.ibb.co/XXXXXX/escudokunitas.png"},
-    { id:6,nombre:"Escudo Las Troncas FC",tipo:"escudo",imagen:"https://i.ibb.co/XXXXXX/escudotroncas.png"},
+    { id:1,nombre:"Escudo 1K",tipo:"escudo",imagen:"https://i.ibb.co/s9N9KXK7/01-Escudo1-K.png"},
+    { id:2,nombre:"Escudo Aniquiladoras FC",tipo:"escudo",imagen:"https://i.ibb.co/twqgD5Z0/02-Escudo-Aniquiladoras.png"},
+    { id:3,nombre:"Escudo El Barrio",tipo:"escudo",imagen:"https://i.ibb.co/KpBc9KXr/03-Escudo-Barrio.png"},
+    { id:4,nombre:"Escudo Jijantas FC",tipo:"escudo",imagen:"https://i.ibb.co/Kzjqb3Ls/04-Escudo-Jijantas.png"},
+    { id:5,nombre:"Escudo Kunitas",tipo:"escudo",imagen:"https://i.ibb.co/fYqSwkFm/05-Escudo-Kunitas.png"},
+    { id:6,nombre:"Escudo Las Troncas FC",tipo:"escudo",imagen:"https://i.ibb.co/tPHTTH8D/05-Escudo-Las-Troncas.png"},
     { id:7,nombre:"Escudo PIO FC",tipo:"escudo",imagen:"https://i.ibb.co/XXXXXX/escudiopio.png"},
     { id:8,nombre:"Escudo Porcinas FC",tipo:"escudo",imagen:"https://i.ibb.co/XXXXXX/escudoporcinas.png"},
     { id:9,nombre:"Escudo Rayo de Barcelona",tipo:"escudo",imagen:"https://i.ibb.co/XXXXXX/escudorayo.png"},
