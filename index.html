@@ -1,38 +1,42 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <title>Álbum Queens League Oysho</title>
-  <link rel="stylesheet" href="style.css">
-</head>
 <body>
- <header>
-  <img src="https://kingsleague-cdn.kama.football/account/production/competition/371084638.png" 
-       alt="Queens League Oysho" 
-       class="logo">
-  <div id="monedas-panel">Monedas: 0</div>
-</header>
+  <header>
+    <img src="https://kingsleague-cdn.kama.football/account/production/competition/371084638.png" 
+         alt="Queens League Oysho" class="logo">
+    <div id="monedas-panel">Monedas: 0</div>
+  </header>
 
+  <!-- MENU -->
+  <nav class="menu">
+    <button id="btn-open">🎁 Abrir sobre</button>
+    <button id="btn-album">📖 Ver álbum</button>
+    <button id="btn-daily">⏰ Reclamar diario (+2000)</button>
+    <button id="btn-twitch">
+      <img src="https://static-00.iconduck.com/assets.00/twitch-icon-2048x2048-3u8y4xq3.png" class="icon"> Reclamar Twitch (+10000)
+    </button>
+    <button id="btn-twitter">
+      <img src="https://cdn-icons-png.flaticon.com/512/733/733579.png" class="icon"> Reclamar X (+10000)
+    </button>
+  </nav>
 
   <main>
-    <div id="album-grid" class="album-grid"></div>
+    <section id="album-view">
+      <div id="album-grid" class="grid"></div>
+    </section>
+    <section id="pack-view" style="display:none;">
+      <p id="last-pack">Aquí saldrán tus nuevos cromos...</p>
+    </section>
   </main>
 
-  <footer class="footer">
-    <p>Hecho con ❤️ por IzanDHH</p>
-    <div class="social-links">
-      <a href="https://x.com/izandhh" target="_blank" class="social-btn">Seguir en X</a>
-      <a href="https://twitch.tv/izandhh" target="_blank" class="social-btn">Seguir en Twitch</a>
-    </div>
-
-    <div class="rewards">
-      <button id="btn-daily">Reclamar 2000 monedas diarias</button>
-      <button id="btn-twitter">Obtener 10000 monedas (Twitter)</button>
-      <button id="btn-twitch">Obtener 10000 monedas (Twitch)</button>
-    </div>
+  <footer>
+    <p>
+      Sígueme en 
+      <a href="https://x.com/izandhh" target="_blank">Twitter</a> 
+      o en 
+      <a href="https://twitch.tv/izandhh" target="_blank">Twitch</a>
+    </p>
   </footer>
 
   <script src="app.js"></script>
 </body>
-</html>
-
