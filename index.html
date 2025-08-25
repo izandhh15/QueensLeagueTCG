@@ -16,69 +16,64 @@
     </div>
   </section>
 
-  <!-- APP PRINCIPAL -->
-  <section id="main-app" style="display:none;">
+  <!-- CONTADOR DE MONEDAS -->
+  <div id="monedas-panel" class="monedas-panel">Monedas: 0</div>
 
-    <!-- CONTADOR DE MONEDAS -->
-    <div id="monedas-panel" class="monedas-panel">Monedas: 0</div>
+  <!-- HEADER REDES DE LA LIGA -->
+  <header>
+    <div class="liga-header">
+      <a href="https://queensleague.pro" target="_blank">
+        <img src="https://marcadorvirtual.top/storage/media/ligas/kings-league_logo-queens.webp" 
+             alt="Queens League" class="liga-logo">
+      </a>
+      <a href="https://www.instagram.com/queensleague" target="_blank">
+        <img src="https://cdn-icons-png.flaticon.com/512/174/174855.png" alt="Instagram" class="liga-icon">
+      </a>
+      <a href="https://twitter.com/QueensLeague" target="_blank">
+        <img src="https://cdn-icons-png.flaticon.com/512/733/733579.png" alt="X/Twitter" class="liga-icon">
+      </a>
+      <a href="https://www.tiktok.com/@queensleague" target="_blank">
+        <img src="https://cdn-icons-png.flaticon.com/512/3046/3046122.png" alt="TikTok" class="liga-icon">
+      </a>
+    </div>
+  </header>
 
-    <!-- HEADER REDES DE LA LIGA -->
-    <header>
-      <div class="liga-header">
-        <a href="https://queensleague.pro" target="_blank">
-          <img src="https://marcadorvirtual.top/storage/media/ligas/kings-league_logo-queens.webp" 
-               alt="Queens League" class="liga-logo">
-        </a>
-        <a href="https://www.instagram.com/queensleague" target="_blank">
-          <img src="https://cdn-icons-png.flaticon.com/512/174/174855.png" alt="Instagram" class="liga-icon">
-        </a>
-        <a href="https://twitter.com/QueensLeague" target="_blank">
-          <img src="https://cdn-icons-png.flaticon.com/512/733/733579.png" alt="X/Twitter" class="liga-icon">
-        </a>
-        <a href="https://www.tiktok.com/@queensleague" target="_blank">
-          <img src="https://cdn-icons-png.flaticon.com/512/3046/3046122.png" alt="TikTok" class="liga-icon">
-        </a>
-      </div>
-    </header>
-
-    <!-- MENÚ INFERIOR -->
-    <nav class="menu">
-      <button id="btn-open">🎁 Abrir sobre</button>
-      <button id="btn-album">📖 Ver álbum</button>
-      <button id="btn-daily">⏰ Reclamar diario (+2000)</button>
-      <button id="btn-twitch">
-        <img src="https://i.ibb.co/20XdMbkc/TWITCH.png" class="icon"> Reclamar Twitch (+10000)
-      </button>
-      <button id="btn-twitter">
-        <img src="https://i.ibb.co/nqMPfypC/X-Twitter.png" class="icon"> Reclamar X (+10000)
-      </button>
-    </nav>
-
-    <!-- BARRA DE CÓDIGOS -->
-    <section id="codigos-section">
-      <input type="text" id="codigo-input" placeholder="Introduce código de jugadora" />
-      <button id="btn-canjear">Canjear código</button>
-      <small>Pon el código que tu streamer de Queens te ha dado para reclamar la recompensa (solo una vez por usuario)</small>
+  <!-- SECCIONES PRINCIPALES -->
+  <main id="main-app" style="display:none;">
+    <section id="album-view" style="display:none;">
+      <div id="album-grid"></div>
     </section>
 
-    <!-- SECCIONES PRINCIPALES -->
-    <main>
-      <section id="album-view" style="display:none;">
-        <div id="album-grid"></div>
-      </section>
+    <section id="pack-view" style="display:none;">
+      <div id="last-pack">Aquí saldrán tus nuevos cromos...</div>
+    </section>
+  </main>
 
-      <section id="pack-view" style="display:none;">
-        <div id="last-pack">Aquí saldrán tus nuevos cromos...</div>
-      </section>
-    </main>
-
-    <!-- MODAL CARTAS -->
-    <div id="modal-cromo" class="modal">
-      <span id="modal-close">&times;</span>
-      <img id="modal-img" class="modal-content">
-    </div>
-
+  <!-- BARRA DE CÓDIGOS -->
+  <section id="codigos-section">
+    <input type="text" id="codigo-input" placeholder="Introduce código de jugadora" />
+    <button id="btn-canjear">Canjear código</button>
+    <small>Pon el código que tu streamer de Queens te ha dado para reclamar la recompensa (solo una vez por usuario)</small>
   </section>
+
+  <!-- MENÚ INFERIOR -->
+  <nav class="menu">
+    <button id="btn-open">🎁 Abrir sobre</button>
+    <button id="btn-album">📖 Ver álbum</button>
+    <button id="btn-daily">⏰ Reclamar diario (+2000)</button>
+    <button id="btn-twitch">
+      <img src="https://i.ibb.co/20XdMbkc/TWITCH.png" class="icon"> Reclamar Twitch (+10000)
+    </button>
+    <button id="btn-twitter">
+      <img src="https://i.ibb.co/nqMPfypC/X-Twitter.png" class="icon"> Reclamar X (+10000)
+    </button>
+  </nav>
+
+  <!-- MODAL CARTAS -->
+  <div id="modal-cromo" class="modal">
+    <span id="modal-close">&times;</span>
+    <img id="modal-img" class="modal-content">
+  </div>
 
   <!-- FOOTER -->
   <footer>
@@ -91,12 +86,8 @@
     <p class="footer-note">
       Hecho por IzanDHH con ❤️ para la comunidad de la Queens
     </p>
-    <p class="footer-note">
-      Los derechos de las imágenes y los logos de la página web son de Kosmos Holding (Queens League)
-    </p>
   </footer>
 
   <script src="app.js"></script>
 </body>
 </html>
-
