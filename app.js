@@ -44,42 +44,52 @@ document.addEventListener("DOMContentLoaded", () => {
     const grid = document.getElementById("album-grid");
     grid.innerHTML = "";
 
-    // Agrupar por tipo
-    const tipos = {};
-    CARDS.forEach(c => {
-      if (!tipos[c.tipo]) tipos[c.tipo] = [];
-      tipos[c.tipo].push(c);
+function mostrarAlbum() {
+  const grid = document.getElementById("album-grid");
+  grid.innerHTML = "";
+
+  // Agrupar cartas por tipo
+  const tipos = {};
+  CARDS.forEach(c => {
+    if (!tipos[c.tipo]) tipos[c.tipo] = [];
+    tipos[c.tipo].push(c);
+  });
+
+  // Mostrar cada tipo con título correcto
+  for (const tipo in tipos) {
+    const h2 = document.createElement("h2");
+
+    if (tipo === "escudo") h2.textContent = "ESCUDOS";
+    else if (tipo === "presidenta") h2.textContent = "PRESIDENTAS/ES";
+    else h2.textContent = tipo.toUpperCase();
+
+    grid.appendChild(h2);
+
+    // Contenedor de cartas
+    const cont = document.createElement("div");
+    cont.classList.add("grid");
+
+    tipos[tipo].forEach(c => {
+      const div = document.createElement("div");
+      div.classList.add("cromo");
+
+      const img = document.createElement("img");
+      img.src = album.includes(c.id) ? c.imagen : REVERSO;
+      img.alt = c.nombre;
+
+      const p = document.createElement("p");
+      p.textContent = c.nombre;
+
+      div.appendChild(img);
+      div.appendChild(p);
+      cont.appendChild(div);
     });
 
-    for (const tipo in tipos) {
-      // Título tipo
-      const h2 = document.createElement("h2");
-      h2.textContent = tipo.toUpperCase();
-      grid.appendChild(h2);
-
-      // Contenedor cartas
-      const cont = document.createElement("div");
-      cont.classList.add("grid");
-
-      tipos[tipo].forEach(c => {
-        const div = document.createElement("div");
-        div.classList.add("cromo");
-
-        const img = document.createElement("img");
-        img.src = album.includes(c.id) ? c.imagen : REVERSO;
-        img.alt = c.nombre;
-
-        const p = document.createElement("p");
-        p.textContent = c.nombre;
-
-        div.appendChild(img);
-        div.appendChild(p);
-        cont.appendChild(div);
-      });
-
-      grid.appendChild(cont);
-    }
+    grid.appendChild(cont);
   }
+}
+
+
 
   // === ABRIR SOBRE ===
   function abrirSobre() {
