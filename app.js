@@ -2,7 +2,7 @@ const album = document.getElementById("album");
 const btnSobre = document.getElementById("btn-sobre");
 
 // Supongamos 20 cromos
-const totalCromos = 20;
+const TOTAL_CROMOS = 200; 
 let coleccion = JSON.parse(localStorage.getItem("album")) || Array(totalCromos).fill(false);
 
 function renderAlbum() {
