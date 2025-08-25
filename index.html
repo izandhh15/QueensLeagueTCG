@@ -1,47 +1,70 @@
-<section id="welcome-screen">
-  <div class="welcome-content">
-    <img src="https://kingsleague-cdn.kama.football/account/production/competition/371084638.png" 
-         alt="Queens League Oysho" class="welcome-logo">
-    <h1>¡Bienvenido a la colección virtual de cromos de la Queens League Oysho!</h1>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Álbum Queens League Oysho</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
-    <!-- MENÚ -->
-    <nav class="menu">
-      <button id="btn-open">🎁 Abrir sobre</button>
-      <button id="btn-album">📖 Ver álbum</button>
-      <button id="btn-daily">⏰ Reclamar diario (+2000)</button>
-      <button id="btn-twitch">
-        <img src="https://i.ibb.co/20XdMbkc/TWITCH.png" class="icon"> Reclamar Twitch (+10000)
-      </button>
-      <button id="btn-twitter">
-        <img src="https://i.ibb.co/nqMPfypC/X-Twitter.png" class="icon"> Reclamar X (+10000)
-      </button>
-    </nav>
+  <!-- PORTADA INICIAL -->
+  <section id="welcome-screen">
+    <div class="welcome-content">
+      <img src="https://kingsleague-cdn.kama.football/account/production/competition/371084638.png" 
+           alt="Queens League Oysho" class="welcome-logo">
+      <h1>¡Bienvenido a la colección virtual de cromos de la Queens League Oysho!</h1>
 
-    <!-- TEXTO EXPLICATIVO DE CÓDIGOS -->
-    <p class="codigo-info">Pon el código que tu streamer de Queens te ha dado para reclamar la recompensa. Cada código solo puede usarse una vez.</p>
+      <!-- MENÚ -->
+      <nav class="menu">
+        <button id="btn-open">🎁 Abrir sobre</button>
+        <button id="btn-album">📖 Ver álbum</button>
+        <button id="btn-daily">⏰ Reclamar diario (+2000)</button>
+        <button id="btn-twitch">
+          <img src="https://i.ibb.co/20XdMbkc/TWITCH.png" class="icon"> Reclamar Twitch (+10000)
+        </button>
+        <button id="btn-twitter">
+          <img src="https://i.ibb.co/nqMPfypC/X-Twitter.png" class="icon"> Reclamar X (+10000)
+        </button>
+      </nav>
 
-    <!-- BARRA DE CÓDIGOS -->
-    <section id="codigos-section">
-      <input type="text" id="codigo-input">
-      <button id="btn-canjear">Canjear código</button>
+      <!-- TEXTO EXPLICATIVO DE CÓDIGOS -->
+      <p class="codigo-info">
+        Pon el código que tu streamer de Queens te ha dado para reclamar la recompensa. Cada código solo puede usarse una vez.
+      </p>
+
+      <!-- BARRA DE CÓDIGOS -->
+      <section id="codigos-section">
+        <input type="text" id="codigo-input">
+        <button id="btn-canjear">Canjear código</button>
+      </section>
+
+    </div>
+  </section>
+
+  <!-- PANEL PRINCIPAL -->
+  <main id="main-app" style="display:none;">
+    <section id="album-view" style="display:none;">
+      <div id="album-grid"></div>
     </section>
+    <section id="pack-view" style="display:none;">
+      <div id="last-pack"></div>
+    </section>
+  </main>
 
-  </div>
-</section>
+  <!-- FOOTER -->
+  <footer>
+    <p>
+      Sígueme en 
+      <a href="https://x.com/izandhh" target="_blank">X</a> 
+      o en 
+      <a href="https://twitch.tv/izandhh" target="_blank">Twitch</a>
+    </p>
+    <p class="footer-note">
+      Hecho por IzanDHH con ❤️ para la comunidad de la Queens
+    </p>
+    <div id="monedas-panel">Monedas: 0</div>
+  </footer>
 
-<!-- FOOTER -->
-<footer>
-  <p>
-    Sígueme en 
-    <a href="https://x.com/izandhh" target="_blank">X</a> 
-    o en 
-    <a href="https://twitch.tv/izandhh" target="_blank">Twitch</a>
-  </p>
-  <p class="footer-note">
-    Hecho por IzanDHH con ❤️ para la comunidad de la Queens
-  </p>
-   </p>
-  <p class="footer-note">
-    Esta página no tiene ninguna intención lucrativa, solo hacer que el fandom de Queens League se divierta abriendo sobres
-  </p>
-</footer>
+  <script src="app.js"></script>
+</body>
+</html>
