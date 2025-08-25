@@ -83,6 +83,21 @@ button:hover {
   font-weight: 700;
   background: #9333ea;
   color: white;
+  .rewards {
+  margin-top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.rewards button {
+  background: #16a34a;
+  color: white;
+}
+.rewards button:disabled {
+  background: #374151;
+  cursor: not-allowed;
+}
 }
 .social-btn:hover {
   opacity: 0.85;
