@@ -1,54 +1,194 @@
+/* ===== GENERAL ===== */
 body {
-  margin:0; padding:0;
+  margin: 0;
+  padding: 0;
   font-family: Arial, sans-serif;
-  background-color: #2a0a49;
+  background-color: #2a0a49; /* fondo morado */
   color: white;
 }
 
-/* PORTADA */
-#welcome-screen {
-  position: fixed;
-  top:0; left:0;
-  width: 100%; height: 100%;
-  background-color: #2a0a49;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
+a {
+  color: #06ccbd;
+  text-decoration: none;
 }
 
-.welcome-content {
-  text-align: center;
+a:hover {
+  text-decoration: underline;
+}
+
+/* ===== PORTADA ===== */
+#welcome-screen {
+  width: 100%;
+  background-color: #2a0a49;
   color: #06ccbd;
+  text-align: center;
+  padding: 50px 20px;
 }
 
 .welcome-content h1 {
-  font-size: 28px;
   font-weight: bold;
-  margin: 20px 0;
+  font-size: 28px;
+  margin-bottom: 30px;
 }
 
-#welcome-screen .welcome-logo {
+.welcome-logo {
   width: 120px;
   margin-bottom: 20px;
 }
 
-#welcome-screen button {
+/* ===== MENÚ ===== */
+.menu {
+  margin: 20px 0;
+}
+
+.menu button {
   background-color: #06ccbd;
   color: #2a0a49;
   font-weight: bold;
   border: none;
   padding: 12px 20px;
+  margin: 5px;
   border-radius: 12px;
   cursor: pointer;
   font-size: 16px;
+  transition: all 0.2s ease;
 }
 
-#welcome-screen button:hover {
+.menu button img.icon {
+  width: 20px;
+  vertical-align: middle;
+  margin-right: 6px;
+}
+
+.menu button:hover {
   background-color: #04b3a4;
 }
 
-/* OCULTO EL MAIN APP AL INICIO */
+/* ===== HEADER ===== */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #2a0a49;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+#monedas-panel {
+  font-weight: bold;
+  color: #06ccbd;
+  text-align: center;
+  flex: 1;
+}
+
+/* LOGO Y REDES */
+.liga-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.liga-logo {
+  width: 50px;
+}
+
+.liga-icon {
+  width: 24px;
+}
+
+/* ===== SECCIONES ===== */
+main {
+  padding: 20px;
+}
+
+#album-grid h2 {
+  color: #06ccbd;
+  margin-top: 30px;
+  font-size: 22px;
+  text-align: left;
+}
+
+/* GRID DE CARTAS */
+.grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  justify-content: flex-start;
+  margin-top: 10px;
+}
+
+.cromo {
+  background-color: #2a0a49;
+  border: 2px solid #06ccbd;
+  border-radius: 12px;
+  padding: 5px;
+  width: 120px;
+  text-align: center;
+}
+
+.cromo img {
+  width: 100%;
+  border-radius: 8px;
+}
+
+.cromo p {
+  margin-top: 5px;
+  font-size: 14px;
+  color: #06ccbd;
+}
+
+/* ===== BARRA DE CÓDIGOS ===== */
+#codigos-section {
+  margin: 20px 0;
+  text-align: center;
+}
+
+#codigos-section input {
+  padding: 8px;
+  border-radius: 8px;
+  border: 1px solid #06ccbd;
+  width: 200px;
+}
+
+#codigos-section button {
+  padding: 8px 12px;
+  margin-left: 5px;
+  border: none;
+  border-radius: 8px;
+  background-color: #06ccbd;
+  color: #2a0a49;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+#codigos-section button:hover {
+  background-color: #04b3a4;
+}
+
+/* ===== PACK VIEW ===== */
+#last-pack h3 {
+  color: #06ccbd;
+  text-align: center;
+}
+
+/* ===== FOOTER ===== */
+footer {
+  text-align: center;
+  padding: 15px 10px;
+  background-color: #2a0a49;
+  color: #06ccbd;
+  margin-top: 30px;
+}
+
+.footer-note {
+  margin-top: 5px;
+  font-size: 14px;
+  color: #06ccbd;
+}
+
+/* ===== OCULTAR MAIN AL INICIO ===== */
 #main-app {
   display: none;
 }
