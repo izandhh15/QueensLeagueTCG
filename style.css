@@ -14,7 +14,7 @@ body {
 /* PORTADA INICIAL */
 #welcome-screen {
   text-align: center;
-  padding: 30px 20px;
+  padding: 40px 20px 100px 20px; /* padding bottom para no tapar el menú */
 }
 
 .welcome-logo {
@@ -26,34 +26,6 @@ body {
 #welcome-screen h1 {
   font-weight: bold;
   margin-bottom: 20px;
-}
-
-/* MENÚ DE BOTONES */
-.menu {
-  margin: 20px 0;
-}
-
-.menu button {
-  background-color: #06ccbd;
-  color: #2a0a49;
-  border: none;
-  padding: 10px 15px;
-  margin: 5px;
-  cursor: pointer;
-  font-weight: bold;
-  border-radius: 5px;
-  transition: all 0.2s ease;
-}
-
-.menu button:hover {
-  background-color: #05b3a9;
-}
-
-/* ICONOS EN BOTONES */
-.menu button img.icon {
-  width: 20px;
-  vertical-align: middle;
-  margin-right: 5px;
 }
 
 /* TEXTO EXPLICATIVO DE CÓDIGOS */
@@ -79,11 +51,22 @@ body {
 #codigos-section button {
   padding: 5px 10px;
   border-radius: 3px;
+  border: none;
+  background-color: #06ccbd;
+  color: #2a0a49;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.2s ease;
+}
+
+#codigos-section button:hover {
+  background-color: #05b3a9;
 }
 
 /* PANEL PRINCIPAL (ALBUM Y SOBRES) */
 main {
   padding: 20px;
+  padding-bottom: 100px; /* espacio para menú fijo */
 }
 
 /* GRILLA DE CROMOS */
@@ -113,13 +96,48 @@ h2 {
   font-weight: bold;
 }
 
+/* MENÚ FIJO INFERIOR */
+.menu-fixed {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #2a0a49;
+  padding: 10px 0;
+  text-align: center;
+  box-shadow: 0 -2px 5px rgba(0,0,0,0.3);
+  z-index: 1000;
+}
+
+.menu-fixed button {
+  background-color: #06ccbd;
+  color: #2a0a49;
+  border: none;
+  padding: 10px 12px;
+  margin: 0 5px;
+  cursor: pointer;
+  font-weight: bold;
+  border-radius: 5px;
+  transition: all 0.2s ease;
+}
+
+.menu-fixed button:hover {
+  background-color: #05b3a9;
+}
+
+.menu-fixed button img.icon {
+  width: 20px;
+  vertical-align: middle;
+  margin-right: 5px;
+}
+
 /* FOOTER */
 footer {
   text-align: center;
   padding: 15px 10px;
   background-color: #2a0a49;
   color: #06ccbd;
-  margin-top: 30px;
+  margin-top: 20px;
   display: block;
 }
 
