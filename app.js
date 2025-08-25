@@ -214,7 +214,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Códigos
   const CODIGOS = {
     "AroneyGonzalez":10000,
-    "paulaanavas_gg":10000,
+    "paulaanavas_gg":100000,
     "pinkgoldqueen":10000,
     "annatan99_":10000,
     "AndreaChini":10000,
