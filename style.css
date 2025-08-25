@@ -1,89 +1,71 @@
 body {
-  font-family: sans-serif;
+  font-family: Arial, sans-serif;
   margin: 0;
-  background: #0f172a;
-  color: #fff;
+  padding: 0;
+  background: #111;
+  color: #eee;
   text-align: center;
 }
 
-.topbar {
+header {
   padding: 16px;
-  background: #111827;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  align-items: center;
-}
-
-button {
-  padding: 10px 16px;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: 700;
-  background: #22d3ee;
-  color: #002b2b;
-}
-button:hover {
-  opacity: 0.85;
-}
-
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
-  gap: 12px;
-  padding: 20px;
-  max-width: 1100px;
-  margin: 0 auto;
-}
-
-.card {
-  background: #1f2937;
-  border-radius: 12px;
-  padding: 10px;
-  transition: transform 0.2s;
-}
-.card.obtained {
-  border: 2px solid #10b981;
-  transform: scale(1.05);
-}
-.card .thumb img {
-  width: 100%;
-  height: auto;
-  border-radius: 8px;
+  background: #222;
 }
 
 .stats {
-  font-weight: 700;
-  margin-top: 12px;
+  margin: 10px 0;
+  font-size: 18px;
 }
 
-.last-pack {
-  margin-top: 8px;
-  color: #9ca3af;
+button {
+  margin: 5px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  background: #2563eb;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+}
+button:hover {
+  background: #1d4ed8;
+}
+
+.album-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 12px;
+  padding: 20px;
+}
+
+.card-slot {
+  background: #333;
+  border-radius: 8px;
+  padding: 8px;
+}
+
+.thumb img {
+  width: 100%;
+  border-radius: 6px;
 }
 
 .footer {
   padding: 20px;
-  font-size: 14px;
-  color: #9ca3af;
+  background: #222;
   margin-top: 20px;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
+
 .social-links {
-  display: flex;
-  gap: 10px;
-  justify-content: center;
-  margin-top: 8px;
+  margin-top: 10px;
 }
+
 .social-btn {
-  padding: 8px 12px;
-  border-radius: 6px;
+  margin: 0 8px;
+  color: #0ea5e9;
   text-decoration: none;
-  font-weight: 700;
-  background: #9333ea;
-  color: white;
-  .rewards {
+}
+
+.rewards {
   margin-top: 16px;
   display: flex;
   flex-direction: column;
@@ -92,13 +74,8 @@ button:hover {
 
 .rewards button {
   background: #16a34a;
-  color: white;
 }
 .rewards button:disabled {
   background: #374151;
   cursor: not-allowed;
-}
-}
-.social-btn:hover {
-  opacity: 0.85;
 }
