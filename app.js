@@ -32,11 +32,9 @@ document.addEventListener("DOMContentLoaded", () => {
   // ===== ESTADO =====
   let monedas = parseInt(localStorage.getItem("monedas_queens")) || 2000;
   let album = JSON.parse(localStorage.getItem("album_queens")) || [];
-
   const welcomeScreen = document.getElementById("welcome-screen");
   const mainApp = document.getElementById("main-app");
 
-  // ===== FUNCIONES =====
   function updateMonedas() {
     document.getElementById("monedas-panel").textContent = "Monedas: " + monedas;
     localStorage.setItem("monedas_queens", monedas);
@@ -48,15 +46,14 @@ document.addEventListener("DOMContentLoaded", () => {
     mainApp.style.display = "block";
   }
 
+  // ===== FUNCIONES =====
   function mostrarAlbum() {
     const grid = document.getElementById("album-grid");
     grid.innerHTML = "";
 
-    // Separar tipos
     const escudos = CARDS.filter(c => c.tipo === "escudo");
     const presidentas = CARDS.filter(c => c.tipo === "presidenta");
 
-    // ESCUDOS
     if (escudos.length) {
       const h2 = document.createElement("h2");
       h2.textContent = "ESCUDOS";
@@ -78,7 +75,6 @@ document.addEventListener("DOMContentLoaded", () => {
       grid.appendChild(divGrid);
     }
 
-    // PRESIDENTAS/ES
     if (presidentas.length) {
       const h2 = document.createElement("h2");
       h2.textContent = "PRESIDENTAS/ES";
@@ -106,98 +102,79 @@ document.addEventListener("DOMContentLoaded", () => {
     if (monedas < 1000) { alert("No tienes suficientes monedas."); return; }
     monedas -= 1000; updateMonedas();
     let pack = [];
-    for (let i = 0; i < 5; i++) {
-      const c = CARDS[Math.floor(Math.random() * CARDS.length)];
+    for (let i=0;i<5;i++){
+      const c = CARDS[Math.floor(Math.random()*CARDS.length)];
       pack.push(c);
-      if (!album.includes(c.id)) album.push(c.id);
+      if(!album.includes(c.id)) album.push(c.id);
     }
     localStorage.setItem("album_queens", JSON.stringify(album));
-
     document.getElementById("pack-view").style.display = "block";
     document.getElementById("album-view").style.display = "none";
-
     let html = "<h3>¡Has abierto un sobre! 🎁</h3><div class='grid'>";
-    pack.forEach(c => { html += `<div class="cromo"><img src="${c.imagen}" alt="${c.nombre}"><p>${c.nombre}</p></div>` });
-    html += "</div>";
+    pack.forEach(c=>html+=`<div class="cromo"><img src="${c.imagen}" alt="${c.nombre}"><p>${c.nombre}</p></div>`);
+    html+="</div>";
     document.getElementById("last-pack").innerHTML = html;
   }
 
   // ===== EVENTOS MENÚ =====
   document.getElementById("btn-open").addEventListener("click", abrirSobre);
-  document.getElementById("btn-album").addEventListener("click", () => {
+  document.getElementById("btn-album").addEventListener("click", ()=>{
     hideWelcome();
     mostrarAlbum();
-    document.getElementById("album-view").style.display = "block";
-    document.getElementById("pack-view").style.display = "none";
+    document.getElementById("album-view").style.display="block";
+    document.getElementById("pack-view").style.display="none";
   });
-
-  document.getElementById("btn-daily").addEventListener("click", () => {
+  document.getElementById("btn-daily").addEventListener("click", ()=>{
     hideWelcome();
-    const last = localStorage.getItem("last_daily");
-    const now = Date.now();
-    if (!last || now - last > 24*60*60*1000) {
-      monedas += 2000; updateMonedas();
-      localStorage.setItem("last_daily", now);
+    const last=localStorage.getItem("last_daily");
+    const now=Date.now();
+    if(!last||now-last>24*60*60*1000){
+      monedas+=2000;updateMonedas();localStorage.setItem("last_daily",now);
       alert("Has reclamado 2000 monedas diarias 🎉");
-    } else alert("Ya reclamaste hoy ⏰");
+    }else alert("Ya reclamaste hoy ⏰");
   });
-
-  document.getElementById("btn-twitch").addEventListener("click", () => {
+  document.getElementById("btn-twitch").addEventListener("click", ()=>{
     hideWelcome();
-    if (!localStorage.getItem("bonus_twitch")) {
-      monedas += 10000; updateMonedas(); 
-      localStorage.setItem("bonus_twitch", "true");
+    if(!localStorage.getItem("bonus_twitch")){
+      monedas+=10000;updateMonedas();
+      localStorage.setItem("bonus_twitch","true");
       alert("Has reclamado 10000 monedas por Twitch 🎮");
-      window.open("https://twitch.tv/izandhh", "_blank");
-    } else alert("Ya reclamaste este bonus.");
+      window.open("https://twitch.tv/izandhh","_blank");
+    }else alert("Ya reclamaste este bonus.");
   });
-
-  document.getElementById("btn-twitter").addEventListener("click", () => {
+  document.getElementById("btn-twitter").addEventListener("click", ()=>{
     hideWelcome();
-    if (!localStorage.getItem("bonus_twitter")) {
-      monedas += 10000; updateMonedas(); 
-      localStorage.setItem("bonus_twitter", "true");
+    if(!localStorage.getItem("bonus_twitter")){
+      monedas+=10000;updateMonedas();
+      localStorage.setItem("bonus_twitter","true");
       alert("Has reclamado 10000 monedas por X 🐦");
-      window.open("https://x.com/izandhh", "_blank");
-    } else alert("Ya reclamaste este bonus.");
+      window.open("https://x.com/izandhh","_blank");
+    }else alert("Ya reclamaste este bonus.");
   });
 
   // ===== CÓDIGOS =====
-  const CODIGOS = {
+  const CODIGOS={
     "AroneyGonzalez":10000,
     "MarSerracanta":10000,
     "ElenaBenitez":10000,
     "MenendezFaya":10000,
-    "AndreaChini":10000,
-    "ElTronoKL":10000,
-    "UniversoKings":10000,
-    "SRonzero":10000,
-    "ZonaRayo":10000,
-    "Porcinismoo":10000,
-    "NarcisBoza":10000,
-    "NikolRamos":10000,
-    "ZonaMostoles":10000,
-    "CZXR":10000
+    "AndreaChini":10000
   };
 
-  document.getElementById("btn-canjear").addEventListener("click", () => {
+  document.getElementById("btn-canjear").addEventListener("click", ()=>{
     hideWelcome();
-    const input = document.getElementById("codigo-input");
-    const codigo = input.value.trim();
-    if (!codigo) return alert("Introduce un código válido.");
-
-    const usado = JSON.parse(localStorage.getItem("codigos_usados") || "[]");
-    if (usado.includes(codigo)) { alert("Este código ya fue canjeado ❌"); return; }
-
-    if (CODIGOS[codigo]) {
-      monedas += CODIGOS[codigo]; updateMonedas();
+    const input=document.getElementById("codigo-input");
+    const codigo=input.value.trim();
+    if(!codigo) return alert("Introduce un código válido.");
+    const usado=JSON.parse(localStorage.getItem("codigos_usados")||"[]");
+    if(usado.includes(codigo)) {alert("Este código ya fue canjeado ❌"); return;}
+    if(CODIGOS[codigo]){
+      monedas+=CODIGOS[codigo]; updateMonedas();
       usado.push(codigo);
-      localStorage.setItem("codigos_usados", JSON.stringify(usado));
+      localStorage.setItem("codigos_usados",JSON.stringify(usado));
       alert(`¡Código válido! Has recibido ${CODIGOS[codigo]} monedas 🎉`);
-      input.value = "";
-    } else {
-      alert("Código incorrecto ❌");
-    }
+      input.value="";
+    }else alert("Código incorrecto ❌");
   });
 
 });
