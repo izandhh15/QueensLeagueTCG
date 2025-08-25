@@ -7,76 +7,81 @@
 </head>
 <body>
 
-  <!-- PORTADA DE BIENVENIDA -->
+  <!-- PORTADA COMPLETA -->
   <section id="welcome-screen">
-    <img src="https://kingsleague-cdn.kama.football/account/production/competition/371084638.png" 
-         alt="Queens League Oysho" class="welcome-logo">
-    <h1><strong>Bienvenido a la colección virtual de cromos de la Queens League Oysho</strong></h1>
-  </section>
-
-  <!-- HEADER -->
-  <header>
-    <div id="monedas-panel">Monedas: 0</div>
-    <!-- LOGO Y REDES DE LA LIGA -->
-    <div class="liga-header">
-      <a href="https://queensleague.pro" target="_blank">
-        <img src="https://marcadorvirtual.top/storage/media/ligas/kings-league_logo-queens.webp" 
-             alt="Queens League" class="liga-logo">
-      </a>
-      <a href="https://www.instagram.com/queensleague" target="_blank">
-        <img src="https://cdn-icons-png.flaticon.com/512/174/174855.png" alt="Instagram" class="liga-icon">
-      </a>
-      <a href="https://twitter.com/QueensLeague" target="_blank">
-        <img src="https://cdn-icons-png.flaticon.com/512/733/733579.png" alt="X/Twitter" class="liga-icon">
-      </a>
-      <a href="https://www.tiktok.com/@queensleague" target="_blank">
-        <img src="https://cdn-icons-png.flaticon.com/512/3046/3046122.png" alt="TikTok" class="liga-icon">
-      </a>
+    <div class="welcome-content">
+      <img src="https://kingsleague-cdn.kama.football/account/production/competition/371084638.png" 
+           alt="Queens League Oysho" class="welcome-logo">
+      <h1>¡Bienvenido a la colección virtual de cromos de la Queens League Oysho!</h1>
+      <button id="btn-start">Empezar</button>
     </div>
-  </header>
-
-  <!-- MENÚ PRINCIPAL -->
-  <nav class="menu">
-    <button id="btn-open">🎁 Abrir sobre</button>
-    <button id="btn-album">📖 Ver álbum</button>
-    <button id="btn-daily">⏰ Reclamar diario (+2000)</button>
-    <button id="btn-twitch">
-      <img src="https://i.ibb.co/20XdMbkc/TWITCH.png" class="icon"> Reclamar Twitch (+10000)
-    </button>
-    <button id="btn-twitter">
-      <img src="https://i.ibb.co/nqMPfypC/X-Twitter.png" class="icon"> Reclamar X (+10000)
-    </button>
-  </nav>
-
-  <!-- BARRA DE CÓDIGOS -->
-  <section id="codigos-section">
-    <input type="text" id="codigo-input" placeholder="Introduce código de jugadora" />
-    <button id="btn-canjear">Canjear código</button>
   </section>
 
-  <!-- SECCIONES PRINCIPALES -->
-  <main>
-    <section id="album-view" style="display:none;">
-      <div id="album-grid"></div>
+  <!-- CONTENIDO PRINCIPAL (oculto hasta que se cierre portada) -->
+  <div id="main-app" style="display:none;">
+    <!-- HEADER -->
+    <header>
+      <div id="monedas-panel">Monedas: 0</div>
+      <div class="liga-header">
+        <a href="https://queensleague.pro" target="_blank">
+          <img src="https://marcadorvirtual.top/storage/media/ligas/kings-league_logo-queens.webp" 
+               alt="Queens League" class="liga-logo">
+        </a>
+        <a href="https://www.instagram.com/queensleague" target="_blank">
+          <img src="https://cdn-icons-png.flaticon.com/512/174/174855.png" alt="Instagram" class="liga-icon">
+        </a>
+        <a href="https://twitter.com/QueensLeague" target="_blank">
+          <img src="https://cdn-icons-png.flaticon.com/512/733/733579.png" alt="X/Twitter" class="liga-icon">
+        </a>
+        <a href="https://www.tiktok.com/@queensleague" target="_blank">
+          <img src="https://cdn-icons-png.flaticon.com/512/3046/3046122.png" alt="TikTok" class="liga-icon">
+        </a>
+      </div>
+    </header>
+
+    <!-- MENÚ -->
+    <nav class="menu">
+      <button id="btn-open">🎁 Abrir sobre</button>
+      <button id="btn-album">📖 Ver álbum</button>
+      <button id="btn-daily">⏰ Reclamar diario (+2000)</button>
+      <button id="btn-twitch">
+        <img src="https://i.ibb.co/20XdMbkc/TWITCH.png" class="icon"> Reclamar Twitch (+10000)
+      </button>
+      <button id="btn-twitter">
+        <img src="https://i.ibb.co/nqMPfypC/X-Twitter.png" class="icon"> Reclamar X (+10000)
+      </button>
+    </nav>
+
+    <!-- BARRA DE CÓDIGOS -->
+    <section id="codigos-section">
+      <input type="text" id="codigo-input" placeholder="Introduce código de jugadora" />
+      <button id="btn-canjear">Canjear código</button>
     </section>
 
-    <section id="pack-view" style="display:none;">
-      <div id="last-pack">Aquí saldrán tus nuevos cromos...</div>
-    </section>
-  </main>
+    <!-- SECCIONES PRINCIPALES -->
+    <main>
+      <section id="album-view" style="display:none;">
+        <div id="album-grid"></div>
+      </section>
 
-  <!-- FOOTER -->
-  <footer>
-    <p>
-      Sígueme en 
-      <a href="https://x.com/izandhh" target="_blank">X</a> 
-      o en 
-      <a href="https://twitch.tv/izandhh" target="_blank">Twitch</a>
-    </p>
-    <p class="footer-note">
-      Hecho por IzanDHH con ❤️ para la comunidad de la Queens
-    </p>
-  </footer>
+      <section id="pack-view" style="display:none;">
+        <div id="last-pack">Aquí saldrán tus nuevos cromos...</div>
+      </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer>
+      <p>
+        Sígueme en 
+        <a href="https://x.com/izandhh" target="_blank">X</a> 
+        o en 
+        <a href="https://twitch.tv/izandhh" target="_blank">Twitch</a>
+      </p>
+      <p class="footer-note">
+        Hecho por IzanDHH con ❤️ para la comunidad de la Queens
+      </p>
+    </footer>
+  </div>
 
   <script src="app.js"></script>
 </body>
