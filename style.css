@@ -1,17 +1,17 @@
 /* === RESET BÁSICO === */
 * {
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
-  font-family: Arial, sans-serif;
+  font-family: 'Arial', sans-serif;
 }
 
 body {
   background-color: #2a0a49;
-  color: #ffffff;
-  min-height: 100vh;
+  color: #fff;
   display: flex;
   flex-direction: column;
+  min-height: 100vh;
 }
 
 /* === PORTADA === */
@@ -19,17 +19,16 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-direction: column;
+  height: 80vh;
   text-align: center;
-  padding: 50px 20px;
 }
 
 .welcome-logo {
-  width: 150px;
+  width: 120px;
   margin-bottom: 20px;
 }
 
-#welcome-screen h1 {
+.welcome-container h1 {
   font-size: 1.8rem;
   font-weight: bold;
   color: #06ccbd;
@@ -37,120 +36,122 @@ body {
 
 /* === CONTADOR DE MONEDAS === */
 .monedas-panel {
-  text-align: center;
-  font-size: 1.2rem;
-  font-weight: bold;
-  padding: 10px;
-  background-color: #06ccbd;
+  position: fixed;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #06ccbd;
   color: #2a0a49;
-  border-radius: 5px;
-  margin: 10px;
+  padding: 5px 15px;
+  border-radius: 10px;
+  font-weight: bold;
+  z-index: 1000;
 }
 
-/* === HEADER REDES === */
-header {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 10px;
-}
-
+/* === HEADER REDES DE LA LIGA === */
 .liga-header {
   display: flex;
+  justify-content: flex-end;
   align-items: center;
   gap: 10px;
+  padding: 10px 20px;
 }
 
 .liga-logo {
-  width: 50px;
-  height: 50px;
+  height: 40px;
+  margin-right: auto;
 }
 
 .liga-icon {
-  width: 30px;
-  height: 30px;
+  width: 25px;
+  height: 25px;
 }
 
 /* === MENÚ INFERIOR === */
 .menu {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  background: #06ccbd;
+  padding: 10px;
   position: fixed;
   bottom: 0;
-  left: 0;
   width: 100%;
-  background-color: #06ccbd;
-  display: flex;
-  justify-content: space-around;
-  padding: 10px 0;
-  z-index: 100;
+  z-index: 1000;
 }
 
 .menu button {
   background-color: #06ccbd;
   color: #2a0a49;
   border: none;
-  padding: 8px 12px;
-  font-size: 0.9rem;
-  border-radius: 5px;
+  padding: 10px 15px;
+  border-radius: 10px;
+  font-weight: bold;
   cursor: pointer;
   display: flex;
   align-items: center;
   gap: 5px;
+  transition: transform 0.2s;
 }
 
 .menu button:hover {
-  background-color: #05b0a8;
+  transform: scale(1.1);
+}
+
+.menu .icon {
+  width: 20px;
+  height: 20px;
 }
 
 /* === BARRA DE CÓDIGOS === */
 #codigos-section {
-  text-align: center;
-  margin: 15px 10px 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px;
+  gap: 5px;
+  margin-bottom: 70px; /* dejar espacio para el menú */
 }
 
 #codigos-section input {
-  padding: 5px;
-  width: 60%;
-  max-width: 300px;
-  border-radius: 5px;
-  border: none;
-}
-
-#codigos-section button {
   padding: 5px 10px;
   border-radius: 5px;
   border: none;
+  width: 200px;
+}
+
+#codigos-section button {
   background-color: #06ccbd;
   color: #2a0a49;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
   cursor: pointer;
-  margin-left: 5px;
+  font-weight: bold;
 }
 
 #codigos-section small {
-  display: block;
-  margin-top: 5px;
-  font-size: 0.8rem;
   color: #ccc;
+  font-size: 0.8rem;
+  text-align: center;
 }
 
-/* === ALBUM Y SOBRES === */
+/* === ALBUM Y PACKS === */
 #album-grid, #last-pack .grid {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 10px;
-  margin: 20px;
-}
-
-.cromo {
-  width: 100px;
-  height: 140px;
-  cursor: pointer;
+  gap: 15px;
+  padding: 20px;
 }
 
 .cromo img {
-  width: 100%;
-  height: 100%;
+  width: 100px;
+  height: 140px;
   object-fit: cover;
-  border-radius: 5px;
+  border-radius: 8px;
+  cursor: pointer;
   transition: transform 0.2s;
 }
 
@@ -158,29 +159,30 @@ header {
   transform: scale(1.1);
 }
 
-/* === MODAL CARTAS === */
+/* === MODAL === */
 .modal {
   display: none;
   position: fixed;
-  z-index: 200;
+  z-index: 2000;
+  padding-top: 60px;
   left: 0;
   top: 0;
   width: 100%;
   height: 100%;
   overflow: auto;
-  background-color: rgba(0,0,0,0.8);
+  background-color: rgba(0,0,0,0.9);
 }
 
 .modal-content {
   display: block;
-  margin: 5% auto;
-  max-width: 90%;
-  border-radius: 10px;
+  margin: auto;
+  max-width: 80%;
+  max-height: 80%;
 }
 
 #modal-close {
   position: absolute;
-  top: 15px;
+  top: 20px;
   right: 35px;
   color: #fff;
   font-size: 40px;
@@ -191,9 +193,9 @@ header {
 /* === FOOTER === */
 footer {
   text-align: center;
-  background-color: #1a0533;
-  padding: 15px 10px;
+  padding: 15px;
   margin-top: auto;
+  background-color: #1b0530;
   font-size: 0.9rem;
   color: #ccc;
 }
