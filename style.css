@@ -64,6 +64,13 @@ a:hover {
   background-color: #04b3a4;
 }
 
+/* TEXTO EXPLICATIVO DE CÓDIGOS */
+.codigo-info {
+  font-size: 12px;
+  color: #06ccbd;
+  margin-top: 10px;
+}
+
 /* ===== BARRA DE CÓDIGOS ===== */
 #codigos-section {
   margin-top: 15px;
@@ -173,13 +180,15 @@ main {
   text-align: center;
 }
 
-/* ===== FOOTER ===== */
+
+/* FOOTER */
 footer {
   text-align: center;
   padding: 15px 10px;
   background-color: #2a0a49;
   color: #06ccbd;
   margin-top: 30px;
+  display: block;
 }
 
 .footer-note {
