@@ -8,9 +8,18 @@ body {
 }
 
 header {
-  padding: 16px;
-  background: #222;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #111827;
+  color: white;
+  padding: 12px;
 }
+
+header .logo {
+  height: 60px;
+}
+
 
 .stats {
   margin: 10px 0;
