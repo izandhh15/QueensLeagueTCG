@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
+
   // === CONFIGURACIÓN ===
   const REVERSO = "https://i.ibb.co/F443KZqx/00-REVERSO.png";
 
@@ -29,26 +30,23 @@ document.addEventListener("DOMContentLoaded", () => {
     { id:24,nombre:"Javi Buyer + Eric Minibuyer (Xbuyer Team)",tipo:"presidenta",imagen:"https://i.ibb.co/KjRXYVtY/24-Hnos-Buyer.png"}
   ];
 
+  // === DATOS ===
   let monedas = parseInt(localStorage.getItem("monedas_queens")) || 2000;
   let album = JSON.parse(localStorage.getItem("album_queens")) || [];
 
-  const monedasPanel = document.getElementById("monedas-panel");
-  const welcomeScreen = document.getElementById("welcome-screen");
-  const mainApp = document.getElementById("main-app");
-
-  function updateMonedas() {
-    monedasPanel.textContent = "Monedas: " + monedas;
+  const updateMonedas = () => {
+    document.getElementById("monedas-panel").textContent = "Monedas: " + monedas;
     localStorage.setItem("monedas_queens", monedas);
-  }
+  };
   updateMonedas();
 
-  function showApp() {
-    welcomeScreen.style.display = "none";
-    mainApp.style.display = "block";
-  }
+  const showApp = () => {
+    document.getElementById("welcome-screen").style.display = "none";
+    document.getElementById("main-app").style.display = "block";
+  };
 
   // === ABRIR SOBRE ===
-  function abrirSobre() {
+  const abrirSobre = () => {
     showApp();
     if (monedas < 1000) { alert("No tienes suficientes monedas."); return; }
     monedas -= 1000; updateMonedas();
@@ -61,66 +59,54 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     localStorage.setItem("album_queens", JSON.stringify(album));
 
+    const lastPack = document.getElementById("last-pack");
+    lastPack.innerHTML = "";
+    pack.forEach(c => {
+      const div = document.createElement("div");
+      div.classList.add("cromo");
+      const img = document.createElement("img");
+      img.src = c.imagen;
+      img.alt = c.nombre;
+      img.addEventListener("click", () => openModal(c.imagen));
+      div.appendChild(img);
+      lastPack.appendChild(div);
+    });
+
     document.getElementById("pack-view").style.display = "block";
     document.getElementById("album-view").style.display = "none";
-
-    let html = "<h3>¡Has abierto un sobre! 🎁</h3><div class='grid'>";
-    pack.forEach(c => { html += `<div class="cromo"><img src="${c.imagen}" alt="${c.nombre}" data-id="${c.id}"></div>` });
-    html += "</div>";
-    document.getElementById("last-pack").innerHTML = html;
-    attachModalEvents();
-  }
+  };
 
   // === MOSTRAR ALBUM ===
-  function mostrarAlbum() {
+  const mostrarAlbum = () => {
     showApp();
-    document.getElementById("pack-view").style.display = "none";
-    document.getElementById("album-view").style.display = "block";
-
     const escudosGrid = document.getElementById("escudos-grid");
     const presidentesGrid = document.getElementById("presidentes-grid");
     escudosGrid.innerHTML = "";
     presidentesGrid.innerHTML = "";
 
-    CARDS.filter(c => c.tipo === "escudo").forEach(c => {
+    CARDS.forEach(c => {
       const div = document.createElement("div");
       div.classList.add("cromo");
       const img = document.createElement("img");
       img.src = album.includes(c.id) ? c.imagen : REVERSO;
-      img.dataset.id = c.id;
+      img.alt = c.nombre;
+      img.addEventListener("click", () => openModal(c.imagen));
+
       div.appendChild(img);
-      escudosGrid.appendChild(div);
+
+      if (c.tipo === "escudo") escudosGrid.appendChild(div);
+      else presidentesGrid.appendChild(div);
     });
 
-    CARDS.filter(c => c.tipo === "presidenta").forEach(c => {
-      const div = document.createElement("div");
-      div.classList.add("cromo");
-      const img = document.createElement("img");
-      img.src = album.includes(c.id) ? c.imagen : REVERSO;
-      img.dataset.id = c.id;
-      div.appendChild(img);
-      presidentesGrid.appendChild(div);
-    });
+    document.getElementById("album-view").style.display = "block";
+    document.getElementById("pack-view").style.display = "none";
+  };
 
-    attachModalEvents();
-  }
-
-  // === MODAL CARTA ===
+  // === MODAL ===
   const modal = document.getElementById("modal-cromo");
   const modalImg = document.getElementById("modal-img");
-  const modalClose = document.getElementById("modal-close");
-
-  function attachModalEvents() {
-    document.querySelectorAll(".cromo img").forEach(img => {
-      img.onclick = () => {
-        modal.style.display = "block";
-        modalImg.src = img.src;
-      }
-    });
-  }
-
-  modalClose.onclick = () => { modal.style.display = "none"; }
-  modal.onclick = (e) => { if(e.target === modal) modal.style.display = "none"; }
+  const openModal = (src) => { modal.style.display = "block"; modalImg.src = src; };
+  document.getElementById("modal-close").onclick = () => modal.style.display = "none";
 
   // === EVENTOS BOTONES ===
   document.getElementById("btn-open").addEventListener("click", abrirSobre);
@@ -182,4 +168,5 @@ document.addEventListener("DOMContentLoaded", () => {
       alert("Código incorrecto ❌");
     }
   });
+
 });
