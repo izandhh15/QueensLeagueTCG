@@ -12,3 +12,6 @@ function abrirSobre() {
   renderAlbum();
   lastPack.textContent = "Has conseguido: " + nuevos.join(", ");
 }
+const btnOpen = document.getElementById("btn-open");
+btnOpen.addEventListener("click", abrirSobre);
+
