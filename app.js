@@ -39,26 +39,53 @@ document.addEventListener("DOMContentLoaded", () => {
   }
   updateMonedas();
 
+  // === FUNCIONES ALBUM POR TIPO ===
   function mostrarAlbum() {
     const grid = document.getElementById("album-grid");
     grid.innerHTML = "";
-    CARDS.forEach(card => {
-      const div = document.createElement("div");
-      div.classList.add("cromo");
-      const img = document.createElement("img");
-      img.src = album.includes(card.id) ? card.imagen : REVERSO;
-      img.alt = card.nombre;
-      const p = document.createElement("p");
-      p.textContent = card.nombre;
-      div.appendChild(img);
-      div.appendChild(p);
-      grid.appendChild(div);
+
+    // Agrupar por tipo
+    const tipos = {};
+    CARDS.forEach(c => {
+      if (!tipos[c.tipo]) tipos[c.tipo] = [];
+      tipos[c.tipo].push(c);
     });
+
+    for (const tipo in tipos) {
+      // Título tipo
+      const h2 = document.createElement("h2");
+      h2.textContent = tipo.toUpperCase();
+      grid.appendChild(h2);
+
+      // Contenedor cartas
+      const cont = document.createElement("div");
+      cont.classList.add("grid");
+
+      tipos[tipo].forEach(c => {
+        const div = document.createElement("div");
+        div.classList.add("cromo");
+
+        const img = document.createElement("img");
+        img.src = album.includes(c.id) ? c.imagen : REVERSO;
+        img.alt = c.nombre;
+
+        const p = document.createElement("p");
+        p.textContent = c.nombre;
+
+        div.appendChild(img);
+        div.appendChild(p);
+        cont.appendChild(div);
+      });
+
+      grid.appendChild(cont);
+    }
   }
 
+  // === ABRIR SOBRE ===
   function abrirSobre() {
     if (monedas < 1000) { alert("No tienes suficientes monedas."); return; }
     monedas -= 1000; updateMonedas();
+
     let pack = [];
     for (let i = 0; i < 5; i++) {
       const c = CARDS[Math.floor(Math.random() * CARDS.length)];
@@ -71,12 +98,14 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("album-view").style.display = "none";
 
     let html = "<h3>¡Has abierto un sobre! 🎁</h3><div class='grid'>";
-    pack.forEach(c => { html += `<div class="cromo"><img src="${c.imagen}" alt="${c.nombre}"><p>${c.nombre}</p></div>` });
+    pack.forEach(c => html += `<div class="cromo"><img src="${c.imagen}" alt="${c.nombre}"><p>${c.nombre}</p></div>`);
     html += "</div>";
     document.getElementById("last-pack").innerHTML = html;
   }
 
+  // === EVENTOS BOTONES ===
   document.getElementById("btn-open").addEventListener("click", abrirSobre);
+
   document.getElementById("btn-album").addEventListener("click", () => {
     mostrarAlbum();
     document.getElementById("album-view").style.display = "block";
@@ -84,8 +113,9 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   document.getElementById("btn-daily").addEventListener("click", () => {
-    const last = localStorage.getItem("last_daily"); const now = Date.now();
-    if (!last || now - last > 24 * 60 * 60 * 1000) {
+    const last = localStorage.getItem("last_daily");
+    const now = Date.now();
+    if (!last || now - last > 24*60*60*1000) {
       monedas += 2000; updateMonedas(); localStorage.setItem("last_daily", now);
       alert("Has reclamado 2000 monedas diarias 🎉");
     } else alert("Ya reclamaste hoy ⏰");
@@ -93,17 +123,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
   document.getElementById("btn-twitch").addEventListener("click", () => {
     if (!localStorage.getItem("bonus_twitch")) {
-      monedas += 10000; updateMonedas(); localStorage.setItem("bonus_twitch", "true");
+      monedas += 10000; updateMonedas(); localStorage.setItem("bonus_twitch","true");
       alert("Has reclamado 10000 monedas por Twitch 🎮");
-      window.open("https://twitch.tv/izandhh", "_blank");
+      window.open("https://twitch.tv/izandhh","_blank");
     } else alert("Ya reclamaste este bonus.");
   });
 
   document.getElementById("btn-twitter").addEventListener("click", () => {
     if (!localStorage.getItem("bonus_twitter")) {
-      monedas += 10000; updateMonedas(); localStorage.setItem("bonus_twitter", "true");
+      monedas += 10000; updateMonedas(); localStorage.setItem("bonus_twitter","true");
       alert("Has reclamado 10000 monedas por X 🐦");
-      window.open("https://x.com/izandhh", "_blank");
+      window.open("https://x.com/izandhh","_blank");
     } else alert("Ya reclamaste este bonus.");
   });
 
@@ -130,21 +160,18 @@ document.addEventListener("DOMContentLoaded", () => {
     const codigo = input.value.trim();
     if (!codigo) return alert("Introduce un código válido.");
 
-    const usado = JSON.parse(localStorage.getItem("codigos_usados") || "[]");
-    if (usado.includes(codigo)) {
-      alert("Este código ya fue canjeado ❌"); return;
-    }
+    const usados = JSON.parse(localStorage.getItem("codigos_usados")||"[]");
+    if (usados.includes(codigo)) return alert("Este código ya fue canjeado ❌");
 
     if (CODIGOS[codigo]) {
       monedas += CODIGOS[codigo]; updateMonedas();
-      usado.push(codigo);
-      localStorage.setItem("codigos_usados", JSON.stringify(usado));
+      usados.push(codigo);
+      localStorage.setItem("codigos_usados", JSON.stringify(usados));
       alert(`¡Código válido! Has recibido ${CODIGOS[codigo]} monedas 🎉`);
-      input.value = "";
-    } else {
-      alert("Código incorrecto ❌");
-    }
+      input.value="";
+    } else alert("Código incorrecto ❌");
   });
 
 });
+
 
