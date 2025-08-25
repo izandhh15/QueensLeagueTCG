@@ -61,6 +61,8 @@ body {
 #welcome-screen h1 {
   font-weight: bold;
   margin-bottom: 20px;
+  font-size: 24px;
+  color: #06ccbd;
 }
 
 .welcome-logo {
@@ -94,10 +96,11 @@ body {
   cursor: pointer;
 }
 
-#codigos-section small {
-  margin-top: 3px;
+#codigos-text {
   font-size: 12px;
   color: #ccc;
+  margin-bottom: 5px;
+  text-align: center;
 }
 
 /* === FOOTER === */
@@ -109,7 +112,7 @@ footer {
   margin-top: 20px;
 }
 
-/* === MENU INFERIOR === */
+/* === MENÚ INFERIOR === */
 .menu {
   position: fixed;
   bottom: 0;
@@ -166,6 +169,14 @@ footer {
   transform: scale(1.05);
 }
 
+/* === TITULOS ALBUM === */
+#album-view h2 {
+  text-align: center;
+  margin: 20px 0 10px 0;
+  font-weight: bold;
+  color: #06ccbd;
+}
+
 /* === MODAL CARTA === */
 .modal {
   display: none;
@@ -195,4 +206,5 @@ footer {
   font-weight: bold;
   cursor: pointer;
 }
+
 
