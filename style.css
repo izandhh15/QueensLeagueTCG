@@ -12,25 +12,27 @@ body {
 header {
   display: flex;
   align-items: center;
-  justify-content: center; /* centramos el contenido principal */
+  justify-content: center; /* centramos el contador de monedas */
   background: #1b0533;
   padding: 12px 20px;
   position: relative;
 }
 
+/* Logo principal (izquierda) */
 header .logo {
   height: 60px;
-  margin-right: 20px; /* separa del contador */
+  position: absolute;
+  left: 20px;
 }
 
+/* Contador de monedas (centrado) */
 #monedas-panel {
   font-size: 18px;
   font-weight: bold;
-  position: relative;
   z-index: 1;
 }
 
-/* LOGO Y REDES DE LA LIGA */
+/* Logo y redes de la liga (arriba derecha) */
 .liga-header {
   position: absolute;
   top: 12px;
@@ -41,11 +43,6 @@ header .logo {
   z-index: 2;
 }
 
-
-.liga-header a {
-  display: inline-block;
-}
-
 .liga-logo {
   height: 50px;
   transition: transform 0.2s;
@@ -53,6 +50,16 @@ header .logo {
 
 .liga-logo:hover {
   transform: scale(1.1);
+}
+
+.liga-icon {
+  height: 28px;
+  width: 28px;
+  transition: transform 0.2s;
+}
+
+.liga-icon:hover {
+  transform: scale(1.2);
 }
 
 .liga-icon {
