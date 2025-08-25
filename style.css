@@ -16,6 +16,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 15px; /* espacio entre logo y texto */
   font-size: 24px;
   font-weight: bold;
   text-align: center;
@@ -23,6 +24,12 @@ body {
   border-bottom: 2px solid #06ccbd;
   margin-bottom: 20px;
 }
+
+#welcome-screen .welcome-logo {
+  height: 80px;
+  flex-shrink: 0;
+}
+
 
 /* HEADER */
 header {
