@@ -1,33 +1,32 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-  // === CONFIGURACIÓN ===
   const REVERSO = "https://i.ibb.co/F443KZqx/00-REVERSO.png";
 
   const CARDS = [
-    { id:1,nombre:"Escudo 1K",tipo:"escudos",imagen:"https://i.ibb.co/CpJ3c7B8/01-Escudo1-K.png"},
-    { id:2,nombre:"Escudo Aniquiladoras FC",tipo:"escudos",imagen:"https://i.ibb.co/N2hVWpqv/02-Escudo-Aniquiladoras.png"},
-    { id:3,nombre:"Escudo El Barrio",tipo:"escudos",imagen:"https://i.ibb.co/7JcZNXSQ/03-Escudo-Barrio.png"},
-    { id:4,nombre:"Escudo Jijantas FC",tipo:"escudos",imagen:"https://i.ibb.co/d4w5ppfS/04-Escudo-Jijantas.png"},
-    { id:5,nombre:"Escudo Kunitas",tipo:"escudos",imagen:"https://i.ibb.co/RMxrmnY/05-Escudo-Kunitas.png"},
-    { id:6,nombre:"Escudo Las Troncas FC",tipo:"escudos",imagen:"https://i.ibb.co/TDwwW6Qj/06-Escudo-Las-Troncas.png"},
-    { id:7,nombre:"Escudo PIO FC",tipo:"escudos",imagen:"https://i.ibb.co/Fk5XtqqS/07-Escudo-PIO.png"},
-    { id:8,nombre:"Escudo Porcinas FC",tipo:"escudos",imagen:"https://i.ibb.co/W4D56C3R/08-Escudo-Porcinas.png"},
-    { id:9,nombre:"Escudo Rayo de Barcelona",tipo:"escudos",imagen:"https://i.ibb.co/wr7Q4sVP/09-Escudo-Rayo-De-Barcelona.png"},
-    { id:10,nombre:"Escudo Saiyans FC",tipo:"escudos",imagen:"https://i.ibb.co/9kxn2vn9/10-Escudo-Saiyans-FC.png"},
-    { id:11,nombre:"Escudo Ultimate Móstoles",tipo:"escudos",imagen:"https://i.ibb.co/zVGgWPTf/11-Escudo-Ultimate-M-stoles.png"},
-    { id:12,nombre:"Escudo Xbuyer Team",tipo:"escudos",imagen:"https://i.ibb.co/nM27z99j/12-Escudo-XBuyer-Team.png"},
-    { id:13,nombre:"Mayichi (1K)",tipo:"presidentas",imagen:"https://i.ibb.co/MDN445S2/14-Amablitz.png"},
-    { id:14,nombre:"Ama Blitz (Aniquiladoras FC)",tipo:"presidentas",imagen:"https://i.ibb.co/0p9Js9tm/13-Mayichi.png"},
-    { id:15,nombre:"Adri Contreras + Mercedes Roa (El Barrio)",tipo:"presidentas",imagen:"https://i.ibb.co/V01ZjqVb/15-Mercedes-Roa-Adri-Contreras.png"},
-    { id:16,nombre:"Gerard Romero + Lis Cid (Jijantas FC)",tipo:"presidentas",imagen:"https://i.ibb.co/tTncqzTb/16-Gerard-Romero-Lis-Cid.png"},
-    { id:17,nombre:"Jo Valicenti (Kunitas)",tipo:"presidentas",imagen:"https://i.ibb.co/whpJcVz0/17-Jo-Valicenti.png"},
-    { id:18,nombre:"Violeta (Las Troncas FC)",tipo:"presidentas",imagen:"https://i.ibb.co/Kpp37QqZ/18-Violeta.png"},
-    { id:19,nombre:"Rivers (PIO FC)",tipo:"presidentas",imagen:"https://i.ibb.co/hRbZNNry/19-Rivers.png"},
-    { id:20,nombre:"Gemita (Porcinas FC)",tipo:"presidentas",imagen:"https://i.ibb.co/kgQqHB40/20-Gemita.png"},
-    { id:21,nombre:"Spursito (Rayo de Barcelona)",tipo:"presidentas",imagen:"https://i.ibb.co/CpYRPJ7v/21-Spursito.png"},
-    { id:22,nombre:"Totakeki (Saiyans FC)",tipo:"presidentas",imagen:"https://i.ibb.co/fYQ41S7r/22-Totakeki.png"},
-    { id:23,nombre:"Noe9977 (Ultimate Móstoles)",tipo:"presidentas",imagen:"https://i.ibb.co/G4qQYCTY/23-Noe9977.png"},
-    { id:24,nombre:"Javi Buyer + Eric Minibuyer (Xbuyer Team)",tipo:"presidentas",imagen:"https://i.ibb.co/KjRXYVtY/24-Hnos-Buyer.png"}
+    { id:1,nombre:"Escudo 1K",tipo:"escudo",imagen:"https://i.ibb.co/CpJ3c7B8/01-Escudo1-K.png"},
+    { id:2,nombre:"Escudo Aniquiladoras FC",tipo:"escudo",imagen:"https://i.ibb.co/N2hVWpqv/02-Escudo-Aniquiladoras.png"},
+    { id:3,nombre:"Escudo El Barrio",tipo:"escudo",imagen:"https://i.ibb.co/7JcZNXSQ/03-Escudo-Barrio.png"},
+    { id:4,nombre:"Escudo Jijantas FC",tipo:"escudo",imagen:"https://i.ibb.co/d4w5ppfS/04-Escudo-Jijantas.png"},
+    { id:5,nombre:"Escudo Kunitas",tipo:"escudo",imagen:"https://i.ibb.co/RMxrmnY/05-Escudo-Kunitas.png"},
+    { id:6,nombre:"Escudo Las Troncas FC",tipo:"escudo",imagen:"https://i.ibb.co/TDwwW6Qj/06-Escudo-Las-Troncas.png"},
+    { id:7,nombre:"Escudo PIO FC",tipo:"escudo",imagen:"https://i.ibb.co/Fk5XtqqS/07-Escudo-PIO.png"},
+    { id:8,nombre:"Escudo Porcinas FC",tipo:"escudo",imagen:"https://i.ibb.co/W4D56C3R/08-Escudo-Porcinas.png"},
+    { id:9,nombre:"Escudo Rayo de Barcelona",tipo:"escudo",imagen:"https://i.ibb.co/wr7Q4sVP/09-Escudo-Rayo-De-Barcelona.png"},
+    { id:10,nombre:"Escudo Saiyans FC",tipo:"escudo",imagen:"https://i.ibb.co/9kxn2vn9/10-Escudo-Saiyans-FC.png"},
+    { id:11,nombre:"Escudo Ultimate Móstoles",tipo:"escudo",imagen:"https://i.ibb.co/zVGgWPTf/11-Escudo-Ultimate-M-stoles.png"},
+    { id:12,nombre:"Escudo Xbuyer Team",tipo:"escudo",imagen:"https://i.ibb.co/nM27z99j/12-Escudo-XBuyer-Team.png"},
+    { id:13,nombre:"Mayichi (1K)",tipo:"presidenta",imagen:"https://i.ibb.co/MDN445S2/14-Amablitz.png"},
+    { id:14,nombre:"Ama Blitz (Aniquiladoras FC)",tipo:"presidenta",imagen:"https://i.ibb.co/0p9Js9tm/13-Mayichi.png"},
+    { id:15,nombre:"Adri Contreras + Mercedes Roa (El Barrio)",tipo:"presidenta",imagen:"https://i.ibb.co/V01ZjqVb/15-Mercedes-Roa-Adri-Contreras.png"},
+    { id:16,nombre:"Gerard Romero + Lis Cid (Jijantas FC)",tipo:"presidenta",imagen:"https://i.ibb.co/tTncqzTb/16-Gerard-Romero-Lis-Cid.png"},
+    { id:17,nombre:"Jo Valicenti (Kunitas)",tipo:"presidenta",imagen:"https://i.ibb.co/whpJcVz0/17-Jo-Valicenti.png"},
+    { id:18,nombre:"Violeta (Las Troncas FC)",tipo:"presidenta",imagen:"https://i.ibb.co/Kpp37QqZ/18-Violeta.png"},
+    { id:19,nombre:"Rivers (PIO FC)",tipo:"presidenta",imagen:"https://i.ibb.co/hRbZNNry/19-Rivers.png"},
+    { id:20,nombre:"Gemita (Porcinas FC)",tipo:"presidenta",imagen:"https://i.ibb.co/kgQqHB40/20-Gemita.png"},
+    { id:21,nombre:"Spursito (Rayo de Barcelona)",tipo:"presidenta",imagen:"https://i.ibb.co/CpYRPJ7v/21-Spursito.png"},
+    { id:22,nombre:"Totakeki (Saiyans FC)",tipo:"presidenta",imagen:"https://i.ibb.co/fYQ41S7r/22-Totakeki.png"},
+    { id:23,nombre:"Noe9977 (Ultimate Móstoles)",tipo:"presidenta",imagen:"https://i.ibb.co/G4qQYCTY/23-Noe9977.png"},
+    { id:24,nombre:"Javi Buyer + Eric Minibuyer (Xbuyer Team)",tipo:"presidenta",imagen:"https://i.ibb.co/KjRXYVtY/24-Hnos-Buyer.png"}
   ];
 
   let monedas = parseInt(localStorage.getItem("monedas_queens")) || 2000;
@@ -39,57 +38,44 @@ document.addEventListener("DOMContentLoaded", () => {
   }
   updateMonedas();
 
-  // === FUNCIONES ALBUM POR TIPO ===
+  // === FUNCIÓN MOSTRAR ALBUM POR TIPO ===
   function mostrarAlbum() {
     const grid = document.getElementById("album-grid");
     grid.innerHTML = "";
 
-function mostrarAlbum() {
-  const grid = document.getElementById("album-grid");
-  grid.innerHTML = "";
-
-  // Agrupar cartas por tipo
-  const tipos = {};
-  CARDS.forEach(c => {
-    if (!tipos[c.tipo]) tipos[c.tipo] = [];
-    tipos[c.tipo].push(c);
-  });
-
-  // Mostrar cada tipo con título correcto
-  for (const tipo in tipos) {
-    const h2 = document.createElement("h2");
-
-    if (tipo === "escudo") h2.textContent = "ESCUDOS";
-    else if (tipo === "presidenta") h2.textContent = "PRESIDENTAS/ES";
-    else h2.textContent = tipo.toUpperCase();
-
-    grid.appendChild(h2);
-
-    // Contenedor de cartas
-    const cont = document.createElement("div");
-    cont.classList.add("grid");
-
-    tipos[tipo].forEach(c => {
-      const div = document.createElement("div");
-      div.classList.add("cromo");
-
-      const img = document.createElement("img");
-      img.src = album.includes(c.id) ? c.imagen : REVERSO;
-      img.alt = c.nombre;
-
-      const p = document.createElement("p");
-      p.textContent = c.nombre;
-
-      div.appendChild(img);
-      div.appendChild(p);
-      cont.appendChild(div);
+    const tipos = {};
+    CARDS.forEach(c => {
+      if (!tipos[c.tipo]) tipos[c.tipo] = [];
+      tipos[c.tipo].push(c);
     });
 
-    grid.appendChild(cont);
+    for (const tipo in tipos) {
+      const h2 = document.createElement("h2");
+      h2.textContent = tipo === "escudo" ? "ESCUDOS" : "PRESIDENTAS/ES";
+      grid.appendChild(h2);
+
+      const cont = document.createElement("div");
+      cont.classList.add("grid");
+
+      tipos[tipo].forEach(c => {
+        const div = document.createElement("div");
+        div.classList.add("cromo");
+
+        const img = document.createElement("img");
+        img.src = album.includes(c.id) ? c.imagen : REVERSO;
+        img.alt = c.nombre;
+
+        const p = document.createElement("p");
+        p.textContent = c.nombre;
+
+        div.appendChild(img);
+        div.appendChild(p);
+        cont.appendChild(div);
+      });
+
+      grid.appendChild(cont);
+    }
   }
-}
-
-
 
   // === ABRIR SOBRE ===
   function abrirSobre() {
@@ -113,9 +99,8 @@ function mostrarAlbum() {
     document.getElementById("last-pack").innerHTML = html;
   }
 
-  // === EVENTOS BOTONES ===
+  // === BOTONES ===
   document.getElementById("btn-open").addEventListener("click", abrirSobre);
-
   document.getElementById("btn-album").addEventListener("click", () => {
     mostrarAlbum();
     document.getElementById("album-view").style.display = "block";
@@ -147,7 +132,7 @@ function mostrarAlbum() {
     } else alert("Ya reclamaste este bonus.");
   });
 
-  // === PANEL DE CÓDIGOS ===
+  // === CÓDIGOS ===
   const CODIGOS = {
     "AroneyGonzalez":10000,
     "MarSerracanta":10000,
@@ -183,5 +168,3 @@ function mostrarAlbum() {
   });
 
 });
-
-
