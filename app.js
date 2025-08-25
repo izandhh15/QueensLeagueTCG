@@ -133,6 +133,59 @@ document.getElementById("btn-daily").addEventListener("click", reclamarDiarias);
 document.getElementById("btn-twitter").addEventListener("click", bonusTwitter);
 document.getElementById("btn-twitch").addEventListener("click", bonusTwitch);
 
+// Botón Abrir sobre
+document.getElementById("btn-open").addEventListener("click", abrirSobre);
+
+// Botón Ver álbum
+document.getElementById("btn-album").addEventListener("click", () => {
+  document.getElementById("album-view").style.display = "block";
+  document.getElementById("pack-view").style.display = "none";
+});
+
+// Botón Reclamar diario
+document.getElementById("btn-daily").addEventListener("click", () => {
+  const lastClaim = localStorage.getItem("last_daily");
+  const now = Date.now();
+  if (!lastClaim || now - lastClaim > 24*60*60*1000) {
+    monedas += 2000;
+    localStorage.setItem("monedas_queens", monedas);
+    localStorage.setItem("last_daily", now);
+    alert("Has reclamado 2000 monedas diarias 🎉");
+    document.getElementById("monedas-panel").textContent = "Monedas: " + monedas;
+  } else {
+    alert("Ya has reclamado tus monedas diarias. Vuelve mañana ⏰");
+  }
+});
+
+// Botón Reclamar Twitch
+document.getElementById("btn-twitch").addEventListener("click", () => {
+  if (!localStorage.getItem("bonus_twitch")) {
+    monedas += 10000;
+    localStorage.setItem("monedas_queens", monedas);
+    localStorage.setItem("bonus_twitch", "true");
+    alert("Has reclamado 10000 monedas por seguir en Twitch 🎮");
+    document.getElementById("monedas-panel").textContent = "Monedas: " + monedas;
+    window.open("https://twitch.tv/izandhh", "_blank");
+  } else {
+    alert("Ya reclamaste este bonus.");
+  }
+});
+
+// Botón Reclamar Twitter
+document.getElementById("btn-twitter").addEventListener("click", () => {
+  if (!localStorage.getItem("bonus_twitter")) {
+    monedas += 10000;
+    localStorage.setItem("monedas_queens", monedas);
+    localStorage.setItem("bonus_twitter", "true");
+    alert("Has reclamado 10000 monedas por seguir en X 🐦");
+    document.getElementById("monedas-panel").textContent = "Monedas: " + monedas;
+    window.open("https://x.com/izandhh", "_blank");
+  } else {
+    alert("Ya reclamaste este bonus.");
+  }
+});
+
+
 // ====== INICIO ======
 renderAlbum();
 
