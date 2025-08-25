@@ -7,74 +7,96 @@
 </head>
 <body>
 
-  <!-- PORTADA INICIAL -->
+  <!-- PORTADA -->
   <section id="welcome-screen">
-    <div class="welcome-content">
+    <div class="welcome-container">
       <img src="https://kingsleague-cdn.kama.football/account/production/competition/371084638.png" 
            alt="Queens League Oysho" class="welcome-logo">
       <h1>¡Bienvenido a la colección virtual de cromos de la Queens League Oysho!</h1>
-
-      <!-- TEXTO EXPLICATIVO DE CÓDIGOS -->
-      <p class="codigo-info">
-        Pon el código que tu streamer de Queens te ha dado para reclamar la recompensa. Cada código solo puede usarse una vez.
-      </p>
-
-      <!-- BARRA DE CÓDIGOS -->
-      <section id="codigos-section">
-        <input type="text" id="codigo-input">
-        <button id="btn-canjear">Canjear código</button>
-      </section>
     </div>
   </section>
 
-  <!-- PANEL PRINCIPAL -->
-  <main id="main-app" style="display:none;">
-    <section id="album-view" style="display:none;">
-      <div id="album-grid"></div>
-    </section>
-    <section id="pack-view" style="display:none;">
-      <div id="last-pack"></div>
-    </section>
-  </main>
+  <!-- APP PRINCIPAL -->
+  <section id="main-app" style="display:none;">
 
-  <!-- MODAL PARA CROMOS -->
-  <div id="modal-cromo" class="modal">
-    <span id="modal-close" class="modal-close">&times;</span>
-    <img class="modal-content" id="modal-img">
-  </div>
+    <!-- CONTADOR DE MONEDAS -->
+    <div id="monedas-panel" class="monedas-panel">Monedas: 0</div>
 
-  <!-- MENÚ FIJO INFERIOR -->
-  <nav class="menu-fixed">
-    <button id="btn-open">🎁 Abrir sobre</button>
-    <button id="btn-album">📖 Ver álbum</button>
-    <button id="btn-daily">⏰ Diario (+2000)</button>
-    <button id="btn-twitch">
-      <img src="https://i.ibb.co/20XdMbkc/TWITCH.png" class="icon"> Twitch (+10000)
-    </button>
-    <button id="btn-twitter">
-      <img src="https://i.ibb.co/nqMPfypC/X-Twitter.png" class="icon"> X (+10000)
-    </button>
-  </nav>
+    <!-- HEADER REDES DE LA LIGA -->
+    <header>
+      <div class="liga-header">
+        <a href="https://queensleague.pro" target="_blank">
+          <img src="https://marcadorvirtual.top/storage/media/ligas/kings-league_logo-queens.webp" 
+               alt="Queens League" class="liga-logo">
+        </a>
+        <a href="https://www.instagram.com/queensleague" target="_blank">
+          <img src="https://cdn-icons-png.flaticon.com/512/174/174855.png" alt="Instagram" class="liga-icon">
+        </a>
+        <a href="https://twitter.com/QueensLeague" target="_blank">
+          <img src="https://cdn-icons-png.flaticon.com/512/733/733579.png" alt="X/Twitter" class="liga-icon">
+        </a>
+        <a href="https://www.tiktok.com/@queensleague" target="_blank">
+          <img src="https://cdn-icons-png.flaticon.com/512/3046/3046122.png" alt="TikTok" class="liga-icon">
+        </a>
+      </div>
+    </header>
+
+    <!-- MENÚ INFERIOR -->
+    <nav class="menu">
+      <button id="btn-open">🎁 Abrir sobre</button>
+      <button id="btn-album">📖 Ver álbum</button>
+      <button id="btn-daily">⏰ Reclamar diario (+2000)</button>
+      <button id="btn-twitch">
+        <img src="https://i.ibb.co/20XdMbkc/TWITCH.png" class="icon"> Reclamar Twitch (+10000)
+      </button>
+      <button id="btn-twitter">
+        <img src="https://i.ibb.co/nqMPfypC/X-Twitter.png" class="icon"> Reclamar X (+10000)
+      </button>
+    </nav>
+
+    <!-- BARRA DE CÓDIGOS -->
+    <section id="codigos-section">
+      <input type="text" id="codigo-input" placeholder="Introduce código de jugadora" />
+      <button id="btn-canjear">Canjear código</button>
+      <small>Pon el código que tu streamer de Queens te ha dado para reclamar la recompensa (solo una vez por usuario)</small>
+    </section>
+
+    <!-- SECCIONES PRINCIPALES -->
+    <main>
+      <section id="album-view" style="display:none;">
+        <div id="album-grid"></div>
+      </section>
+
+      <section id="pack-view" style="display:none;">
+        <div id="last-pack">Aquí saldrán tus nuevos cromos...</div>
+      </section>
+    </main>
+
+    <!-- MODAL CARTAS -->
+    <div id="modal-cromo" class="modal">
+      <span id="modal-close">&times;</span>
+      <img id="modal-img" class="modal-content">
+    </div>
+
+  </section>
 
   <!-- FOOTER -->
   <footer>
-  <p>
-    Sígueme en 
-    <a href="https://x.com/izandhh" target="_blank">X</a> 
-    o en 
-    <a href="https://twitch.tv/izandhh" target="_blank">Twitch</a>
-  </p>
-  <p class="footer-note">
-    Hecho por IzanDHH con ❤️ para la comunidad de la Queens
-  </p>
-  <p class="footer-note">
-    Los derechos de las imágenes y los logos de la página web son de Kosmos Holding (Queens League)
-  </p>
+    <p>
+      Sígueme en 
+      <a href="https://x.com/izandhh" target="_blank">X</a> 
+      o en 
+      <a href="https://twitch.tv/izandhh" target="_blank">Twitch</a>
+    </p>
     <p class="footer-note">
-    Esta web no tiene ningún enlace directo con Kosmos y no tiene nada lucrativo, solo animar al fandom de la Queens League a abrir sobres.
-  </p>
-</footer>
+      Hecho por IzanDHH con ❤️ para la comunidad de la Queens
+    </p>
+    <p class="footer-note">
+      Los derechos de las imágenes y los logos de la página web son de Kosmos Holding (Queens League)
+    </p>
+  </footer>
 
   <script src="app.js"></script>
 </body>
 </html>
+
