@@ -40,22 +40,27 @@ const CARDS = [
 // Estado del álbum
 let coleccion = JSON.parse(localStorage.getItem(STORAGE_KEY)) || Array(CARDS.length).fill(false);
 
-// Renderizar álbum
 function renderAlbum() {
-  const album = document.getElementById("album");
-  album.innerHTML = "";
-  coleccion.forEach((obtenida, idx) => {
-    const card = CARDS[idx];
+  const grid = document.getElementById("album-grid");
+  grid.innerHTML = "";
+  CARDS.forEach((card, idx) => {
+    const obtenida = coleccion[idx];
     const div = document.createElement("div");
-    div.className = "card" + (obtenida ? " obtained" : "");
+    div.className = "card-slot";
     div.innerHTML = `
       <div class="thumb">
-        ${obtenida ? `<img src="${card.imagen}" alt="${card.nombre}">` : "?"}
+        <img src="${obtenida ? card.imagen : REVERSO}" alt="${card.nombre}">
       </div>
-      <div class="label">${obtenida ? card.nombre : "Sin conseguir"}</div>
+      <div class="card-name">${obtenida ? card.nombre : "???"}</div>
     `;
-    album.appendChild(div);
+    grid.appendChild(div);
   });
+
+  document.getElementById("monedas-panel").textContent = "Monedas: " + monedas;
+}
+
+const REVERSO = "https://ibb.co/3mmd76Yr";
+
 
   const stats = document.getElementById("stats");
   const conseguidos = coleccion.filter(Boolean).length;
