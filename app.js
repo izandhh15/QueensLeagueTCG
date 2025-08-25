@@ -94,6 +94,72 @@ function abrirSobre() {
 
 // Conectar botón
 document.getElementById("btn-open").addEventListener("click", abrirSobre);
+// Guardado en localStorage
+const STORAGE_KEY = "album_cromos_queens";
+const STORAGE_COINS = "monedas_queens";
+const STORAGE_DAILY = "daily_bonus_queens";
+const STORAGE_TWITTER = "bonus_twitter_queens";
+const STORAGE_TWITCH = "bonus_twitch_queens";
+
+const TAM_SOBRE = 5;
+const COSTE_SOBRE = 1000;
+
+let monedas = parseInt(localStorage.getItem(STORAGE_COINS)) || 5000;
+let coleccion = JSON.parse(localStorage.getItem(STORAGE_KEY)) || Array(CARDS.length).fill(false);
+
+// ====== NUEVAS FUNCIONES DE RECOMPENSAS ======
+
+// Bonus diario de 2000 monedas
+function reclamarDiarias() {
+  const ultimo = parseInt(localStorage.getItem(STORAGE_DAILY)) || 0;
+  const ahora = Date.now();
+
+  // 24 horas = 86400000 ms
+  if (ahora - ultimo < 86400000) {
+    alert("Ya reclamaste hoy, vuelve más tarde.");
+    return;
+  }
+
+  monedas += 2000;
+  localStorage.setItem(STORAGE_COINS, monedas);
+  localStorage.setItem(STORAGE_DAILY, ahora);
+  renderAlbum();
+  alert("¡Has reclamado 2000 monedas diarias!");
+}
+
+// Bonus Twitter (solo una vez)
+function bonusTwitter() {
+  const usado = localStorage.getItem(STORAGE_TWITTER);
+  if (usado) {
+    alert("Ya has reclamado este bonus.");
+    return;
+  }
+  monedas += 10000;
+  localStorage.setItem(STORAGE_COINS, monedas);
+  localStorage.setItem(STORAGE_TWITTER, "true");
+  renderAlbum();
+  alert("¡Has reclamado 10000 monedas por Twitter!");
+}
+
+// Bonus Twitch (solo una vez)
+function bonusTwitch() {
+  const usado = localStorage.getItem(STORAGE_TWITCH);
+  if (usado) {
+    alert("Ya has reclamado este bonus.");
+    return;
+  }
+  monedas += 10000;
+  localStorage.setItem(STORAGE_COINS, monedas);
+  localStorage.setItem(STORAGE_TWITCH, "true");
+  renderAlbum();
+  alert("¡Has reclamado 10000 monedas por Twitch!");
+}
+
+// ====== BOTONES ======
+document.getElementById("btn-daily").addEventListener("click", reclamarDiarias);
+document.getElementById("btn-twitter").addEventListener("click", bonusTwitter);
+document.getElementById("btn-twitch").addEventListener("click", bonusTwitch);
+
 
 // Render inicial
 renderAlbum();
