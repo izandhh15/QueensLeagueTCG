@@ -243,16 +243,16 @@
   <img src="https://i.ibb.co/jv534KTv/INAALBUM.png" alt="INAALBUM" width="200" style="margin-bottom: 10px;">
   
   <div style="font-size:13px;color:#333;margin-bottom:8px;">
-    *Cartas oficiales del TCG cedidas por Inazuma Eleven TCG | Comunidad Hispana*
+    *El creador de la web no tiene el derecho de las imagenes y si alguna agencia o jugadora exige ser eliminada, así se realizará al no tener nada firmado*
   </div>
   
   <div class="botonera">
-    <button id="abrirSobre" onclick="abrirSobre()" disabled="">🎁 Abrir Sobre</button>
-    <button onclick="comprarSobre()">💰 Comprar Sobre (100 🪙)</button>
+    <button id="abrirSobre" onclick="abrirSobre()" disabled="">🎁 Abre Sobre</button>
+    <button onclick="comprarSobre()">💰 Comprar Sobre (1000 🪙)</button>
     <button onclick="verAlbum()">📖 Ver Álbum</button>
-    <button onclick="verMercado()">🛒 Mercado de Cartas</button>
-    <button onclick="mostrarPantallaDificultad()">🎮 Minijuego</button>
-    <button onclick="mostrarRascaYGana()">🎰 Rasca y Gana (20 🪙)</button>
+    <button onclick="verMercado()">🛒 La Cromeria</button>
+    <button onclick="mostrarPantallaDificultad()">🎮 Minijuegos</button>
+    <button onclick="mostrarRascaYGana()">🎰 Rasca y Gana monedas (20 🪙)</button>
   </div> <!-- cierre de .botonera -->
   
   <div style="display: flex; gap: 10px; justify-content: center; margin-top: 10px;">
@@ -267,9 +267,9 @@
     </button>
   </div>
 
-  <p id="timer">Próximo sobre en 0h 57m 48s</p>
+  <p id="timer">Próximo sobre en 24h 0m 0s</p>
   <div id="cartas"></div>
-  <p>🪙: <span id="monedasUsuario">378420</span></p>
+  <p>🪙: <span id="monedasUsuario">0</span></p>
   <input type="text" id="inputCodigoRegalo" placeholder="Introduce tu código regalo" style="margin-top:10px;">
   <button onclick="canjearCodigoRegalo()">Canjear código</button>
 </div>
@@ -296,7 +296,7 @@
 
 <div id="album" style="display:none; position:relative;">
   <span id="contadorCartas" style="position:absolute; top:10px; right:20px; font-size:16px; color:#333; background:rgba(255,255,255,0.8); padding:4px 12px; border-radius:12px; z-index:10;">Cartas: 0/0</span>
-  <img id="tituloAlbumImg" src="https://i.ibb.co/jv534KTv/INAALBUM.png" width="200">
+  <img id="tituloAlbumImg" src="https://kingsleague-cdn.kama.football/account/production/competition/371084638.png" width="200">
   <div class="album-container">
     <div id="miAlbum" class="grid"></div>
   </div>
@@ -349,16 +349,16 @@
 const reversoImg = "https://i.ibb.co/qL60M3yd/image.png";
 let cartasDisponibles = [
 // ...antes del resto de cartas...
-  { id: 9001, nombre: "0", img: "https://i.ibb.co/GN1QGDc/01.jpg", rara: true, reverso: "https://i.ibb.co/QFgKN0cg/00.png" },
-  { id: 9002, nombre: "0", img: "https://i.ibb.co/G3MvNnZG/02.jpg", rara: true, reverso: "https://i.ibb.co/QFgKN0cg/00.png" },
-  { id: 9003, nombre: "0", img: "https://i.ibb.co/Pnzt05q/03.jpg", rara: true, reverso: "https://i.ibb.co/QFgKN0cg/00.png" },
-  { id: 9004, nombre: "0", img: "https://i.ibb.co/Z6Hjkfch/04.jpg", rara: true, reverso: "https://i.ibb.co/QFgKN0cg/00.png" },
-  { id: 9005, nombre: "0", img: "https://i.ibb.co/DDqqkmgd/05.jpg", rara: true, reverso: "https://i.ibb.co/QFgKN0cg/00.png" },
-  { id: 9006, nombre: "0", img: "https://i.ibb.co/WWPTRBG2/06.jpg", rara: true, reverso: "https://i.ibb.co/QFgKN0cg/00.png" },
-  { id: 9007, nombre: "0", img: "https://i.ibb.co/JjW6MDTD/07.jpg", rara: true, reverso: "https://i.ibb.co/QFgKN0cg/00.png" },
-  { id: 9008, nombre: "0", img: "https://i.ibb.co/4nbjdYbx/08.jpg", rara: true, reverso: "https://i.ibb.co/QFgKN0cg/00.png" },
-  { id: 9009, nombre: "0", img: "https://i.ibb.co/k6cVtCH8/09.jpg", rara: true, reverso: "https://i.ibb.co/QFgKN0cg/00.png" },
-  { id: 9010, nombre: "00", img: "https://i.ibb.co/6cs7842S/00-1.png", rara: true, reverso: "https://i.ibb.co/QFgKN0cg/00.png" },
+  { id: 9001, nombre: "0", img: "https://i.ibb.co/GN1QGDc/01.jpg", rara: true, reverso: "https://ibb.co/3mmd76Yr" },
+  { id: 9002, nombre: "0", img: "https://i.ibb.co/G3MvNnZG/02.jpg", rara: true, reverso: "https://ibb.co/3mmd76Yr" },
+  { id: 9003, nombre: "0", img: "https://i.ibb.co/Pnzt05q/03.jpg", rara: true, reverso: "https://ibb.co/3mmd76Yr" },
+  { id: 9004, nombre: "0", img: "https://i.ibb.co/Z6Hjkfch/04.jpg", rara: true, reverso: "https://ibb.co/3mmd76Yr" },
+  { id: 9005, nombre: "0", img: "https://i.ibb.co/DDqqkmgd/05.jpg", rara: true, reverso: "https://ibb.co/3mmd76Yr" },
+  { id: 9006, nombre: "0", img: "https://i.ibb.co/WWPTRBG2/06.jpg", rara: true, reverso: "https://ibb.co/3mmd76Yr" },
+  { id: 9007, nombre: "0", img: "https://i.ibb.co/JjW6MDTD/07.jpg", rara: true, reverso: "https://ibb.co/3mmd76Yr" },
+  { id: 9008, nombre: "0", img: "https://i.ibb.co/4nbjdYbx/08.jpg", rara: true, reverso: "https://ibb.co/3mmd76Yr" },
+  { id: 9009, nombre: "0", img: "https://i.ibb.co/k6cVtCH8/09.jpg", rara: true, reverso: "https://ibb.co/3mmd76Yr" },
+  { id: 9010, nombre: "00", img: "https://i.ibb.co/6cs7842S/00-1.png", rara: true, reverso: "https://ibb.co/3mmd76Yr" },
   { id: 1, nombre: "1", img: "https://i.ibb.co/MDdMC26F/1.jpg" },
   { id: 2, nombre: "2", img: "https://i.ibb.co/jZxVtP8p/2.jpg" },
   { id: 3, nombre: "3", img: "https://i.ibb.co/gLptNg17/3.jpg" },
