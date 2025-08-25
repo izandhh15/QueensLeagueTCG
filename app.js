@@ -1,9 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
-
   const REVERSO = "https://i.ibb.co/F443KZqx/00-REVERSO.png";
 
   const CARDS = [
-    // ESCUDOS
     { id:1,nombre:"Escudo 1K",tipo:"escudo",imagen:"https://i.ibb.co/CpJ3c7B8/01-Escudo1-K.png"},
     { id:2,nombre:"Escudo Aniquiladoras FC",tipo:"escudo",imagen:"https://i.ibb.co/N2hVWpqv/02-Escudo-Aniquiladoras.png"},
     { id:3,nombre:"Escudo El Barrio",tipo:"escudo",imagen:"https://i.ibb.co/7JcZNXSQ/03-Escudo-Barrio.png"},
@@ -16,7 +14,6 @@ document.addEventListener("DOMContentLoaded", () => {
     { id:10,nombre:"Escudo Saiyans FC",tipo:"escudo",imagen:"https://i.ibb.co/9kxn2vn9/10-Escudo-Saiyans-FC.png"},
     { id:11,nombre:"Escudo Ultimate Móstoles",tipo:"escudo",imagen:"https://i.ibb.co/zVGgWPTf/11-Escudo-Ultimate-M-stoles.png"},
     { id:12,nombre:"Escudo Xbuyer Team",tipo:"escudo",imagen:"https://i.ibb.co/nM27z99j/12-Escudo-XBuyer-Team.png"},
-
     // PRESIDENTAS/ES
     { id:13,nombre:"Mayichi (1K)",tipo:"presidenta",imagen:"https://i.ibb.co/MDN445S2/14-Amablitz.png"},
     { id:14,nombre:"Ama Blitz (Aniquiladoras FC)",tipo:"presidenta",imagen:"https://i.ibb.co/0p9Js9tm/13-Mayichi.png"},
@@ -30,7 +27,6 @@ document.addEventListener("DOMContentLoaded", () => {
     { id:22,nombre:"Totakeki (Saiyans FC)",tipo:"presidenta",imagen:"https://i.ibb.co/fYQ41S7r/22-Totakeki.png"},
     { id:23,nombre:"Noe9977 (Ultimate Móstoles)",tipo:"presidenta",imagen:"https://i.ibb.co/G4qQYCTY/23-Noe9977.png"},
     { id:24,nombre:"Javi Buyer + Eric Minibuyer (Xbuyer Team)",tipo:"presidenta",imagen:"https://i.ibb.co/KjRXYVtY/24-Hnos-Buyer.png"},
-
     // SUPERCAMPEONAS
     { id:25,nombre:"Ainara Navas",tipo:"supercampeonas",imagen:"https://i.ibb.co/ZRzW9Lx8/25-SUPERCAMPEONAS-Ainara-Navas.png"},
     { id:26,nombre:"Bea Pérez",tipo:"supercampeonas",imagen:"https://i.ibb.co/PswsRSBC/26-SUPERCAMPEONAS-Beatriz-Perez.png"},
@@ -48,120 +44,122 @@ document.addEventListener("DOMContentLoaded", () => {
 
   let monedas = parseInt(localStorage.getItem("monedas_queens")) || 2000;
   let album = JSON.parse(localStorage.getItem("album_queens")) || {};
-  let duplicadas = JSON.parse(localStorage.getItem("duplicadas_queens")) || {};
-
   const monedasPanel = document.getElementById("monedas-panel");
+  const welcome = document.getElementById("welcome-screen");
   const packView = document.getElementById("pack-view");
   const albumView = document.getElementById("album-view");
   const escudosGrid = document.getElementById("escudos-grid");
   const presidentesGrid = document.getElementById("presidentes-grid");
-  const supercampeonasGrid = document.getElementById("supercampeonas-grid");
+  const superGrid = document.createElement("div");
+  superGrid.id = "super-grid"; superGrid.classList.add("grid");
   const lastPack = document.getElementById("last-pack");
 
-  // Modal
   const modal = document.getElementById("modal");
   const modalImg = document.getElementById("modal-img");
   const modalClose = document.getElementById("modal-close");
-  modalClose.onclick = () => modal.style.display = "none";
+  modalClose.onclick = () => { modal.style.display = "none"; }
 
   function updateMonedas() {
-    monedasPanel.textContent = `Monedas: ${monedas}`;
+    monedasPanel.textContent = "Monedas: " + monedas;
     localStorage.setItem("monedas_queens", monedas);
   }
+  updateMonedas();
 
-  function hideAllSections() {
-    packView.style.display = "none";
-    albumView.style.display = "none";
-  }
+  function hideWelcome() { welcome.style.display = "none"; }
 
   function mostrarAlbum() {
-    hideAllSections();
+    hideWelcome();
     albumView.style.display = "block";
+    packView.style.display = "none";
 
     escudosGrid.innerHTML = "";
     presidentesGrid.innerHTML = "";
-    supercampeonasGrid.innerHTML = "";
+    if(!document.getElementById("super-grid")) albumView.appendChild(superGrid);
+    superGrid.innerHTML = "";
 
-    const tipos = {
-      escudo: escudosGrid,
-      presidenta: presidentesGrid,
-      supercampeonas: supercampeonasGrid
-    };
-
+    // Contador de álbum
     let totalCartas = CARDS.length;
-    let obtenidas = 0;
+    let obtenidas = Object.keys(album).reduce((acc,id) => acc + 1,0);
+    let albumCont = document.createElement("p");
+    albumCont.style.textAlign = "center";
+    albumCont.textContent = `Cartas obtenidas: ${obtenidas}/${totalCartas}`;
+    albumView.insertBefore(albumCont, escudosGrid);
+
+    // Vender duplicadas
+    let duplicadasBtn = document.getElementById("btn-vender");
+    if(!duplicadasBtn){
+      duplicadasBtn = document.createElement("button");
+      duplicadasBtn.id = "btn-vender";
+      duplicadasBtn.textContent = "Vender duplicadas (+100 monedas c/u)";
+      duplicadasBtn.style.display = "block";
+      duplicadasBtn.style.margin = "10px auto";
+      duplicadasBtn.style.backgroundColor = "#06ccbd";
+      duplicadasBtn.style.color = "#2a0a49";
+      duplicadasBtn.style.padding = "8px 12px";
+      duplicadasBtn.style.border = "none";
+      duplicadasBtn.style.borderRadius = "8px";
+      duplicadasBtn.style.cursor = "pointer";
+      duplicadasBtn.onclick = () => {
+        let ganancia = 0;
+        for(const key in album){
+          if(album[key]>1) { ganancia += (album[key]-1)*100; album[key]=1; }
+        }
+        if(ganancia>0){
+          monedas += ganancia; updateMonedas();
+          localStorage.setItem("album_queens", JSON.stringify(album));
+          mostrarAlbum();
+          alert(`Has vendido duplicadas y recibido ${ganancia} monedas.`);
+        } else alert("No tienes duplicadas para vender.");
+      }
+      albumView.appendChild(duplicadasBtn);
+    }
 
     CARDS.forEach(card => {
       const div = document.createElement("div");
       div.classList.add("cromo");
-
-      const count = album[card.id] || 0;
-      if(count > 0) obtenidas++;
-
       const img = document.createElement("img");
-      img.src = count > 0 ? card.imagen : REVERSO;
+      img.src = album[card.id]? card.imagen : REVERSO;
       img.alt = card.nombre;
       img.addEventListener("click", () => {
         modal.style.display = "flex";
         modalImg.src = card.imagen;
+        modalImg.style.border = "5px solid #fff";
       });
+
+      // Contador de duplicadas
+      if(album[card.id] && album[card.id]>1){
+        let count = document.createElement("span");
+        count.textContent = album[card.id];
+        count.style.position="absolute";
+        count.style.bottom="5px";
+        count.style.right="5px";
+        count.style.background="#06ccbd";
+        count.style.color="#2a0a49";
+        count.style.padding="2px 5px";
+        count.style.borderRadius="8px";
+        count.style.fontSize="12px";
+        div.appendChild(count);
+      }
 
       div.appendChild(img);
 
-      if(count > 1) {
-        const span = document.createElement("span");
-        span.classList.add("duplicada-count");
-        span.textContent = `x${count}`;
-        div.appendChild(span);
-      }
-
-      tipos[card.tipo].appendChild(div);
+      if(card.tipo === "escudo") escudosGrid.appendChild(div);
+      else if(card.tipo === "presidenta") presidentesGrid.appendChild(div);
+      else superGrid.appendChild(div);
     });
-
-    // Contador álbum y botón vender duplicadas
-    const infoDiv = document.getElementById("album-info");
-    if(!infoDiv) {
-      const divInfo = document.createElement("div");
-      divInfo.id = "album-info";
-      divInfo.innerHTML = `<p>Cartas obtenidas: ${obtenidas}/${totalCartas}</p>
-      <button id="vender-dup">Vender duplicadas (100 monedas c/u)</button>`;
-      albumView.prepend(divInfo);
-
-      document.getElementById("vender-dup").addEventListener("click", () => {
-        let totalVenta = 0;
-        for(let id in duplicadas){
-          totalVenta += duplicadas[id]*100;
-        }
-        if(totalVenta > 0){
-          monedas += totalVenta;
-          duplicadas = {};
-          updateMonedas();
-          alert(`Has vendido tus duplicadas y recibido ${totalVenta} monedas`);
-          localStorage.setItem("duplicadas_queens", JSON.stringify(duplicadas));
-          mostrarAlbum();
-        } else alert("No tienes duplicadas para vender.");
-      });
-    } else {
-      infoDiv.querySelector("p").textContent = `Cartas obtenidas: ${obtenidas}/${totalCartas}`;
-    }
   }
 
   function abrirSobre() {
-    if(monedas < 1000) return alert("No tienes suficientes monedas.");
-    monedas -= 1000;
-    updateMonedas();
-    hideAllSections();
+    if(monedas < 1000) { alert("No tienes suficientes monedas."); return; }
+    hideWelcome();
+    monedas -= 1000; updateMonedas();
     packView.style.display = "block";
+    albumView.style.display = "none";
     lastPack.innerHTML = "<h3>¡Has abierto un sobre! 🎁</h3><div class='grid'></div>";
     const grid = lastPack.querySelector(".grid");
 
     for(let i=0;i<5;i++){
       const c = CARDS[Math.floor(Math.random()*CARDS.length)];
-      album[c.id] = album[c.id] ? album[c.id]+1 : 1;
-      if(album[c.id] > 1){
-        duplicadas[c.id] = (duplicadas[c.id] || 0) +1;
-      }
-
       const div = document.createElement("div");
       div.classList.add("cromo");
       const img = document.createElement("img");
@@ -170,16 +168,16 @@ document.addEventListener("DOMContentLoaded", () => {
       img.addEventListener("click", () => {
         modal.style.display = "flex";
         modalImg.src = c.imagen;
+        modalImg.style.border = "5px solid #fff";
       });
       div.appendChild(img);
       grid.appendChild(div);
+      album[c.id] = (album[c.id] || 0) + 1;
     }
 
     localStorage.setItem("album_queens", JSON.stringify(album));
-    localStorage.setItem("duplicadas_queens", JSON.stringify(duplicadas));
   }
 
-  // Botones menú
   document.getElementById("btn-open").addEventListener("click", abrirSobre);
   document.getElementById("btn-album").addEventListener("click", mostrarAlbum);
 
@@ -217,17 +215,30 @@ document.addEventListener("DOMContentLoaded", () => {
   const CODIGOS = {
     "AroneyGonzalez":10000,
     "MarSerracanta":10000,
-    "ElenaBenitez":10000
+    "ElenaBenitez":10000,
+    "MenendezFaya":10000,
+    "AndreaChini":10000,
+    "ElTronoKL":10000,
+    "UniversoKings":10000,
+    "SRonzero":10000,
+    "ZonaRayo":10000,
+    "Porcinismoo":10000,
+    "NarcisBoza":10000,
+    "NikolRamos":10000,
+    "ZonaMostoles":10000,
+    "CZXR":10000
   };
 
   document.getElementById("btn-canjear").addEventListener("click", () => {
     const input = document.getElementById("codigo-input");
     const codigo = input.value.trim();
     if(!codigo) return alert("Introduce un código válido.");
+
     const usado = JSON.parse(localStorage.getItem("codigos_usados") || "[]");
     if(usado.includes(codigo)){
       alert("Este código ya fue canjeado ❌"); return;
     }
+
     if(CODIGOS[codigo]){
       monedas += CODIGOS[codigo]; updateMonedas();
       usado.push(codigo);
@@ -236,8 +247,5 @@ document.addEventListener("DOMContentLoaded", () => {
       input.value = "";
     } else alert("Código incorrecto ❌");
   });
-
-  // Inicialización
-  updateMonedas();
 
 });
