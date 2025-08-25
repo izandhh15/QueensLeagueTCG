@@ -2,37 +2,34 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Álbum Queens League Oysho</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <header class="topbar">
+  <header>
     <h1>Álbum Queens League Oysho</h1>
     <div id="monedas-panel" class="stats">Monedas: 0</div>
     <button id="btn-open">Abrir sobre (1000 monedas)</button>
+    <p id="last-pack"></p>
   </header>
 
-  <section class="panel">
-    <div id="stats" class="stats">0 / 0</div>
-    <div id="last-pack" class="last-pack"></div>
-  </section>
+  <main>
+    <div id="album-grid" class="album-grid"></div>
+  </main>
 
-  <main id="album" class="grid"></main>
+  <footer class="footer">
+    <p>Hecho con ❤️ por IzanDHH</p>
+    <div class="social-links">
+      <a href="https://x.com/izandhh" target="_blank" class="social-btn">Seguir en X</a>
+      <a href="https://twitch.tv/izandhh" target="_blank" class="social-btn">Seguir en Twitch</a>
+    </div>
 
- <footer class="footer">
-  <p>Hecho con ❤️ por IzanDHH</p>
-  <div class="social-links">
-    <a href="https://x.com/izandhh" target="_blank" class="social-btn">Seguir en X</a>
-    <a href="https://twitch.tv/izandhh" target="_blank" class="social-btn">Seguir en Twitch</a>
-  </div>
-
-  <div class="rewards">
-    <button id="btn-daily">Reclamar 2000 monedas diarias</button>
-    <button id="btn-twitter">Obtener 10000 monedas (Twitter)</button>
-    <button id="btn-twitch">Obtener 10000 monedas (Twitch)</button>
-  </div>
-</footer>
+    <div class="rewards">
+      <button id="btn-daily">Reclamar 2000 monedas diarias</button>
+      <button id="btn-twitter">Obtener 10000 monedas (Twitter)</button>
+      <button id="btn-twitch">Obtener 10000 monedas (Twitch)</button>
+    </div>
+  </footer>
 
   <script src="app.js"></script>
 </body>
