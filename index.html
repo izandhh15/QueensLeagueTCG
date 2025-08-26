@@ -10,7 +10,7 @@
 </head>
 <body>
   <header>
-    <div class="logo" title="Recargar" onclick="location.reload()">Álbum Queens League Oysho</div>
+    <div class="logo" title="Recargar" id="logo">Álbum Queens League Oysho</div>
 
     <nav class="redes" aria-label="Redes">
       <a href="https://queensleague.pro" target="_blank" rel="noopener">Web</a>
@@ -20,13 +20,13 @@
     </nav>
 
     <div style="display:flex; align-items:center; gap:1rem;">
-      <div id="monedas-panel" role="status" aria-live="polite">Monedas: 2000</div>
+      <div id="monedas-panel" role="status" aria-live="polite">Monedas: 0</div>
       <div id="user-panel" aria-live="polite"></div>
     </div>
   </header>
 
   <main id="main-content" role="main" tabindex="-1">
-    <!-- El contenido dinámico (menú, álbum, sobres, etc.) se renderiza desde files/app.js -->
+    <!-- Contenido dinámico renderizado por files/app.js -->
   </main>
 
   <!-- Modal para ver cromo ampliado -->
@@ -36,17 +36,17 @@
     <div id="modal-info" aria-live="polite"></div>
   </div>
 
-  <!-- Modal de login opcional (se muestra desde CSS/JS si se usa) -->
+  <!-- Modal de login (opcional) -->
   <div id="login-modal" style="display:none;" role="dialog" aria-modal="true">
     <div class="login-modal-content">
       <h2>Iniciar sesión</h2>
       <p>Usa Discord o Google para entrar (simulado en frontend)</p>
       <div style="display:flex; gap:0.6rem; justify-content:center; margin-top:0.7rem;">
-        <button class="login-btn" onclick="loginDiscord()">Discord</button>
-        <button class="login-btn" onclick="loginGoogle()">Google</button>
+        <button class="login-btn" id="login-discord">Discord</button>
+        <button class="login-btn" id="login-google">Google</button>
       </div>
       <div style="margin-top:0.8rem;">
-        <button class="login-btn" onclick="document.getElementById('login-modal').style.display='none'">Cerrar</button>
+        <button class="login-btn" id="login-close">Cerrar</button>
       </div>
     </div>
   </div>
@@ -62,18 +62,12 @@
     </div>
   </footer>
 
-  <!-- Script principal (colocado al final para asegurar que el DOM ya existe) -->
+  <!-- Script principal (al final para asegurar que el DOM existe) -->
   <script src="files/app.js"></script>
   <noscript>
     <div style="padding:1rem; background:#ffefc2; color:#2a0a49; text-align:center;">
       Esta aplicación necesita JavaScript para funcionar. Activa JavaScript y recarga la página.
     </div>
   </noscript>
-
-  <!-- Pequeño script de inicialización opcional: asegura que el panel de usuario se renderice si app.js ya lo expuso -->
-  <script>
-    if (window.renderUserPanel) window.renderUserPanel();
-    if (window.renderMenu) window.renderMenu();
-  </script>
 </body>
 </html>
