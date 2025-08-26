@@ -546,22 +546,25 @@
         modalCards.style.display = "flex";
       }
 
-      const TYPES_ORDER = ["Todas","escudo","escudoqlame","presidenta","presisqlame","supercampeonas"];
+            const TYPES_ORDER = ["Todas","escudo","escudoqlame","presidenta","presisqlame","supercampeonas"];
       function renderAlbumPage() {
         mainContent.innerHTML = `
           <h2 style="margin:0 0 .4rem 0;">Mi Álbum</h2>
-            <div style="display:flex; gap:.6rem; align-items:center; margin-bottom:.6rem;">
+          <div style="display:flex; gap:.6rem; align-items:center; margin-bottom:.6rem;">
             <p class="progreso-album" id="progreso" style="margin:0"></p>
             <div class="filters" id="filters" style="margin-left:auto;"></div>
-            <button id="btn-sell-all-duplicates-album" class="login-btn">Vender Duplicadas</button> <!-- ESTA ES LA LÍNEA QUE HAS AÑADIDO -->
+            <button id="btn-sell-all-duplicates-album" class="login-btn">Vender Duplicadas</button> <!-- ESTE ES EL BOTÓN QUE AÑADISTE EN EL HTML -->
             <button id="back-menu-2" class="login-btn" style="background:transparent; color:var(--accent); border:2px solid var(--accent);">Volver</button>
           </div>
           <div class="album-grid" id="album-grid"></div>
           <p style="margin-top:12px; color:var(--accent); font-weight:700;">Pulsa cualquier cromo para verlo; puedes vender duplicadas (cada duplicada = 100 monedas, excepto "supercampeonas" que valen 250 monedas).</p>
         `;
         document.getElementById("back-menu-2")?.addEventListener("click", renderMenu);
+        document.getElementById("btn-sell-all-duplicates-album")?.addEventListener("click", sellAllDuplicates); // <--- ESTA ES LA LÍNEA QUE ACABAS DE AÑADIR
         const filtroCont = document.getElementById("filters");
         filtroCont.innerHTML = "";
+        // ... el resto de la función renderAlbumPage() ...
+
         TYPES_ORDER.forEach(t => {
           const btn = document.createElement("button");
           btn.className = "filter-btn" + (currentFilter === t ? " active" : "");
