@@ -5,137 +5,59 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Queens League Album</title>
 <link rel="stylesheet" href="style.css">
-<style>
-  body {
-    margin: 0;
-    padding: 0;
-    background-color: #2a0948;
-    font-family: Arial, sans-serif;
-    color: #fff;
-  }
-  header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 20px;
-    background-color: #2a0948;
-    border-bottom: 2px solid #00c9bb;
-  }
-  .logo {
-    font-size: 24px;
-    font-weight: bold;
-  }
-  .league-redes {
-    display: flex;
-    gap: 15px;
-  }
-  .league-redes img {
-    width: 32px;
-    height: 32px;
-    filter: brightness(0) invert(1); /* blanco */
-    cursor: pointer;
-  }
-  nav {
-    margin: 20px 0;
-    text-align: center;
-  }
-  nav button {
-    background-color: #00c9bb;
-    color: #2a0948;
-    border: none;
-    border-radius: 8px;
-    padding: 10px 15px;
-    margin: 5px;
-    cursor: pointer;
-    font-weight: bold;
-  }
-  .follow-section {
-    text-align: center;
-    margin-top: 20px;
-  }
-  .follow-section a {
-    display: inline-block;
-    background-color: #00c9bb;
-    color: #2a0948;
-    padding: 8px 12px;
-    margin: 5px;
-    border-radius: 6px;
-    text-decoration: none;
-    font-weight: bold;
-  }
-</style>
 </head>
 <body>
+  <header>
+    <div id="logo">
+      <img src="https://i.ibb.co/logo-queens.png" alt="Queens League Logo">
+    </div>
+    <div id="logo-liga">
+      <img src="https://kingsleague-cdn.kama.football/account/production/competition/371084638.png" alt="Logo Liga">
+    </div>
+    <div id="redes-liga">
+      <a href="https://www.queensleague.com" target="_blank"><img src="https://i.ibb.co/logo-web.png" alt="Web"></a>
+      <a href="https://twitter.com/queensleague" target="_blank"><img src="https://i.ibb.co/logo-twitter.png" alt="Twitter"></a>
+      <a href="https://twitch.tv/queensleague" target="_blank"><img src="https://i.ibb.co/logo-twitch.png" alt="Twitch"></a>
+    </div>
+  </header>
 
-<header>
-  <div class="logo">Queens League</div>
-  <div class="league-redes">
-    <a href="https://queensleague.com" target="_blank">
-      <img src="URL_LOGO_WEB.png" alt="Web">
-    </a>
-    <a href="https://x.com/queensleague" target="_blank">
-      <img src="URL_LOGO_X.png" alt="X">
-    </a>
-    <a href="https://twitch.tv/queensleague" target="_blank">
-      <img src="URL_LOGO_TWITCH.png" alt="Twitch">
-    </a>
-  </div>
-</header>
+  <main>
+    <section id="menu">
+      <div id="monedas-panel">Monedas: 2000</div>
+      <button id="btn-open">Abrir Sobre</button>
+      <button id="btn-album">Ver Álbum</button>
+    </section>
 
-<nav>
-  <button id="btn-open">Abrir Sobre</button>
-  <button id="btn-album">Ver Álbum</button>
-  <button id="btn-daily">Reclamar Diario</button>
-  <button id="btn-twitch">Bonus Twitch</button>
-  <button id="btn-twitter">Bonus X</button>
-</nav>
+    <section id="social-mini">
+      <p>Sígueme en:</p>
+      <a href="https://twitch.tv/izandhh" target="_blank"><button class="social-btn">Twitch</button></a>
+      <a href="https://x.com/izandhh" target="_blank"><button class="social-btn">X</button></a>
+    </section>
 
-<div class="follow-section">
-  <a href="https://twitch.tv/TU_USUARIO" target="_blank">Sígueme en Twitch</a>
-  <a href="https://x.com/TU_USUARIO" target="_blank">Sígueme en X</a>
-</div>
+    <section id="pack-view" style="display:none;">
+      <div id="last-pack"></div>
+    </section>
 
-<main>
-  <!-- Aquí se inyectará dinámicamente el álbum desde app.js -->
-  <section id="album-view" style="display:none;"></section>
-  <section id="pack-view" style="display:none;"></section>
-</main>
+    <section id="album-view" style="display:none;">
+      <div id="escudos-grid" class="grid"></div>
+      <div id="presidentes-grid" class="grid"></div>
+      <!-- Supercampeonas se añadirá dinámicamente en app.js -->
+    </section>
 
-<!-- Modal para ampliar cartas -->
-<div id="modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; 
-     background: rgba(0,0,0,0.8); justify-content:center; align-items:center;">
-  <img id="modal-img" src="" alt="Cromo" style="max-width:90%; max-height:90%; border:5px solid #fff;">
-  <span id="modal-close" style="position:absolute; top:20px; right:20px; color:#fff; font-size:30px; cursor:pointer;">&times;</span>
-</div>
-<!-- Panel de Monedas -->
-<div id="monedas-panel" style="text-align:center; font-size:18px; margin-top:15px;">
-  Monedas: 2000
-</div>
+    <div id="modal" class="modal" style="display:none;">
+      <span id="modal-close">&times;</span>
+      <img id="modal-img" src="" alt="Cromo Ampliado">
+    </div>
+  </main>
 
-<!-- Último sobre abierto -->
-<div id="last-pack" style="text-align:center; margin:20px auto;">
-  <!-- Se rellenará dinámicamente con app.js -->
-</div>
+  <footer>
+    <p>Hecho con ❤️ por Izandhh | ⚠️ Disclaimer: Este sitio es una creación fan y no está afiliado oficialmente a la Queens League ni a Kosmos. Todo el contenido es con fines recreativos y de colección digital. ⚽️</p>
+    <div id="footer-redes">
+      <a href="https://twitch.tv/izandhh" target="_blank"><img src="https://i.ibb.co/logo-twitch.png" alt="Twitch"></a>
+      <a href="https://x.com/izandhh" target="_blank"><img src="https://i.ibb.co/logo-x.png" alt="X"></a>
+    </div>
+  </footer>
 
-<!-- Álbum -->
-<div id="escudos-grid" class="grid" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(80px, 1fr)); gap:10px; padding:20px;"></div>
-<div id="presidentes-grid" class="grid" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(80px, 1fr)); gap:10px; padding:20px;"></div>
-
-<!-- Footer y Disclaimer -->
-  <footer style="background-color:#1f0436; color:#fff; text-align:center; padding:15px; margin-top:30px; font-size:14px;">
-  <p>⚠️ Disclaimer: Kosmos y Queens League no se hacen responsables del uso de este álbum digital.</p>
-  <p>© 2025 Queens League. Todos los derechos reservados.</p>
-  <div style="margin-top:10px;">
-    <a href="https://x.com/TU_USUARIO" target="_blank" style="color:#00c9bb; text-decoration:none; margin:0 5px;">X</a>|
-    <a href="https://twitch.tv/TU_USUARIO" target="_blank" style="color:#00c9bb; text-decoration:none; margin:0 5px;">Twitch</a>|
-    <a href="https://instagram.com/TU_USUARIO" target="_blank" style="color:#00c9bb; text-decoration:none; margin:0 5px;">Instagram</a>
-  </div>
-  <p style="margin-top:10px;">Este álbum es un proyecto fan-made. Todas las imágenes pertenecen a Queens League.</p>
-  <p style="margin-top:10px;">Hecho con ❤️ por IzanDHH para el fandom de la Queens</p>
-</footer>
-
-<!-- Código para agregar dinámicamente secciones y modales se hará en app.js -->
-<script src="app.js"></script>
-
+  <script src="app.js"></script>
 </body>
 </html>
