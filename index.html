@@ -3,90 +3,69 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Álbum Cromos</title>
+  <title>Album de Cartas Queens</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-  <!-- Panel superior -->
-  <header>
-    <h1>Álbum de Cromos</h1>
-    <div id="monedas-panel">Monedas: 0</div>
-  </header>
-
-  <!-- Pantalla de inicio -->
-  <section id="welcome-screen">
-    <button id="btn-open">Abrir Sobre (1000 monedas)</button>
-    <button id="btn-album">Ver Álbum</button>
-
-    <div class="bonuses">
-      <button id="btn-daily">Reclamo Diario</button>
+  <div id="welcome-screen">
+    <h1>Bienvenido al Álbum Queens</h1>
+    <p id="monedas-panel">Monedas: 0</p>
+    <div class="botones-principales">
+      <button id="btn-open">Abrir Sobre (1000 monedas)</button>
+      <button id="btn-album">Ver Álbum</button>
+      <button id="btn-daily">Reclamar Diario</button>
       <button id="btn-twitch">Bonus Twitch</button>
       <button id="btn-twitter">Bonus X</button>
     </div>
-
-    <div class="canjeo">
-      <input type="text" id="codigo-input" placeholder="Código promocional">
+    <div class="codigo-recompensa">
+      <input type="text" id="codigo-input" placeholder="Introduce código">
       <button id="btn-canjear">Canjear</button>
     </div>
-  </section>
+    <p style="text-align:center;">Disclaimer: Todo es con fines de diversión.</p>
+  </div>
 
-  <!-- Vista de sobres -->
-  <section id="pack-view" style="display:none;">
-    <h2>Último sobre abierto</h2>
-    <div id="last-pack" class="grid"></div>
-    <button id="btn-album">Ver Álbum</button>
-  </section>
-
- <div id="album-view" style="display:none;">
-  <div id="filtro-cont"></div> <!-- Menú de filtros dinámico -->
-  <p id="album-contador"></p>
-  <div id="escudos-grid" class="grid"></div>
-  <div id="escudosqlame" class="grid"></div>
-  <div id="presidentes-grid" class="grid"></div>
-  <div id="presisqlame" class="grid"></div>
-  <div id="super-grid" class="grid"></div>
-  <button id="btn-vender">Vender duplicadas</button>
-</div>
-
-    <!-- Menú de filtros SOLO dentro del álbum -->
-    <div id="filtros">
+  <div id="album-view" style="display:none;">
+    <h2>Álbum de Cartas</h2>
+    
+    <div id="menu-filtros">
       <button class="filtro-btn" data-categoria="todos">Todos</button>
       <button class="filtro-btn" data-categoria="escudo">Escudos</button>
-      <button class="filtro-btn" data-categoria="escudoqlame">Escudos Qlame</button>
-      <button class="filtro-btn" data-categoria="presidenta">Presidentes/as</button>
-      <button class="filtro-btn" data-categoria="presisqlame">Presis Qlame</button>
+      <button class="filtro-btn" data-categoria="escudoqlame">EscudosQLame</button>
+      <button class="filtro-btn" data-categoria="presidenta">Presidentas/es</button>
+      <button class="filtro-btn" data-categoria="presisqlame">PresisQLame</button>
       <button class="filtro-btn" data-categoria="supercampeonas">Supercampeonas</button>
     </div>
 
-    <h3>Escudos</h3>
+    <h3>ESCUDOS</h3>
     <div id="escudos-grid" class="grid"></div>
 
-    <h3>Escudos Qlame</h3>
+    <h3>ESCUDOSQLAME</h3>
     <div id="escudosqlame" class="grid"></div>
 
-    <h3>Presidentas/es</h3>
+    <h3>PRESIDENTAS/ES</h3>
     <div id="presidentes-grid" class="grid"></div>
 
-    <h3>Presis Qlame</h3>
+    <h3>PRESISQLAME</h3>
     <div id="presisqlame" class="grid"></div>
 
-    <h3>Supercampeonas</h3>
+    <h3>SUPERCAMPEONAS</h3>
     <div id="super-grid" class="grid"></div>
 
-    <button onclick="document.getElementById('welcome-screen').style.display='block'; document.getElementById('album-view').style.display='none';">Volver</button>
-  </section>
-
-  <!-- Modal para ampliar carta -->
-  <div id="modal" class="modal">
-    <span id="modal-close">&times;</span>
-    <img id="modal-img" src="">
+    <button id="btn-vender">Vender duplicadas (+100 monedas c/u)</button>
   </div>
 
-  <!-- Disclaimer -->
+  <div id="pack-view" style="display:none;">
+    <div id="last-pack"></div>
+  </div>
+
+  <!-- Modal para ver cartas -->
+  <div id="modal" style="display:none;">
+    <img id="modal-img" src="" alt="Carta">
+    <span id="modal-close">&times;</span>
+  </div>
+
   <footer>
-    <p>⚠️ Este álbum es ficticio. Todos los derechos pertenecen a sus respectivos autores.</p>
-    <p>Hecho con ❤️ por IzanDHH</p>
+    <p style="text-align:center;">Hecho con ❤️ por IzanDHH</p>
   </footer>
 
   <script src="app.js"></script>
