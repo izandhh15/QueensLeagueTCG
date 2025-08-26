@@ -19,6 +19,7 @@
       --radius: 12px;
       --transition: 200ms ease;
       --header-height: 72px;
+      --pack-cost: 1000;
     }
     *{box-sizing:border-box}
     html,body{height:100%}
@@ -157,6 +158,48 @@
       transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
     }
 
+    /* Pack style: show REVERSO image as design and cost badge */
+    .pack {
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      height:160px;
+      border-radius:12px;
+      background: linear-gradient(180deg,#350a54,#2a0a49);
+      color:var(--accent);
+      font-weight:800;
+      cursor:pointer;
+      border: 3px solid rgba(6,204,189,0.08);
+      box-shadow: 0 10px 28px rgba(6,204,189,0.06);
+      position:relative;
+      overflow:hidden;
+    }
+    .pack img { width:100%; height:100%; object-fit:cover; opacity:0.98; }
+    .pack .pack-label {
+      position:absolute;
+      left:8px;
+      top:8px;
+      background: rgba(0,0,0,0.45);
+      color:#fff;
+      padding:6px 8px;
+      border-radius:8px;
+      font-weight:700;
+      font-size:0.92rem;
+      pointer-events:none;
+    }
+    .pack .pack-cost {
+      position:absolute;
+      right:8px;
+      bottom:8px;
+      background: var(--accent);
+      color: var(--accent-text);
+      padding:6px 8px;
+      border-radius:8px;
+      font-weight:800;
+      font-size:0.9rem;
+    }
+    .pack.opened { opacity: 0.55; transform: scale(.98); cursor:default; filter:grayscale(20%); }
+
     .duplicadas {
       position:absolute;
       top:8px;
@@ -269,7 +312,7 @@
     @media (max-width:420px) {
       header { grid-template-columns: 1fr auto; grid-auto-rows: auto; height: auto; padding: 10px; }
       .header-right { justify-self: end; }
-      .header-center { display:none; } /* hide centered menu on very small screens (menu accessible in header-left or could be toggled) */
+      .header-center { display:none; }
     }
   </style>
 </head>
@@ -314,7 +357,7 @@
     </div>
   </div>
 
-  <!-- Modal para cartas del sobre (mantener igual) -->
+  <!-- Modal para cartas del sobre -->
   <div id="modal-cards" aria-hidden="true" role="dialog">
     <div class="modal-box" id="modal-cards-box">
       <button class="modal-close" id="modal-cards-close" aria-label="Cerrar">&times;</button>
@@ -335,7 +378,7 @@
 
   <script>
     document.addEventListener("DOMContentLoaded", () => {
-      // --- Lista de cartas (exactamente la que me pasaste) ---
+      // --- Lista de cartas ---
       const CARDS = [
         { id:1,nombre:"Escudo 1K",tipo:"escudo",imagen:"https://i.ibb.co/CpJ3c7B8/01-Escudo1-K.png"},
         { id:2,nombre:"Escudo Aniquiladoras FC",tipo:"escudo",imagen:"https://i.ibb.co/N2hVWpqv/02-Escudo-Aniquiladoras.png"},
@@ -402,7 +445,8 @@
       ];
 
       const REVERSO = "https://i.ibb.co/F443KZqx/00-REVERSO.png";
-      const PACK_CONTENT = [1,2,3,4,5];
+      const PACK_CONTENT = [1,2,3,4,5]; // siempre lo mismo según petición
+      const PACK_COST = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--pack-cost')) || 1000;
 
       // DOM refs
       const monedasPanel = document.getElementById("monedas-panel");
@@ -430,6 +474,9 @@
       let album = JSON.parse(localStorage.getItem("album_queens")) || {};
       let claimedTwitter = JSON.parse(localStorage.getItem("bonus_twitter_claimed")) || false;
       let claimedTwitch = JSON.parse(localStorage.getItem("bonus_twitch_claimed")) || false;
+      // track which packs were opened (index 1..5)
+      let packsOpened = JSON.parse(localStorage.getItem("packs_opened")) || {}; // e.g. { "1": true, "2": true }
+
       let showOnlyObtained = false;
 
       // Utilities
@@ -438,6 +485,7 @@
         localStorage.setItem("album_queens", JSON.stringify(album));
         localStorage.setItem("bonus_twitter_claimed", JSON.stringify(claimedTwitter));
         localStorage.setItem("bonus_twitch_claimed", JSON.stringify(claimedTwitch));
+        localStorage.setItem("packs_opened", JSON.stringify(packsOpened));
       }
       function updateMonedas() {
         monedasPanel.textContent = "Monedas: " + monedas;
@@ -456,7 +504,8 @@
       if (modalCardsClose) modalCardsClose.addEventListener("click", () => modalCards.style.display = "none");
       if (modalCards) modalCards.addEventListener("click", (e) => { if (e.target === modalCards) modalCards.style.display = "none"; });
 
-      // Views
+      // ---------- VIEWS ----------
+
       function renderMenu() {
         mainContent.innerHTML = `
           <div class="menu-principal">
@@ -477,7 +526,7 @@
       function renderPacksPage() {
         mainContent.innerHTML = `
           <h2 style="margin:0 0 .4rem 0;">Abrir Sobres</h2>
-          <p style="margin:0 0 .6rem 0;">Pulsa un sobre para abrirlo. Cada sobre contiene siempre las mismas 5 cartas.</p>
+          <p style="margin:0 0 .6rem 0;">Pulsa un sobre para comprarlo y abrirlo. Cada sobre cuesta <strong>${PACK_COST} monedas</strong> y contiene siempre las mismas 5 cartas.</p>
           <div style="display:flex; gap:12px; justify-content:flex-end;">
             <button id="open-all" class="login-btn">Abrir todos los sobres</button>
             <button id="back-menu" class="login-btn" style="background:transparent; color:var(--accent); border:2px solid var(--accent);">Volver al menú</button>
@@ -485,14 +534,30 @@
           <div class="packs-grid" id="packs-grid" style="margin-top:12px;"></div>
         `;
         const packsGrid = document.getElementById("packs-grid");
+        packsGrid.innerHTML = "";
         for (let i = 1; i <= 5; i++) {
           const div = document.createElement("div");
           div.className = "pack";
           div.dataset.index = i;
-          div.innerHTML = `<div style="text-align:center;">
-                             <div style="font-size:1.05rem">Sobre ${i}</div>
-                             <div style="font-size:0.85rem; margin-top:6px; color:#fff8">Contenido idéntico</div>
-                           </div>`;
+          // show REVERSO image as pack design
+          const img = document.createElement("img");
+          img.src = REVERSO;
+          img.alt = `Sobre ${i}`;
+          div.appendChild(img);
+
+          const label = document.createElement("div");
+          label.className = "pack-label";
+          label.textContent = `Sobre ${i}`;
+          div.appendChild(label);
+
+          const cost = document.createElement("div");
+          cost.className = "pack-cost";
+          cost.textContent = `${PACK_COST} Ⓜ`;
+          div.appendChild(cost);
+
+          // if already opened, mark
+          if (packsOpened[String(i)]) div.classList.add("opened");
+
           div.addEventListener("click", () => openSinglePack(div));
           packsGrid.appendChild(div);
         }
@@ -501,31 +566,62 @@
       }
 
       function openSinglePack(packDiv) {
-        if (!packDiv || packDiv.classList.contains("opened")) { showNotificacion("Este sobre ya está abierto."); return; }
-        packDiv.classList.add("opened");
+        const idx = String(packDiv?.dataset?.index || "");
+        if (!packDiv || !idx) return;
+        if (packsOpened[idx]) {
+          showNotificacion("Este sobre ya está abierto.");
+          return;
+        }
+        if (monedas < PACK_COST) {
+          showNotificacion(`Necesitas ${PACK_COST} monedas para abrir este sobre.`);
+          return;
+        }
+        // cobrar, abrir y dar cartas (siempre el mismo contenido)
+        monedas -= PACK_COST;
+        updateMonedas();
         PACK_CONTENT.forEach(id => { album[id] = (album[id] || 0) + 1; });
+        packsOpened[idx] = true;
         saveState();
-        showPackCardsModal("Has abierto el sobre y recibiste:");
+        // visually mark pack opened
+        packDiv.classList.add("opened");
+        showPackCardsModal(`Has comprado y abierto el Sobre ${idx}. Contenido:`);
       }
 
       function openAllPacks() {
         const packDivs = document.querySelectorAll(".packs-grid .pack");
         let countOpened = 0;
+        let couldNotOpen = 0;
         packDivs.forEach(div => {
-          if (!div.classList.contains("opened")) {
-            div.classList.add("opened");
-            PACK_CONTENT.forEach(id => { album[id] = (album[id] || 0) + 1; });
-            countOpened++;
+          const idx = String(div.dataset.index);
+          if (!packsOpened[idx]) {
+            if (monedas >= PACK_COST) {
+              monedas -= PACK_COST;
+              PACK_CONTENT.forEach(id => { album[id] = (album[id] || 0) + 1; });
+              packsOpened[idx] = true;
+              div.classList.add("opened");
+              countOpened++;
+            } else {
+              couldNotOpen++;
+            }
           }
         });
-        if (countOpened === 0) { showNotificacion("Ya abriste todos los sobres."); return; }
+        if (countOpened === 0) {
+          showNotificacion("No tienes suficientes monedas para abrir nuevos sobres.");
+          return;
+        }
         saveState();
-        showPackCardsModal(`Has abierto ${countOpened} sobres. Cada sobre trae las mismas cartas:`);
+        updateMonedas();
+        if (couldNotOpen > 0) {
+          showPackCardsModal(`Has abierto ${countOpened} sobres (faltaron monedas para abrir ${couldNotOpen} sobres). Cada sobre trae las mismas cartas:`);
+        } else {
+          showPackCardsModal(`Has abierto ${countOpened} sobres. Cada sobre trae las mismas cartas:`);
+        }
       }
 
       function showPackCardsModal(titleText) {
         modalCardsGrid.innerHTML = "";
         modalCardsInfo.textContent = titleText;
+        // mostrar las cartas del pack
         PACK_CONTENT.forEach(id => {
           const card = CARDS.find(c => c.id === id);
           const div = document.createElement("div");
@@ -590,7 +686,6 @@
 
       // Open card modal with info centered above the image
       function openCardModal(card) {
-        // Put the info text at top centered above the image
         const copies = album[card.id] || 0;
         if (copies > 0) {
           modalInfoTop.textContent = `${card.nombre} · Copias: ${copies}`;
@@ -652,7 +747,7 @@
       updateMonedas();
       renderMenu();
 
-      console.log("App inicializada — menú centrado, modal con info arriba, todas las cartas incluidas.");
+      console.log("App inicializada — sobres ahora cuestan " + PACK_COST + " monedas y son visualmente distintos (revés).");
     });
   </script>
 </body>
