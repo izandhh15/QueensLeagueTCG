@@ -1,157 +1,216 @@
-/* RESET */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: 'Arial', sans-serif;
-}
-
-/* FONDO */
+/* ----------------------------- */
+/* FONDO Y TIPOGRAFÍA GENERAL */
+/* ----------------------------- */
 body {
-  background-color: #E6DAF5; /* lila suave */
-  color: #333;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
+  margin: 0;
+  font-family: 'Arial', sans-serif;
+  background-color: #9b59b6; /* fondo lila */
+  color: #fff;
 }
 
+h1, h2 {
+  text-align: center;
+  font-weight: bold;
+}
+
+/* ----------------------------- */
 /* CONTADOR DE MONEDAS */
+/* ----------------------------- */
 #monedas-panel {
   position: fixed;
   top: 10px;
-  left: 20px;
-  font-size: 18px;
+  left: 10px;
+  background-color: #06ccbd;
+  color: #2a0a49;
+  padding: 8px 12px;
+  border-radius: 8px;
   font-weight: bold;
-  background-color: #fff;
-  padding: 5px 10px;
-  border-radius: 10px;
-  z-index: 100;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  z-index: 1000;
 }
 
-/* REDES DE LA LIGA */
+/* ----------------------------- */
+/* CABECERA CON REDES */
+/* ----------------------------- */
 .liga-header {
   position: fixed;
   top: 10px;
-  right: 20px;
+  right: 10px;
   display: flex;
   align-items: center;
-  gap: 10px;
-  z-index: 100;
+  gap: 8px;
+  z-index: 1000;
 }
 
-.liga-icon, .liga-logo {
+.liga-icon {
   width: 30px;
   height: 30px;
-  object-fit: contain;
 }
 
-/* PORTADA */
+.liga-logo {
+  width: 50px;
+  height: 50px;
+}
+
+/* ----------------------------- */
+/* PORTADA INICIAL */
+/* ----------------------------- */
 #welcome-screen {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  margin-top: 80px;
-  padding: 20px;
   text-align: center;
-}
-
-#welcome-screen h1 {
-  font-size: 24px;
-  font-weight: bold;
-  margin-bottom: 20px;
+  margin-top: 80px;
 }
 
 .welcome-logo {
   width: 200px;
-  height: auto;
+  margin-top: 20px;
 }
 
-/* MENU FIJO ABAJO */
+/* ----------------------------- */
+/* MENÚ FIJO ABAJO */
+/* ----------------------------- */
 .menu {
   position: fixed;
   bottom: 0;
-  left: 0;
   width: 100%;
-  background-color: #fff;
+  background-color: #2a0a49;
   display: flex;
   justify-content: space-around;
   padding: 10px 0;
-  box-shadow: 0 -2px 5px rgba(0,0,0,0.2);
-  z-index: 100;
+  z-index: 1000;
+  border-top: 3px solid #06ccbd;
 }
 
 .menu button {
-  background-color: #8A2BE2;
-  color: #fff;
+  background-color: #06ccbd;
+  color: #2a0a49;
   border: none;
-  padding: 8px 12px;
   border-radius: 8px;
+  padding: 8px 12px;
   cursor: pointer;
+  font-weight: bold;
   display: flex;
   align-items: center;
   gap: 5px;
-  font-size: 14px;
-  transition: background-color 0.2s;
 }
 
 .menu button:hover {
-  background-color: #6A1FB3;
+  opacity: 0.85;
 }
 
-.menu .icon {
+.menu img.icon {
   width: 20px;
   height: 20px;
-  object-fit: contain;
 }
 
-/* BARRA DE CÓDIGOS */
+/* ----------------------------- */
+/* SECCIÓN DE CÓDIGOS */
+/* ----------------------------- */
 #codigos-section {
-  margin: 100px 20px 80px 20px;
   text-align: center;
+  margin: 10px 0;
 }
 
 #codigos-section input {
-  padding: 8px;
-  width: 200px;
+  padding: 6px 10px;
   border-radius: 8px;
-  border: 1px solid #ccc;
+  border: none;
   margin-right: 5px;
 }
 
 #codigos-section button {
-  padding: 8px 12px;
+  padding: 6px 12px;
   border-radius: 8px;
   border: none;
-  background-color: #8A2BE2;
-  color: #fff;
+  background-color: #06ccbd;
+  color: #2a0a49;
   cursor: pointer;
+  font-weight: bold;
 }
 
-.codigo-texto {
-  font-size: 12px;
-  color: #555;
-  margin-bottom: 5px;
-}
-
-/* GRIDS DE CARTAS */
+/* ----------------------------- */
+/* GRID DE CROMOS */
+/* ----------------------------- */
 .grid {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
   justify-content: center;
-  margin-bottom: 20px;
+  gap: 10px;
+  margin: 20px auto;
+  max-width: 1200px;
 }
 
 .cromo {
   position: relative;
+  width: 100px;
+  height: 140px;
   cursor: pointer;
 }
 
 .cromo img {
-  width: 100px;
-  height: 140px;
+  width: 100%;
+  height: 100%;
   border-radius: 8px;
-  object-fit: cover;
+  transition: transform 0.2s;
+}
+
+.cromo img:hover {
+  transform: scale(1.05);
+}
+
+/* ----------------------------- */
+/* MODAL DE CARTA AMPLIADA */
+/* ----------------------------- */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 2000;
+  padding-top: 60px;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.8);
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  max-width: 90%;
+  max-height: 90%;
+  border-radius: 12px;
+  border: 5px solid #fff;
+}
+
+#modal-close {
+  position: absolute;
+  top: 20px;
+  right: 35px;
+  color: #fff;
+  font-size: 40px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+/* ----------------------------- */
+/* FOOTER */
+/* ----------------------------- */
+footer {
+  text-align: center;
+  padding: 15px;
+  background-color: #2a0a49;
+  color: #fff;
+  margin-top: 20px;
+}
+
+.footer-note {
+  margin: 5px 0;
+  font-size: 12px;
+}
+
+/* ----------------------------- */
+/* BOTÓN DE VENDER DUPLICADAS */
+/* ----------------------------- */
+#btn-vender {
+  font-weight: bold;
+}
 
