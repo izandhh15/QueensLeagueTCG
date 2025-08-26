@@ -2,118 +2,67 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Album de Cartas Queens</title>
+  <title>Album Queens</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
- <div id="welcome-screen">
-  <button id="btn-album">Ver Álbum</button>
-  <button id="btn-open">Abrir Sobre</button>
-  <button id="btn-daily">Diario</button>
-  <button id="btn-twitch">Twitch</button>
-  <button id="btn-twitter">X / Twitter</button>
-</div>
-
-    <div class="codigo-recompensa">
-      <input type="text" id="codigo-input" placeholder="Introduce código">
-      <button id="btn-canjear">Canjear</button>
+  <!-- Welcome / Menu Principal -->
+  <div id="welcome-screen" class="screen">
+    <h1>Bienvenido al Album Queens</h1>
+    <div id="monedas-panel">Monedas: 2000</div>
+    <div class="btns">
+      <button id="btn-album">Ver Álbum</button>
+      <button id="btn-open">Abrir Sobre (1000 monedas)</button>
+      <button id="btn-daily">Reclamar Diario</button>
+      <button id="btn-twitch">Reclamar Twitch</button>
+      <button id="btn-twitter">Reclamar X</button>
     </div>
-    <p style="text-align:center;">Disclaimer: Todo es con fines de diversión.</p>
+    <div class="codigo-container">
+      <input type="text" id="codigo-input" placeholder="Introduce tu código">
+      <button id="btn-canjear">Canjear Código</button>
+    </div>
+    <p class="disclaimer">Disclaimer: Hecho con ❤️ por IzanDHH</p>
   </div>
 
-  <div id="album-view" style="display:none;">
-    <h2>Álbum de Cartas</h2>
-    
-    <div id="menu-filtros">
+  <!-- Album -->
+  <div id="album-view" class="screen" style="display:none;">
+    <h2>Álbum</h2>
+    <div class="filtros">
       <button class="filtro-btn" data-categoria="todos">Todos</button>
       <button class="filtro-btn" data-categoria="escudo">Escudos</button>
-      <button class="filtro-btn" data-categoria="escudoqlame">EscudosQLame</button>
+      <button class="filtro-btn" data-categoria="escudoqlame">Escudos QLAME</button>
       <button class="filtro-btn" data-categoria="presidenta">Presidentas/es</button>
-      <button class="filtro-btn" data-categoria="presisqlame">PresisQLame</button>
+      <button class="filtro-btn" data-categoria="presisqlame">Presidentas/es QLAME</button>
       <button class="filtro-btn" data-categoria="supercampeonas">Supercampeonas</button>
     </div>
-
-    <h3>ESCUDOS</h3>
-    <div id="escudos-grid" class="grid"></div>
-
-    <h3>ESCUDOSQLAME</h3>
-    <div id="escudosqlame" class="grid"></div>
-
-    <h3>PRESIDENTAS/ES</h3>
-    <div id="presidentes-grid" class="grid"></div>
-
-    <h3>PRESISQLAME</h3>
-    <div id="presisqlame" class="grid"></div>
-
-    <h3>SUPERCAMPEONAS</h3>
-    <div id="super-grid" class="grid"></div>
-
+    <p id="album-contador"></p>
+    <div id="escudos-grid" class="grid-container"></div>
+    <div id="escudosqlame" class="grid-container"></div>
+    <div id="presidentes-grid" class="grid-container"></div>
+    <div id="presisqlame" class="grid-container"></div>
+    <div id="super-grid" class="grid-container"></div>
     <button id="btn-vender">Vender duplicadas (+100 monedas c/u)</button>
   </div>
 
-  <div id="pack-view" style="display:none;">
-    <div id="last-pack"></div>
-  </div>
-
-<body>
-  <div id="welcome-screen">
-    <button id="btn-album">Ver Álbum</button>
-    <button id="btn-open">Abrir Sobre</button>
-  </div>
-
-  <div id="album-view" style="display:none;">
-    <div id="escudos-grid"></div>
-    <div id="escudosqlame"></div>
-    <div id="presidentes-grid"></div>
-    <div id="presisqlame"></div>
-    <div id="super-grid"></div>
-  </div>
-
-  <div id="pack-view" style="display:none;">
-    <h3>Sobre abierto</h3>
-    <div id="last-pack"></div>
+  <!-- Sobre -->
+  <div id="pack-view" class="screen" style="display:none;">
+    <h2>Sobre</h2>
+    <div id="last-pack" class="grid-container"></div>
   </div>
 
   <!-- Modal -->
-  <div id="modal" style="display:none;">
-    <span id="modal-close">X</span>
-    <img id="modal-img">
+  <div id="modal" class="modal" style="display:none;">
+    <span id="modal-close" class="modal-close">X</span>
+    <img id="modal-img" class="modal-img">
   </div>
 
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      const welcome = document.getElementById("welcome-screen");
-      const albumView = document.getElementById("album-view");
-      const packView = document.getElementById("pack-view");
-
-      document.getElementById("btn-album").addEventListener("click", () => {
-        welcome.style.display = "none";
-        packView.style.display = "none";
-        albumView.style.display = "block";
-      });
-
-      document.getElementById("btn-open").addEventListener("click", () => {
-        welcome.style.display = "none";
-        albumView.style.display = "none";
-        packView.style.display = "block";
-      });
-    });
-  </script>
-</body>
-
-
-  
-  <!-- Modal para ver cartas -->
-  <div id="modal" style="display:none;">
-    <img id="modal-img" src="" alt="Carta">
-    <span id="modal-close">&times;</span>
-  </div>
-
+  <!-- Disclaimer / Footer -->
   <footer>
-    <p style="text-align:center;">Hecho con ❤️ por IzanDHH</p>
+    <p class="disclaimer">Hecho con ❤️ por IzanDHH</p>
   </footer>
 
+  <!-- Script -->
   <script src="app.js"></script>
 </body>
 </html>
+
