@@ -3,68 +3,84 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Álbum Queens</title>
+  <title>Álbum Cromos</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <h1>Álbum Queens</h1>
-  <p id="monedas-panel">Monedas: 0</p>
+  <!-- Panel superior -->
+  <header>
+    <h1>Álbum de Cromos</h1>
+    <div id="monedas-panel">Monedas: 0</div>
+  </header>
 
-  <div id="welcome-screen">
-    <button id="btn-open">Abrir sobre (1000 monedas)</button>
-    <button id="btn-album">Ver álbum</button>
-    <button id="btn-daily">Reclamar diario</button>
-    <button id="btn-twitch">Bonus Twitch</button>
-    <button id="btn-twitter">Bonus X</button>
+  <!-- Pantalla de inicio -->
+  <section id="welcome-screen">
+    <button id="btn-open">Abrir Sobre (1000 monedas)</button>
+    <button id="btn-album">Ver Álbum</button>
 
-    <div id="codigo-container">
-      <input type="text" id="codigo-input" placeholder="Introduce un código">
+    <div class="bonuses">
+      <button id="btn-daily">Reclamo Diario</button>
+      <button id="btn-twitch">Bonus Twitch</button>
+      <button id="btn-twitter">Bonus X</button>
+    </div>
+
+    <div class="canjeo">
+      <input type="text" id="codigo-input" placeholder="Código promocional">
       <button id="btn-canjear">Canjear</button>
     </div>
+  </section>
 
+  <!-- Vista de sobres -->
+  <section id="pack-view" style="display:none;">
+    <h2>Último sobre abierto</h2>
+    <div id="last-pack" class="grid"></div>
+    <button id="btn-album">Ver Álbum</button>
+  </section>
+
+  <!-- Vista de álbum -->
+  <section id="album-view" style="display:none;">
+    <h2>Mi Álbum</h2>
+
+    <!-- Menú de filtros SOLO dentro del álbum -->
     <div id="filtros">
-      <button class="filtro-btn" data-categoria="todos">TODOS</button>
-      <button class="filtro-btn" data-categoria="escudo">ESCUDOS</button>
-      <button class="filtro-btn" data-categoria="escudoqlame">ESCUDOS QLAME</button>
-      <button class="filtro-btn" data-categoria="presidenta">PRESIDENTES/ES</button>
-      <button class="filtro-btn" data-categoria="presisqlame">PRESIDENTES/ES QLAME</button>
-      <button class="filtro-btn" data-categoria="supercampeonas">SUPERCAMPEONAS</button>
+      <button class="filtro-btn" data-categoria="todos">Todos</button>
+      <button class="filtro-btn" data-categoria="escudo">Escudos</button>
+      <button class="filtro-btn" data-categoria="escudoqlame">Escudos Qlame</button>
+      <button class="filtro-btn" data-categoria="presidenta">Presidentes/as</button>
+      <button class="filtro-btn" data-categoria="presisqlame">Presis Qlame</button>
+      <button class="filtro-btn" data-categoria="supercampeonas">Supercampeonas</button>
     </div>
-  </div>
 
-  <div id="pack-view" style="display:none;">
-    <div id="last-pack"></div>
-  </div>
-
-  <div id="album-view" style="display:none;">
-    <h2 class="section-title">ESCUDOS</h2>
+    <h3>Escudos</h3>
     <div id="escudos-grid" class="grid"></div>
 
-    <h2 class="section-title">ESCUDOS QLAME</h2>
+    <h3>Escudos Qlame</h3>
     <div id="escudosqlame" class="grid"></div>
 
-    <h2 class="section-title">PRESIDENTES/ES</h2>
+    <h3>Presidentas/es</h3>
     <div id="presidentes-grid" class="grid"></div>
 
-    <h2 class="section-title">PRESIDENTES/ES QLAME</h2>
+    <h3>Presis Qlame</h3>
     <div id="presisqlame" class="grid"></div>
 
-    <h2 class="section-title">SUPERCAMPEONAS</h2>
+    <h3>Supercampeonas</h3>
     <div id="super-grid" class="grid"></div>
-  </div>
 
-  <div id="modal">
+    <button onclick="document.getElementById('welcome-screen').style.display='block'; document.getElementById('album-view').style.display='none';">Volver</button>
+  </section>
+
+  <!-- Modal para ampliar carta -->
+  <div id="modal" class="modal">
     <span id="modal-close">&times;</span>
-    <img id="modal-img" src="" alt="Carta">
+    <img id="modal-img" src="">
   </div>
 
-  <p style="margin-top:20px; font-size:0.9rem; color:#06ccbd; text-align:center;">
-    Disclaimer: Esta app es solo para entretenimiento.
-  </p>
-  <p style="margin-top:5px; font-size:0.9rem; color:#06ccbd; text-align:center;">
-    Hecho con ❤️ por IzanDHH
-  </p>
+  <!-- Disclaimer -->
+  <footer>
+    <p>⚠️ Este álbum es ficticio. Todos los derechos pertenecen a sus respectivos autores.</p>
+    <p>Hecho con ❤️ por IzanDHH</p>
+  </footer>
 
   <script src="app.js"></script>
 </body>
