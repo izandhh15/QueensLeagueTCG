@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Queens League Oysho - Álbum Virtual</title>
   <meta name="description" content="Álbum virtual de Queens League Oysho — sobres, cromos y bonos" />
-  <link rel="icon" href="https://queensleague.pro/favicon.ico" />
   <style>
     :root{
       --bg: #2a0a49;
@@ -13,12 +12,10 @@
       --accent-text: #2a0a49;
       --card-bg: #e5e7eb;
       --white: #ffffff;
-      --danger: #e11d48;
       --shadow-accent: rgba(6,204,189,0.18);
       --max-width: 1000px;
       --radius: 12px;
       --transition: 200ms ease;
-      --header-height: 68px;
     }
     *{box-sizing:border-box}
     html,body{height:100%}
@@ -27,392 +24,77 @@
       font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
       background: var(--bg);
       color: var(--white);
-      -webkit-font-smoothing:antialiased;
-      -moz-osx-font-smoothing:grayscale;
-      line-height:1.4;
-      -webkit-tap-highlight-color: transparent;
     }
-
-    /* HEADER */
     header {
       display:flex;
       align-items:center;
       justify-content:space-between;
-      gap:1rem;
       padding: 0.8rem 1.25rem;
       background: var(--bg);
       border-bottom: 2px solid var(--accent);
-      box-shadow: 0 3px 12px var(--shadow-accent);
       position: sticky;
       top: 0;
       z-index: 50;
-      height: var(--header-height);
     }
-
-    .logo {
-      font-size: 1.25rem;
-      font-weight: 700;
-      color: var(--accent);
-      letter-spacing: 0.4px;
-      cursor: pointer;
-      user-select: none;
-    }
-
-    .redes {
-      display:flex;
-      gap:0.6rem;
-      align-items:center;
-      margin-left: 0.25rem;
-    }
-
-    .redes a {
-      color: var(--accent);
-      text-decoration:none;
-      padding: 0.2rem 0.45rem;
-      border-radius:8px;
-      font-weight:600;
-      transition: background var(--transition), color var(--transition), transform var(--transition);
-      font-size:0.92rem;
-    }
-
-    .redes a:hover,
-    .redes a:focus {
-      background: var(--accent);
-      color: var(--accent-text);
-      transform: translateY(-1px);
-      outline: none;
-    }
-
-    #monedas-panel {
-      background: var(--accent);
-      color: var(--accent-text);
-      padding: .32rem .75rem;
-      border-radius: 10px;
-      font-weight:700;
-      box-shadow: 0 6px 20px var(--shadow-accent);
-      cursor: pointer;
-      border: 2px solid var(--accent-text);
-      transition: transform var(--transition), box-shadow var(--transition);
-      white-space: nowrap;
-    }
-
-    #monedas-panel:active { transform: translateY(1px) }
-    #monedas-panel:focus { outline: 3px solid rgba(6,204,189,0.18); }
-
-    /* nav menu (always visible) */
-    .main-menu {
-      display:flex;
-      gap:0.5rem;
-      align-items:center;
-    }
-    .main-menu button {
-      background: transparent;
-      color: var(--white);
-      border: 2px solid rgba(255,255,255,0.06);
-      padding: .45rem .75rem;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight:700;
-      transition: background var(--transition), color var(--transition), transform var(--transition);
-      font-size:0.92rem;
-    }
-    .main-menu button:hover, .main-menu button:focus {
-      background: var(--accent);
-      color: var(--accent-text);
-      transform: translateY(-2px);
-      outline: none;
-    }
-
-    /* MAIN CONTENT - removed large fixed min-height to avoid blank gap */
-    #main-content{
-      max-width: var(--max-width);
-      margin: 1rem auto;
-      padding: 1rem;
-      background: var(--white);
-      color: var(--accent-text);
-      border-radius: var(--radius);
-      box-shadow: 0 10px 30px rgba(6,204,189,0.06);
-      min-height: 0;
-      display:block;
-      align-items: flex-start;
-      overflow: visible;
-    }
-
-    /* Menu principal aligned to top */
-    .menu-principal {
-      display:flex;
-      flex-direction:column;
-      gap:0.9rem;
-      align-items:flex-start;
-      padding: 0.25rem;
-    }
-
-    .menu-principal .actions {
-      display:flex;
-      gap:0.6rem;
-      flex-wrap:wrap;
-      justify-content:flex-start;
-    }
-
-    .login-btn {
-      background: var(--accent);
-      color: var(--accent-text);
-      border: none;
-      padding: .6rem .9rem;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight:700;
-    }
-
-    .filtro-categoria {
-      display:inline-block;
-      padding: .45rem .8rem;
-      border-radius:8px;
-      border:2px solid var(--accent);
-      background: var(--white);
-      color: var(--accent-text);
-      font-weight:700;
-    }
-
-    .album-grid, .sobre-grid, .packs-grid {
-      display:grid;
-      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-      gap:1rem;
-      margin-top:1rem;
-    }
-
-    .cromo {
-      background: var(--card-bg);
-      border-radius: 10px;
-      padding: .5rem;
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      justify-content:flex-start;
-      position:relative;
-      box-shadow: 0 6px 16px rgba(6,204,189,0.06);
-      overflow:visible;
-      min-height: 140px;
-    }
-
-    .cromo img {
-      width:100px;
-      height:140px;
-      object-fit:cover;
-      border-radius:8px;
-      border: 3px solid var(--accent);
-      background: var(--white);
-      cursor:pointer;
-      transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
-    }
-
-    .pack {
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      height:140px;
-      border-radius:12px;
-      background: linear-gradient(180deg,#350a54,#2a0a49);
-      color:var(--accent);
-      font-weight:800;
-      cursor:pointer;
-      border: 3px solid rgba(6,204,189,0.08);
-      box-shadow: 0 10px 28px rgba(6,204,189,0.06);
-    }
-    .pack.opened { opacity: 0.6; transform: scale(.98); cursor: default; }
-
-    .duplicadas {
-      position:absolute;
-      top:8px;
-      right:10px;
-      background: var(--accent);
-      color: var(--accent-text);
-      padding:6px 10px;
-      border-radius:999px;
-      font-weight:800;
-      border:2px solid var(--accent-text);
-      box-shadow: 0 6px 18px rgba(6,204,189,0.12);
-    }
-
-    .btn-vender {
-      position:absolute;
-      bottom:8px;
-      right:8px;
-      background: var(--accent);
-      color: var(--accent-text);
-      border: none;
-      padding:6px 10px;
-      border-radius:8px;
-      font-weight:700;
-      cursor:pointer;
-      transition: background var(--transition), transform var(--transition);
-    }
-
-    .progreso-album {
-      text-align:left;
-      font-weight:800;
-      color: var(--accent);
-      margin-bottom: .6rem;
-    }
-
-    /* modals hidden by default shouldn't affect layout */
-    #modal, #modal-cards {
-      position: fixed;
-      inset: 0;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      background: rgba(42,10,73,0.78);
-      z-index: 1200;
-      padding: 1rem;
-      pointer-events: none;
-    }
-
-    #modal[style*="display: flex"], #modal-cards[style*="display: flex"] {
-      display: flex !important;
-      pointer-events: auto;
-    }
-
-    #modal img, #modal-cards img {
-      max-width: 92vw;
-      max-height: 80vh;
-      border-radius: 14px;
-      border: 6px solid var(--white);
-      box-shadow: 0 18px 48px rgba(6,204,189,0.18);
-      background: var(--white);
-      display:block;
-    }
-
-    #modal-close, #modal-cards-close {
-      position: absolute;
-      top: 20px;
-      right: 28px;
-      font-size: 2.2rem;
-      color: var(--accent);
-      background:none;
-      border: none;
-      cursor: pointer;
-    }
-
-    #modal-info, #modal-cards-info {
-      margin-top: .9rem;
-      background: var(--white);
-      color: var(--accent-text);
-      padding: .8rem 1.2rem;
-      border-radius: 10px;
-    }
-
-    #notificacion {
-      position: fixed;
-      top: 28px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: var(--accent);
-      color: var(--accent-text);
-      padding: 10px 20px;
-      border-radius: 12px;
-      font-weight:800;
-      box-shadow: 0 10px 30px rgba(6,204,189,0.12);
-      z-index: 2000;
-      display:none;
-    }
-
-    footer {
-      margin-top: 1rem;
-    }
-
-    .footer-content {
-      display:flex;
-      justify-content:center;
-      gap: 0.6rem;
-      align-items:center;
-      padding: 0.9rem 1rem;
-      color: var(--accent);
-      background: var(--bg);
-      border-top: 1px solid rgba(6,204,189,0.06);
-      border-radius: 6px;
-    }
-
-    :focus { outline-offset: 3px; }
-    button:focus, a:focus, input:focus { box-shadow: 0 0 0 4px rgba(6,204,189,0.12); }
-
-    @media (max-width: 900px) {
-      header { padding: 0.6rem 0.8rem; height: auto; }
-      .logo { font-size:1.1rem; }
-      #main-content { margin: 0.8rem; padding: 0.9rem; }
-      .album-grid, .sobre-grid, .packs-grid { grid-template-columns: repeat(auto-fit, minmax(90px, 1fr)); gap:0.7rem; }
-      .cromo { min-height: 120px; }
-      .cromo img { width: 86px; height:120px; }
-    }
-
-    @media (max-width: 420px) {
-      .redes { display:none; }
-      .main-menu { display:flex; gap:4px; flex-wrap:wrap; }
-    }
+    .logo { color:var(--accent); font-weight:700; cursor:pointer; }
+    .main-menu { display:flex; gap:0.5rem; }
+    .main-menu button { background:transparent; color:#fff; border:2px solid rgba(255,255,255,0.06); padding:.4rem .7rem; border-radius:8px; cursor:pointer; }
+    .main-menu button:hover { background:var(--accent); color:var(--accent-text); }
+    #main-content{ max-width:var(--max-width); margin:1rem auto; padding:1rem; background:#fff; color:var(--accent-text); border-radius:12px; box-shadow:0 10px 30px rgba(6,204,189,0.06); min-height:0; }
+    .menu-principal { display:flex; flex-direction:column; gap:.8rem; align-items:flex-start; }
+    .login-btn { background:var(--accent); color:var(--accent-text); border:none; padding:.6rem .9rem; border-radius:8px; cursor:pointer; }
+    .album-grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap:1rem; margin-top:1rem; }
+    .cromo { background:var(--card-bg); border-radius:10px; padding:.5rem; display:flex; align-items:center; justify-content:center; position:relative; min-height:140px; }
+    .cromo img { width:100px; height:140px; object-fit:cover; border-radius:8px; border:3px solid var(--accent); cursor:pointer; }
+    .duplicadas { position:absolute; top:8px; right:10px; background:var(--accent); color:var(--accent-text); padding:6px 10px; border-radius:999px; font-weight:800; }
+    .btn-vender { position:absolute; bottom:8px; right:8px; background:var(--accent); color:var(--accent-text); border:none; padding:6px 10px; border-radius:8px; cursor:pointer; }
+    .progreso-album { text-align:left; font-weight:800; color:var(--accent); margin-bottom:.6rem; }
+    #modal, #modal-cards { position:fixed; inset:0; display:none; align-items:center; justify-content:center; background:rgba(42,10,73,0.78); z-index:1200; padding:1rem; }
+    #modal img, #modal-cards img { max-width:92vw; max-height:80vh; border-radius:14px; border:6px solid #fff; }
+    #modal-close, #modal-cards-close { position:absolute; top:20px; right:28px; font-size:2.2rem; color:var(--accent); background:none; border:none; cursor:pointer; }
+    #notificacion { position:fixed; top:28px; left:50%; transform:translateX(-50%); background:var(--accent); color:var(--accent-text); padding:10px 20px; border-radius:12px; display:none; z-index:2000; }
+    @media (max-width:900px) { .cromo img{ width:86px; height:120px } }
   </style>
 </head>
 <body>
   <header>
-    <div style="display:flex; align-items:center; gap:0.9rem;">
+    <div style="display:flex; gap:1rem; align-items:center;">
       <div class="logo" id="logo">Álbum Queens League Oysho</div>
-      <nav class="redes" aria-label="Redes">
-        <a href="https://queensleague.pro" target="_blank" rel="noopener">Web</a>
-        <a href="https://x.com/QueensLeague" target="_blank" rel="noopener">X</a>
-        <a href="https://instagram.com/QueensLeague" target="_blank" rel="noopener">Instagram</a>
-        <a href="https://tiktok.com/@QueensLeague" target="_blank" rel="noopener">TikTok</a>
-      </nav>
     </div>
-
-    <div style="display:flex; align-items:center; gap:0.8rem;">
-      <div id="monedas-panel" role="status" aria-live="polite">Monedas: 0</div>
-      <div class="main-menu" id="main-menu">
+    <div style="display:flex; gap:0.7rem; align-items:center;">
+      <div id="monedas-panel">Monedas: 0</div>
+      <nav class="main-menu" id="main-menu">
         <button id="btn-sobres">Abrir Sobre</button>
         <button id="btn-album">Ver Mi Álbum</button>
         <button id="btn-daily">Bonus Diario</button>
         <button id="btn-twitter">Bonus X</button>
         <button id="btn-twitch">Bonus Twitch</button>
-      </div>
+      </nav>
     </div>
   </header>
 
-  <main id="main-content" role="main" tabindex="-1">
-    <!-- Contenido dinámico -->
-  </main>
+  <main id="main-content" role="main" tabindex="-1"></main>
 
-  <!-- Modal imagen -->
-  <div id="modal" aria-hidden="true" role="dialog" aria-modal="true">
-    <button id="modal-close" aria-label="Cerrar modal">&times;</button>
+  <div id="modal" aria-hidden="true" role="dialog">
+    <button id="modal-close">&times;</button>
     <img id="modal-img" src="" alt="Cromo ampliado" />
-    <div id="modal-info" aria-live="polite"></div>
+    <div id="modal-info"></div>
   </div>
 
-  <!-- Modal de cartas de pack -->
-  <div id="modal-cards" aria-hidden="true" role="dialog" aria-modal="true">
-    <button id="modal-cards-close" aria-label="Cerrar modal">&times;</button>
-    <div id="modal-cards-container" style="max-width:95vw; width:920px; background:var(--white); padding:1rem; border-radius:12px; text-align:center;">
-      <h3 style="margin-top:0; color:var(--accent);">Cartas del sobre</h3>
+  <div id="modal-cards" aria-hidden="true" role="dialog">
+    <button id="modal-cards-close">&times;</button>
+    <div style="max-width:95vw; width:920px; background:#fff; padding:1rem; border-radius:12px; text-align:center;">
+      <h3 style="color:var(--accent)">Cartas del sobre</h3>
       <div id="modal-cards-grid" class="album-grid" style="margin-top:1rem;"></div>
-      <div id="modal-cards-info" style="margin-top:1rem; color:var(--accent-text);"></div>
+      <div id="modal-cards-info" style="margin-top:1rem;"></div>
     </div>
   </div>
 
-  <div id="notificacion" style="display:none" role="status" aria-live="assertive"></div>
-
-  <footer>
-    <div class="footer-content">
-      <span>Queens League Oysho &copy; 2025 · Álbum virtual</span>
-      <span>|</span>
-      <a href="https://github.com/izandhh15" target="_blank" rel="noopener">Github izandhh15</a>
-    </div>
-  </footer>
+  <div id="notificacion" role="status" aria-live="polite"></div>
 
   <script>
     document.addEventListener("DOMContentLoaded", () => {
-      // --- Lista de cartas ---
-      // id: debe ser único
-      // nombre: texto que se mostrará
-      // tipo: "escudo", "presidenta", "supercampeonas", etc.
-      // imagen: URL de la imagen de la carta
+      // --- Lista de cartas (tal como me pasaste) ---
       const CARDS = [
         { id:1,nombre:"Escudo 1K",tipo:"escudo",imagen:"https://i.ibb.co/CpJ3c7B8/01-Escudo1-K.png"},
         { id:2,nombre:"Escudo Aniquiladoras FC",tipo:"escudo",imagen:"https://i.ibb.co/N2hVWpqv/02-Escudo-Aniquiladoras.png"},
@@ -478,8 +160,8 @@
         { id:36,nombre:"Paula Blas",tipo:"supercampeonas",imagen:"https://i.ibb.co/cKjf90R8/36-SUPERCAMPEONAS-Paula-Blas.png"}
       ];
 
-      // Cada sobre dará siempre estas 5 cartas (siempre lo mismo)
-      const PACK_CONTENT = [1,2,3,4,5];
+      const REVERSO = "https://i.ibb.co/F443KZqx/00-REVERSO.png";
+      const PACK_CONTENT = [1,2,3,4,5]; // siempre lo mismo según petición
 
       // DOM refs
       const monedasPanel = document.getElementById("monedas-panel");
@@ -494,34 +176,31 @@
       const modalCardsGrid = document.getElementById("modal-cards-grid");
       const modalCardsInfo = document.getElementById("modal-cards-info");
 
-      // botones menu
       const btnSobres = document.getElementById("btn-sobres");
       const btnAlbum = document.getElementById("btn-album");
       const btnDaily = document.getElementById("btn-daily");
       const btnTwitter = document.getElementById("btn-twitter");
       const btnTwitch = document.getElementById("btn-twitch");
 
-      // Estado en localStorage
+      // state in localStorage
       let monedas = parseInt(localStorage.getItem("monedas_queens")) || 2000;
-      let album = JSON.parse(localStorage.getItem("album_queens")) || {}; // album[id] = cantidad
-      let claimedDaily = JSON.parse(localStorage.getItem("bonus_daily_claimed")) || false;
+      let album = JSON.parse(localStorage.getItem("album_queens")) || {}; // album[id] = qty
       let claimedTwitter = JSON.parse(localStorage.getItem("bonus_twitter_claimed")) || false;
       let claimedTwitch = JSON.parse(localStorage.getItem("bonus_twitch_claimed")) || false;
 
-      // ---- Utilidades ----
-      function saveState() {
-        localStorage.setItem("monedas_queens", monedas);
-        localStorage.setItem("album_queens", JSON.stringify(album));
-        localStorage.setItem("bonus_daily_claimed", JSON.stringify(claimedDaily));
-        localStorage.setItem("bonus_twitter_claimed", JSON.stringify(claimedTwitter));
-        localStorage.setItem("bonus_twitch_claimed", JSON.stringify(claimedTwitch));
-      }
-
-      function showNotificacion(msg, timeout = 2500) {
+      // show notifications
+      function showNotificacion(msg, timeout = 2200) {
         if (!notificacion) return;
         notificacion.textContent = msg;
         notificacion.style.display = "block";
-        setTimeout(() => { notificacion.style.display = "none"; }, timeout);
+        setTimeout(() => notificacion.style.display = "none", timeout);
+      }
+
+      function saveState() {
+        localStorage.setItem("monedas_queens", String(monedas));
+        localStorage.setItem("album_queens", JSON.stringify(album));
+        localStorage.setItem("bonus_twitter_claimed", JSON.stringify(claimedTwitter));
+        localStorage.setItem("bonus_twitch_claimed", JSON.stringify(claimedTwitch));
       }
 
       function updateMonedas() {
@@ -529,43 +208,38 @@
         saveState();
       }
 
-      // modal image
-      modalClose && modalClose.addEventListener("click", () => modal.style.display = "none");
-      modal && modal.addEventListener("click", e => { if (e.target === modal) modal.style.display = "none"; });
+      // Make modal closeable
+      if (modalClose) modalClose.addEventListener("click", () => modal.style.display = "none");
+      if (modal) modal.addEventListener("click", e => { if (e.target === modal) modal.style.display = "none"; });
+      if (modalCardsClose) modalCardsClose.addEventListener("click", () => modalCards.style.display = "none");
+      if (modalCards) modalCards.addEventListener("click", e => { if (e.target === modalCards) modalCards.style.display = "none"; });
 
-      // modal cards
-      modalCardsClose && modalCardsClose.addEventListener("click", () => modalCards.style.display = "none");
-      modalCards && modalCards.addEventListener("click", e => { if (e.target === modalCards) modalCards.style.display = "none"; });
+      // ---------- VIEWS ----------
 
-      // ---- Views ----
-
+      // Menu principal
       function renderMenu() {
         mainContent.innerHTML = `
           <div class="menu-principal">
-            <h2 style="margin:0 0 .2rem 0;">Bienvenido al Álbum Virtual</h2>
-            <p style="margin:0 0 .6rem 0; color:#444">Usa el menú superior o los botones de abajo para navegar.</p>
-            <div class="actions">
+            <h2 style="margin:0 0 .3rem 0;">Bienvenido al Álbum Virtual</h2>
+            <p style="margin:0 0 .6rem 0; color:#444">Usa el menú superior para navegar. "Ver Mi Álbum" muestra todas las cartas (las no obtenidas salen con reverso).</p>
+            <div class="actions" style="display:flex; gap:.5rem; margin-top:.6rem;">
               <button id="menu-open-packs" class="login-btn">Abrir Sobre (ir a página de sobres)</button>
               <button id="menu-view-album" class="login-btn">Ver Mi Álbum</button>
               <button id="menu-daily" class="login-btn">Bonus Diario</button>
-              <button id="menu-twitter" class="login-btn">Bonus por seguir en X</button>
-              <button id="menu-twitch" class="login-btn">Bonus por seguir en Twitch</button>
             </div>
-            <p style="margin-top:0.8rem; color:var(--accent); font-weight:700;">Consejo: en "Abrir Sobre" verás 5 sobres. Cada sobre siempre contiene las mismas 5 cartas.</p>
           </div>
         `;
         document.getElementById("menu-open-packs")?.addEventListener("click", () => renderPacksPage());
         document.getElementById("menu-view-album")?.addEventListener("click", () => renderAlbumPage());
         document.getElementById("menu-daily")?.addEventListener("click", () => handleDailyBonus());
-        document.getElementById("menu-twitter")?.addEventListener("click", () => handleTwitterBonus());
-        document.getElementById("menu-twitch")?.addEventListener("click", () => handleTwitchBonus());
       }
 
+      // Packs page
       function renderPacksPage() {
         mainContent.innerHTML = `
           <h2 style="margin:0 0 .4rem 0;">Abrir Sobres</h2>
-          <p style="margin:0 0 .6rem 0;">Hay 5 sobres disponibles. Cada sobre contiene siempre las mismas 5 cartas.</p>
-          <div style="display:flex; gap:12px; margin-top:8px; justify-content:flex-end;">
+          <p style="margin:0 0 .6rem 0;">Pulsa un sobre para abrirlo. Cada sobre contiene siempre las mismas 5 cartas.</p>
+          <div style="display:flex; gap:12px; justify-content:flex-end;">
             <button id="open-all" class="login-btn">Abrir todos los sobres</button>
             <button id="back-menu" class="login-btn" style="background:transparent; color:var(--accent); border:2px solid var(--accent);">Volver al menú</button>
           </div>
@@ -583,8 +257,8 @@
           div.addEventListener("click", () => openSinglePack(div));
           packsGrid.appendChild(div);
         }
-        document.getElementById("open-all")?.addEventListener("click", () => openAllPacks());
-        document.getElementById("back-menu")?.addEventListener("click", () => renderMenu());
+        document.getElementById("open-all")?.addEventListener("click", openAllPacks);
+        document.getElementById("back-menu")?.addEventListener("click", renderMenu);
       }
 
       function openSinglePack(packDiv) {
@@ -593,7 +267,7 @@
           return;
         }
         packDiv.classList.add("opened");
-        PACK_CONTENT.forEach(id => { album[id] = (album[id] || 0) + 1; });
+        PACK_CONTENT.forEach(id => album[id] = (album[id] || 0) + 1);
         saveState();
         showPackCardsModal("Has abierto el sobre y recibiste:");
       }
@@ -604,14 +278,11 @@
         packDivs.forEach(div => {
           if (!div.classList.contains("opened")) {
             div.classList.add("opened");
-            PACK_CONTENT.forEach(id => { album[id] = (album[id] || 0) + 1; });
+            PACK_CONTENT.forEach(id => album[id] = (album[id] || 0) + 1);
             countOpened++;
           }
         });
-        if (countOpened === 0) {
-          showNotificacion("Ya abriste todos los sobres.");
-          return;
-        }
+        if (countOpened === 0) { showNotificacion("Ya abriste todos los sobres."); return; }
         saveState();
         showPackCardsModal(`Has abierto ${countOpened} sobres. Cada sobre trae las mismas cartas:`);
       }
@@ -629,23 +300,46 @@
         modalCards.style.display = "flex";
       }
 
+      // Album page
+      // Novedad: boton toggle para "mostrar solo obtenidas / mostrar todas"
+      let showOnlyObtained = false;
       function renderAlbumPage() {
         mainContent.innerHTML = `
           <h2 style="margin:0 0 .4rem 0;">Mi Álbum</h2>
-          <p style="margin:0 0 .6rem 0;">Tu colección personal de cromos. Haz clic en un cromo para verlo en grande.</p>
-          <p class="progreso-album" id="progreso"></p>
+          <div style="display:flex; gap:.6rem; align-items:center; margin-bottom:.6rem;">
+            <p class="progreso-album" id="progreso" style="margin:0"></p>
+            <button id="toggle-show" class="login-btn" style="margin-left:auto; padding:.4rem .7rem; font-size:.9rem;">Mostrar solo obtenidas</button>
+            <button id="back-menu-2" class="login-btn" style="background:transparent; color:var(--accent); border:2px solid var(--accent);">Volver</button>
+          </div>
           <div class="album-grid" id="album-grid"></div>
           <p style="margin-top:12px; color:var(--accent); font-weight:700;">Puedes vender duplicadas (cada duplicada = 100 monedas)</p>
         `;
+
+        document.getElementById("toggle-show")?.addEventListener("click", () => {
+          showOnlyObtained = !showOnlyObtained;
+          document.getElementById("toggle-show").textContent = showOnlyObtained ? "Mostrar todas" : "Mostrar solo obtenidas";
+          renderAlbumPage(); // re-render
+        });
+        document.getElementById("back-menu-2")?.addEventListener("click", renderMenu);
+
         const albumGrid = document.getElementById("album-grid");
         const total = CARDS.length;
         const obtained = CARDS.filter(c => album[c.id]).length;
         document.getElementById("progreso").textContent = `Cartas obtenidas: ${obtained} / ${total}`;
 
-        CARDS.sort((a,b) => a.id - b.id).forEach(card => {
+        // Decide qué cartas mostrar
+        const cardsToShow = showOnlyObtained ? CARDS.filter(c => album[c.id]) : CARDS.slice().sort((a,b) => a.id - b.id);
+
+        if (cardsToShow.length === 0) {
+          albumGrid.innerHTML = `<div style="padding:1rem; color:#666">Aún no tienes cartas. Ve a "Abrir Sobre" para conseguirlas.</div>`;
+          return;
+        }
+
+        cardsToShow.forEach(card => {
           const div = document.createElement("div");
           div.className = "cromo";
           const img = document.createElement("img");
+          // Si no lo tienes, mostramos reverso; si lo tienes, imagen real
           img.src = album[card.id] ? card.imagen : REVERSO;
           img.alt = card.nombre;
           img.addEventListener("click", () => {
@@ -654,18 +348,20 @@
               modalImg.src = card.imagen;
               modalInfo.textContent = `Nombre: ${card.nombre} · Copias: ${album[card.id]}`;
             } else {
-              showNotificacion("Aún no tienes este cromo.");
+              // Si no tienes la carta, mostramos información ligera
+              modal.style.display = "flex";
+              modalImg.src = card.imagen;
+              modalInfo.textContent = `Aún no tienes "${card.nombre}".`;
             }
           });
           div.appendChild(img);
+
+          // duplicadas y vender
           if (album[card.id] && album[card.id] > 1) {
             const dup = document.createElement("span"); dup.className = "duplicadas"; dup.textContent = album[card.id];
             div.appendChild(dup);
             const btn = document.createElement("button"); btn.className = "btn-vender"; btn.textContent = "Vender";
-            btn.addEventListener("click", (e) => {
-              e.stopPropagation();
-              sellDuplicates(card.id);
-            });
+            btn.addEventListener("click", (e) => { e.stopPropagation(); sellDuplicates(card.id); });
             div.appendChild(btn);
           }
           albumGrid.appendChild(div);
@@ -674,16 +370,12 @@
 
       function sellDuplicates(cardId) {
         const qty = album[cardId] || 0;
-        if (qty <= 1) {
-          showNotificacion("No tienes duplicadas para vender.");
-          return;
-        }
+        if (qty <= 1) { showNotificacion("No tienes duplicadas para vender."); return; }
         const duplicates = qty - 1;
         const gained = duplicates * 100;
         monedas += gained;
         album[cardId] = 1;
-        saveState();
-        updateMonedas();
+        saveState(); updateMonedas();
         showNotificacion(`Vendiste ${duplicates} duplicadas y ganaste ${gained} monedas`);
         renderAlbumPage();
       }
@@ -696,60 +388,45 @@
         if (!last || now - last > oneDay) {
           monedas += 2000;
           localStorage.setItem("bonus_daily_last", String(now));
-          claimedDaily = true;
-          saveState();
-          updateMonedas();
-          showNotificacion("Bonus diario reclamado: +2000 monedas 🎉");
+          saveState(); updateMonedas();
+          showNotificacion("Bonus diario: +2000 monedas");
         } else {
           showNotificacion("Ya reclamaste el bonus diario en las últimas 24h.");
         }
       }
-
       function handleTwitterBonus() {
-        const url = "https://x.com/izandhh";
-        window.open(url, "_blank", "noopener");
-        if (claimedTwitter) {
-          showNotificacion("Bonus por X ya reclamado.");
-          return;
-        }
-        claimedTwitter = true;
-        monedas += 1500;
-        saveState();
-        updateMonedas();
-        showNotificacion("Bonus por seguir en X reclamado: +1500 monedas");
+        window.open("https://x.com/izandhh", "_blank", "noopener");
+        if (claimedTwitter) { showNotificacion("Bonus X ya reclamado."); return; }
+        claimedTwitter = true; monedas += 1500; saveState(); updateMonedas();
+        showNotificacion("Bonus por seguir en X: +1500 monedas");
       }
-
       function handleTwitchBonus() {
-        const url = "https://twitch.tv/izandhh";
-        window.open(url, "_blank", "noopener");
-        if (claimedTwitch) {
-          showNotificacion("Bonus por Twitch ya reclamado.");
-          return;
-        }
-        claimedTwitch = true;
-        monedas += 1500;
-        saveState();
-        updateMonedas();
-        showNotificacion("Bonus por seguir en Twitch reclamado: +1500 monedas");
+        window.open("https://twitch.tv/izandhh", "_blank", "noopener");
+        if (claimedTwitch) { showNotificacion("Bonus Twitch ya reclamado."); return; }
+        claimedTwitch = true; monedas += 1500; saveState(); updateMonedas();
+        showNotificacion("Bonus por seguir en Twitch: +1500 monedas");
       }
 
-      // Header buttons
-      btnSobres && btnSobres.addEventListener("click", () => renderPacksPage());
-      btnAlbum && btnAlbum.addEventListener("click", () => renderAlbumPage());
-      btnDaily && btnDaily.addEventListener("click", () => handleDailyBonus());
-      btnTwitter && btnTwitter.addEventListener("click", () => handleTwitterBonus());
-      btnTwitch && btnTwitch.addEventListener("click", () => handleTwitchBonus());
+      // Wire header buttons
+      btnSobres && btnSobres.addEventListener("click", renderPacksPage);
+      btnAlbum && btnAlbum.addEventListener("click", renderAlbumPage);
+      btnDaily && btnDaily.addEventListener("click", handleDailyBonus);
+      btnTwitter && btnTwitter.addEventListener("click", handleTwitterBonus);
+      btnTwitch && btnTwitch.addEventListener("click", handleTwitchBonus);
 
-      // Init view and state
+      // Inicialización: aseguramos que el álbum se pueda ver (aunque no tengas cartas)
       updateMonedas();
       renderMenu();
 
-      // Expose functions for debugging if needed
-      window.renderMenu = renderMenu;
-      window.renderPacksPage = renderPacksPage;
-      window.renderAlbumPage = renderAlbumPage;
+      // DEBUG: imprime en consola algunas pistas para ayudar si algo falla
+      console.log("CARDS total:", CARDS.length);
+      console.log("Album object keys:", Object.keys(album).length ? Object.entries(album).slice(0,10) : "(vacío)");
+      console.log("App inicializada. Usa 'Ver Mi Álbum' para ver la colección (se mostrarán las cartas incluso si no las tienes).");
 
-      console.log("App sin login inicializada con todas las cartas.");
+      // expose for console debugging
+      window.renderAlbumPage = renderAlbumPage;
+      window.renderPacksPage = renderPacksPage;
+      window.CARDS = CARDS;
     });
   </script>
 </body>
