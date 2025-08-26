@@ -1,98 +1,79 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Queens League Oysho - Álbum Virtual</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="styles.css">
-  <!-- Ícono opcional -->
-  <link rel="icon" href="https://queensleague.pro/favicon.ico">
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="icon" href="https://queensleague.pro/favicon.ico" />
+  <meta name="description" content="Álbum virtual de Queens League Oysho — sobres, cromos y login con Discord/Google (simulado)" />
 </head>
 <body>
   <header>
-    <div class="logo" onclick="location.reload()">Álbum Queens League Oysho</div>
-    <div class="redes">
-      <a href="https://queensleague.pro" target="_blank">Web</a>
-      <a href="https://x.com/QueensLeague" target="_blank">X</a>
-      <a href="https://instagram.com/QueensLeague" target="_blank">Instagram</a>
-      <a href="https://tiktok.com/@QueensLeague" target="_blank">TikTok</a>
+    <div class="logo" title="Recargar" onclick="location.reload()">Álbum Queens League Oysho</div>
+
+    <nav class="redes" aria-label="Redes">
+      <a href="https://queensleague.pro" target="_blank" rel="noopener">Web</a>
+      <a href="https://x.com/QueensLeague" target="_blank" rel="noopener">X</a>
+      <a href="https://instagram.com/QueensLeague" target="_blank" rel="noopener">Instagram</a>
+      <a href="https://tiktok.com/@QueensLeague" target="_blank" rel="noopener">TikTok</a>
+    </nav>
+
+    <div style="display:flex; align-items:center; gap:1rem;">
+      <div id="monedas-panel" role="status" aria-live="polite">Monedas: 2000</div>
+      <div id="user-panel" aria-live="polite"></div>
     </div>
-    <div id="monedas-panel">Monedas: 2000</div>
-    <div id="user-panel"></div>
   </header>
-  
-  <div id="main-content">
-    <!-- Aquí va el menú principal y el contenido dinámico -->
+
+  <main id="main-content" role="main" tabindex="-1">
+    <!-- El contenido dinámico (menú, álbum, sobres, etc.) se renderiza desde files/app.js -->
+  </main>
+
+  <!-- Modal para ver cromo ampliado -->
+  <div id="modal" aria-hidden="true" role="dialog" aria-modal="true">
+    <button id="modal-close" aria-label="Cerrar modal">&times;</button>
+    <img id="modal-img" src="" alt="Cromo ampliado" />
+    <div id="modal-info" aria-live="polite"></div>
   </div>
-  
-  <!-- Modal para imágenes ampliadas -->
-  <div id="modal">
-    <button id="modal-close" title="Cerrar">&times;</button>
-    <img id="modal-img" src="" alt="Cromo ampliado">
-    <div id="modal-info"></div>
-  </div>
-  
-  <!-- Modal login (opcional si quieres login popup) -->
-  <div id="login-modal" style="display:none;">
+
+  <!-- Modal de login opcional (se muestra desde CSS/JS si se usa) -->
+  <div id="login-modal" style="display:none;" role="dialog" aria-modal="true">
     <div class="login-modal-content">
       <h2>Iniciar sesión</h2>
-      <button class="login-btn" onclick="loginDiscord()">Discord</button>
-      <button class="login-btn" onclick="loginGoogle()">Google</button>
-      <button class="login-btn" onclick="closeLoginModal()">Cancelar</button>
+      <p>Usa Discord o Google para entrar (simulado en frontend)</p>
+      <div style="display:flex; gap:0.6rem; justify-content:center; margin-top:0.7rem;">
+        <button class="login-btn" onclick="loginDiscord()">Discord</button>
+        <button class="login-btn" onclick="loginGoogle()">Google</button>
+      </div>
+      <div style="margin-top:0.8rem;">
+        <button class="login-btn" onclick="document.getElementById('login-modal').style.display='none'">Cerrar</button>
+      </div>
     </div>
   </div>
-  
-  <!-- Notificaciones (ejemplo para avisos de monedas, logros, etc) -->
-  <div id="notificacion" style="display:none;"></div>
-  
-  <!-- Footer opcional -->
+
+  <!-- Notificación flotante -->
+  <div id="notificacion" style="display:none" role="status" aria-live="assertive"></div>
+
   <footer>
     <div class="footer-content">
-      <span>Queens League Oysho &copy; 2025 · Proyecto virtual</span>
+      <span>Queens League Oysho &copy; 2025 · Álbum virtual</span>
       <span>|</span>
-      <a href="https://github.com/izandhh15" target="_blank">Github izandhh15</a>
+      <a href="https://github.com/izandhh15" target="_blank" rel="noopener">Github izandhh15</a>
     </div>
   </footer>
-  
-  <!-- Scripts -->
+
+  <!-- Script principal (colocado al final para asegurar que el DOM ya existe) -->
   <script src="files/app.js"></script>
+  <noscript>
+    <div style="padding:1rem; background:#ffefc2; color:#2a0a49; text-align:center;">
+      Esta aplicación necesita JavaScript para funcionar. Activa JavaScript y recarga la página.
+    </div>
+  </noscript>
+
+  <!-- Pequeño script de inicialización opcional: asegura que el panel de usuario se renderice si app.js ya lo expuso -->
   <script>
-    // Para que el panel de usuario se actualice al cargar
     if (window.renderUserPanel) window.renderUserPanel();
-    // Puedes añadir funciones de inicialización aquí si las necesitas
+    if (window.renderMenu) window.renderMenu();
   </script>
-  
-  <!-- Estilos inline para modales por si acaso -->
-  <style>
-    #modal, #login-modal {
-      position: fixed; top:0; left:0; width:100vw; height:100vh;
-      background: rgba(42,10,73,0.85); display: none;
-      align-items: center; justify-content: center; z-index: 1000;
-    }
-    #modal[style*="display: flex"], #login-modal[style*="display: flex"] {
-      display: flex !important;
-    }
-    #modal-img { max-width: 90vw; max-height: 80vh; border-radius: 18px; }
-    #modal-close { position:absolute; top:32px; right:48px; font-size:2.5em; background:none; border:none; color:#06ccbd; cursor:pointer; }
-    #notificacion {
-      position:fixed; top:30px; left:50%; transform:translateX(-50%);
-      background:#06ccbd; color:#2a0a49; font-weight:700; padding:12px 30px; border-radius:10px; box-shadow:0 2px 12px #0004; z-index:2000;
-      display:none; font-size:1.2em;
-    }
-    .footer-content {
-      text-align:center; color:#06ccbd; background:#2a0a49; padding:1em; font-size:1em; margin-top:2em;
-      display:flex; justify-content:center; align-items:center; gap:1em;
-    }
-    .footer-content a { color:#06ccbd; text-decoration:underline; }
-    .login-modal-content {
-      background:#fff; color:#2a0a49; padding:2em 3em; border-radius:20px; box-shadow:0 2px 16px #06ccbd50; text-align:center;
-      min-width:240px;
-    }
-    @media (max-width: 700px) {
-      #modal-img, .login-modal-content { max-width:98vw; max-height:72vh;}
-      .login-modal-content { padding:1em;}
-    }
-  </style>
-  
 </body>
 </html>
