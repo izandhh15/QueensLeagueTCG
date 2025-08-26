@@ -56,6 +56,54 @@
     <div id="last-pack"></div>
   </div>
 
+<body>
+  <div id="welcome-screen">
+    <button id="btn-album">Ver Álbum</button>
+    <button id="btn-open">Abrir Sobre</button>
+  </div>
+
+  <div id="album-view" style="display:none;">
+    <div id="escudos-grid"></div>
+    <div id="escudosqlame"></div>
+    <div id="presidentes-grid"></div>
+    <div id="presisqlame"></div>
+    <div id="super-grid"></div>
+  </div>
+
+  <div id="pack-view" style="display:none;">
+    <h3>Sobre abierto</h3>
+    <div id="last-pack"></div>
+  </div>
+
+  <!-- Modal -->
+  <div id="modal" style="display:none;">
+    <span id="modal-close">X</span>
+    <img id="modal-img">
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const welcome = document.getElementById("welcome-screen");
+      const albumView = document.getElementById("album-view");
+      const packView = document.getElementById("pack-view");
+
+      document.getElementById("btn-album").addEventListener("click", () => {
+        welcome.style.display = "none";
+        packView.style.display = "none";
+        albumView.style.display = "block";
+      });
+
+      document.getElementById("btn-open").addEventListener("click", () => {
+        welcome.style.display = "none";
+        albumView.style.display = "none";
+        packView.style.display = "block";
+      });
+    });
+  </script>
+</body>
+
+
+  
   <!-- Modal para ver cartas -->
   <div id="modal" style="display:none;">
     <img id="modal-img" src="" alt="Carta">
