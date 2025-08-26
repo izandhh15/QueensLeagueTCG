@@ -241,77 +241,74 @@
         { id:36,nombre:"Paula Blas",tipo:"supercampeonas",imagen:"https://i.ibb.co/cKjf90R8/36-SUPERCAMPEONAS-Paula-Blas.png"}
       ];
 
+      /* -------------------------
+         Robust state handling
+         ------------------------- */
+
       const REVERSO = "https://i.ibb.co/F443KZqx/00-REVERSO.png";
-      const PACK_COST = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--pack-cost')) || 1000;
-      const PACK_SLOTS = 5; // cada sobre da 5 cartas
 
-      // Probabilities by tipo (weights). You can tweak these numbers to increase/decrease rarity.
-      const TYPE_WEIGHTS = {
-        supercampeonas: 2,   // muy raro
-        presidenta: 20,
-        escudo: 40,
-        escudoqlame: 20,
-        presisqlame: 18
-      };
-
-      // Build a weighted pool of individual cards (pool contains references to card objects).
-      let weightedPool = [];
-      (function buildWeightedPool(){
-        weightedPool = [];
-        CARDS.forEach(card => {
-          const w = Math.max(1, Math.round(TYPE_WEIGHTS[card.tipo] || 10));
-          for (let i = 0; i < w; i++) weightedPool.push(card);
-        });
-        // shuffle pool
-        for (let i = weightedPool.length - 1; i > 0; i--) {
-          const j = Math.floor(Math.random() * (i + 1));
-          [weightedPool[i], weightedPool[j]] = [weightedPool[j], weightedPool[i]];
+      // helper: read numeric value stored in localStorage but recover if it was accidentally saved with text
+      function readNumberFromStorage(key, fallback = 0) {
+        try {
+          const raw = localStorage.getItem(key);
+          if (raw === null || raw === undefined) return fallback;
+          // if string is a plain number
+          const num = Number(raw);
+          if (!Number.isNaN(num)) return num;
+          // try to extract first integer in the string like "Monedas: 2000 · Sobres gratis: 1"
+          const m = raw.match(/-?\d+/);
+          if (m) return Number(m[0]);
+          return fallback;
+        } catch (e) {
+          console.warn("readNumberFromStorage error", e);
+          return fallback;
         }
-        console.log("Weighted pool ready:", weightedPool.length, "entries");
-      })();
+      }
 
-      // --- CREATOR CODES: define codes and rewards here ---
-      // Format examples:
-      // { code: "IZANDHH", reward: { type: "coins", amount: 2000 }, description: "Bonus Izandhh: +2000 monedas" }
-      // { code: "FREEPACK", reward: { type: "pack", amount: 1 }, description: "1 sobre gratis" }
-      // { code: "GIFT25", reward: { type: "card", cardId: 25, amount: 1 }, description: "1 cromo 25" }
-      const CREATOR_CODES = [
-        { code: "IZANDHH", reward: { type: "coins", amount: 2000 }, description: "Bonus Izandhh: +2000 monedas" },
-        { code: "STREAMERA", reward: { type: "coins", amount: 1500 }, description: "Bonus Streamer A: +1500 monedas" },
-        { code: "FREEPACK", reward: { type: "pack", amount: 1 }, description: "Sobre gratis: 1 sobre gratis" },
-        { code: "GIFT25", reward: { type: "card", cardId: 25, amount: 1 }, description: "Regalo: 1 cromo Supercampeonas (ID 25)" }
-      ];
-      // ----------------------------------------------------------------
+      // load persistent state safely
+      function loadPersistentState() {
+        const monedasLoaded = readNumberFromStorage("monedas_queens", 2000);
+        const albumLoaded = (() => {
+          try {
+            const raw = localStorage.getItem("album_queens");
+            if (!raw) return {};
+            return JSON.parse(raw);
+          } catch (e) {
+            console.warn("album parse error, resetting album to {}", e);
+            return {};
+          }
+        })();
+        const claimedTwitterLoaded = (() => {
+          try { return JSON.parse(localStorage.getItem("bonus_twitter_claimed")) || false; } catch { return false; }
+        })();
+        const claimedTwitchLoaded = (() => {
+          try { return JSON.parse(localStorage.getItem("bonus_twitch_claimed")) || false; } catch { return false; }
+        })();
+        const claimedCreatorLoaded = (() => {
+          try { return JSON.parse(localStorage.getItem("claimed_creator_codes")) || {}; } catch { return {}; }
+        })();
+        const freePacksLoaded = readNumberFromStorage("free_packs", 0);
 
-      // DOM refs
-      const monedasPanel = document.getElementById("monedas-panel");
-      const mainContent = document.getElementById("main-content");
-      const notificacion = document.getElementById("notificacion");
-      const modal = document.getElementById("modal");
-      const modalImg = document.getElementById("modal-img");
-      const modalClose = document.getElementById("modal-close");
-      const modalInfoTop = document.getElementById("modal-info-top");
-      const modalCards = document.getElementById("modal-cards");
-      const modalCardsGrid = document.getElementById("modal-cards-grid");
-      const modalCardsInfo = document.getElementById("modal-cards-info");
-      const modalCardsClose = document.getElementById("modal-cards-close");
+        return {
+          monedas: monedasLoaded,
+          album: albumLoaded,
+          claimedTwitter: claimedTwitterLoaded,
+          claimedTwitch: claimedTwitchLoaded,
+          claimed_creator_codes: claimedCreatorLoaded,
+          freePacks: freePacksLoaded
+        };
+      }
 
-      const btnSobres = document.getElementById("btn-sobres");
-      const btnAlbum = document.getElementById("btn-album");
-      const btnClaim = document.getElementById("btn-claim");
-      const btnDaily = document.getElementById("btn-daily");
-      const btnTwitter = document.getElementById("btn-twitter");
-      const btnTwitch = document.getElementById("btn-twitch");
+      // initialize state from storage robustly
+      const persisted = loadPersistentState();
+      let monedas = persisted.monedas;
+      let album = persisted.album;
+      let claimedTwitter = persisted.claimedTwitter;
+      let claimedTwitch = persisted.claimedTwitch;
+      let claimed_creator_codes = persisted.claimed_creator_codes || {};
+      let freePacks = persisted.freePacks || 0;
 
-      // State
-      let monedas = parseInt(localStorage.getItem("monedas_queens")) || 2000;
-      let album = JSON.parse(localStorage.getItem("album_queens")) || {};
-      let claimedTwitter = JSON.parse(localStorage.getItem("bonus_twitter_claimed")) || false;
-      let claimedTwitch = JSON.parse(localStorage.getItem("bonus_twitch_claimed")) || false;
-      let claimed_creator_codes = JSON.parse(localStorage.getItem("claimed_creator_codes")) || {}; // { "IZANDHH": true }
-      let freePacks = parseInt(localStorage.getItem("free_packs")) || 0;
-
-      // packsOpened is session-only so refreshing reloads packs
+      // ensure packs_opened not persisted so packs reset on refresh
       localStorage.removeItem("packs_opened");
       let packsOpened = {};
 
@@ -319,17 +316,25 @@
 
       // Utilities
       function saveState() {
-        localStorage.setItem("monedas_queens", String(monedas));
-        localStorage.setItem("album_queens", JSON.stringify(album));
-        localStorage.setItem("bonus_twitter_claimed", JSON.stringify(claimedTwitter));
-        localStorage.setItem("bonus_twitch_claimed", JSON.stringify(claimedTwitch));
-        localStorage.setItem("claimed_creator_codes", JSON.stringify(claimed_creator_codes));
-        localStorage.setItem("free_packs", String(freePacks));
+        try {
+          localStorage.setItem("monedas_queens", String(monedas));
+          localStorage.setItem("album_queens", JSON.stringify(album));
+          localStorage.setItem("bonus_twitter_claimed", JSON.stringify(claimedTwitter));
+          localStorage.setItem("bonus_twitch_claimed", JSON.stringify(claimedTwitch));
+          localStorage.setItem("claimed_creator_codes", JSON.stringify(claimed_creator_codes));
+          localStorage.setItem("free_packs", String(freePacks));
+        } catch (e) {
+          console.error("saveState error", e);
+        }
       }
+
       function updateMonedas() {
+        // update UI and persist
         monedasPanel.textContent = "Monedas: " + monedas + (freePacks ? ` · Sobres gratis: ${freePacks}` : "");
         saveState();
+        console.log("updateMonedas ->", { monedas, freePacks });
       }
+
       function showNotificacion(msg, timeout = 2400) {
         if (!notificacion) return;
         notificacion.textContent = msg;
@@ -337,7 +342,22 @@
         setTimeout(() => notificacion.style.display = "none", timeout);
       }
 
+      // --- Creator codes (configurable) ---
+      const CREATOR_CODES = [
+        { code: "IZANDHH", reward: { type: "coins", amount: 2000 }, description: "Bonus Izandhh: +2000 monedas" },
+        { code: "STREAMERA", reward: { type: "coins", amount: 1500 }, description: "Bonus Streamer A: +1500 monedas" },
+        { code: "FREEPACK", reward: { type: "pack", amount: 1 }, description: "Sobre gratis: 1 sobre gratis" },
+        { code: "GIFT25", reward: { type: "card", cardId: 25, amount: 1 }, description: "Regalo: 1 cromo Supercampeonas (ID 25)" }
+      ];
+
       // Modal handlers
+      const modal = document.getElementById("modal");
+      const modalImg = document.getElementById("modal-img");
+      const modalClose = document.getElementById("modal-close");
+      const modalInfoTop = document.getElementById("modal-info-top");
+      const modalCards = document.getElementById("modal-cards");
+      const modalCardsGrid = document.getElementById("modal-cards-grid");
+      const modalCardsClose = document.getElementById("modal-cards-close");
       if (modalClose) modalClose.addEventListener("click", () => modal.style.display = "none");
       if (modal) modal.addEventListener("click", (e) => { if (e.target === modal) modal.style.display = "none"; });
       if (modalCardsClose) modalCardsClose.addEventListener("click", () => modalCards.style.display = "none");
@@ -363,7 +383,7 @@
           }
           attempts++;
         }
-        // If still not enough (unlikely), fill with remaining unique cards
+        // fallback
         if (result.length < PACK_SLOTS) {
           const remaining = CARDS.filter(c => !chosenIds.has(c.id));
           while (result.length < PACK_SLOTS && remaining.length) {
@@ -560,7 +580,7 @@
         renderAlbumPage();
       }
 
-      // CREATOR CLAIM PAGE
+      // CREATOR CLAIM PAGE (with restore button)
       function renderClaimPage() {
         // list redeemed codes for user (persisted)
         const redeemedList = Object.keys(claimed_creator_codes).filter(k => claimed_creator_codes[k]);
@@ -572,6 +592,7 @@
           <div style="display:flex; gap:.6rem; align-items:center; margin-bottom:.8rem;">
             <input id="creator-code-input" placeholder="Introduce código" style="padding:.6rem .8rem; border-radius:8px; border:1px solid #ddd; flex:1" />
             <button id="redeem-code" class="login-btn">Canjear</button>
+            <button id="restore-coins" class="login-btn" style="background:transparent; color:var(--accent); border:2px solid var(--accent);">Restaurar Monedas</button>
             <button id="back-menu-claim" class="login-btn" style="background:transparent; color:var(--accent); border:2px solid var(--accent);">Volver</button>
           </div>
 
@@ -603,10 +624,93 @@
           document.getElementById("status-freepacks").textContent = freePacks;
         });
 
+        // RESTORE button: try to recover stored value (if localStorage was corrupted)
+        document.getElementById("restore-coins")?.addEventListener("click", () => {
+          const raw = localStorage.getItem("monedas_queens");
+          const attempted = readNumberFromStorage("monedas_queens", null);
+          if (attempted === null) {
+            showNotificacion("No se pudo leer monedas desde localStorage.");
+            return;
+          }
+          // if attempted is different than current in-memory value, restore it
+          if (attempted !== monedas) {
+            monedas = attempted;
+            saveState();
+            updateMonedas();
+            document.getElementById("status-coins").textContent = monedas;
+            showNotificacion(`Se restauraron las monedas desde almacenamiento: ${monedas}`);
+            console.log("restore-coins: raw stored:", raw, "parsed:", attempted);
+          } else {
+            showNotificacion("Los datos ya están sincronizados.");
+          }
+        });
+
         document.getElementById("back-menu-claim")?.addEventListener("click", renderMenu);
       }
 
-      // Bonuses
+      // Packs page
+      function renderPacksPage() {
+        mainContent.innerHTML = `
+          <h2 style="margin:0 0 .4rem 0;">Abrir Sobres</h2>
+          <p style="margin:0 0 .6rem 0;">Pulsa un sobre para comprarlo y abrirlo. Cada sobre cuesta <strong>${PACK_COST} monedas</strong>. Si tienes sobres gratis se usarán primero.</p>
+          <div style="display:flex; gap:12px; justify-content:flex-end;">
+            <button id="open-all" class="login-btn">Abrir todos los sobres</button>
+            <button id="back-menu" class="login-btn" style="background:transparent; color:var(--accent); border:2px solid var(--accent);">Volver al menú</button>
+          </div>
+          <div class="packs-grid" id="packs-grid" style="margin-top:12px;"></div>
+        `;
+        const packsGrid = document.getElementById("packs-grid");
+        packsGrid.innerHTML = "";
+        for (let i = 1; i <= 5; i++) {
+          const div = document.createElement("div");
+          div.className = "pack";
+          div.dataset.index = String(i);
+          const img = document.createElement("img");
+          img.src = REVERSO;
+          img.alt = `Sobre ${i}`;
+          div.appendChild(img);
+          const badge = document.createElement("div");
+          badge.className = "pack-badge";
+          badge.textContent = `${PACK_COST} Ⓜ`;
+          div.appendChild(badge);
+          const label = document.createElement("div");
+          label.style.position = "absolute";
+          label.style.left = "10px";
+          label.style.top = "10px";
+          label.style.color = "#fff";
+          label.style.fontWeight = "800";
+          label.style.background = "rgba(0,0,0,0.35)";
+          label.style.padding = "6px 8px";
+          label.style.borderRadius = "8px";
+          label.textContent = `Sobre ${i}`;
+          div.appendChild(label);
+          if (packsOpened[String(i)]) div.classList.add("opened");
+          div.addEventListener("click", () => handlePackClick(div));
+          packsGrid.appendChild(div);
+        }
+        document.getElementById("open-all")?.addEventListener("click", openAllPacks);
+        document.getElementById("back-menu")?.addEventListener("click", renderMenu);
+      }
+
+      // Menu
+      function renderMenu() {
+        mainContent.innerHTML = `
+          <div class="menu-principal">
+            <h2 style="margin:0 0 .3rem 0;">Bienvenido al Álbum Virtual</h2>
+            <p style="margin:0 0 .6rem 0; color:#444; text-align:center;">Pulsa "Abrir Sobre" para comprar+abrir sobres. Cada sobre cuesta <strong>${PACK_COST} monedas</strong>. Usa "Reclamar Recompensa de Creador" para canjear códigos de streamers.</p>
+            <div class="actions">
+              <button id="menu-open-packs" class="login-btn">Abrir Sobre (ir a página de sobres)</button>
+              <button id="menu-view-album" class="login-btn">Ver Mi Álbum</button>
+              <button id="menu-claim" class="login-btn">Reclamar Recompensa de Creador</button>
+            </div>
+          </div>
+        `;
+        document.getElementById("menu-open-packs")?.addEventListener("click", renderPacksPage);
+        document.getElementById("menu-view-album")?.addEventListener("click", renderAlbumPage);
+        document.getElementById("menu-claim")?.addEventListener("click", renderClaimPage);
+      }
+
+      // Bonuses: daily/twitter/twitch (unchanged)
       function handleDailyBonus() {
         const last = parseInt(localStorage.getItem("bonus_daily_last") || "0");
         const now = Date.now();
@@ -634,23 +738,32 @@
       }
 
       // Header wiring
-      btnSobres && btnSobres.addEventListener("click", renderPacksPage);
-      btnAlbum && btnAlbum.addEventListener("click", renderAlbumPage);
-      btnClaim && btnClaim.addEventListener("click", renderClaimPage);
-      btnDaily && btnDaily.addEventListener("click", handleDailyBonus);
-      btnTwitter && btnTwitter.addEventListener("click", handleTwitterBonus);
-      btnTwitch && btnTwitch.addEventListener("click", handleTwitchBonus);
+      const btnSobresEl = document.getElementById("btn-sobres");
+      const btnAlbumEl = document.getElementById("btn-album");
+      const btnClaimEl = document.getElementById("btn-claim");
+      const btnDailyEl = document.getElementById("btn-daily");
+      const btnTwitterEl = document.getElementById("btn-twitter");
+      const btnTwitchEl = document.getElementById("btn-twitch");
+
+      btnSobresEl && btnSobresEl.addEventListener("click", renderPacksPage);
+      btnAlbumEl && btnAlbumEl.addEventListener("click", renderAlbumPage);
+      btnClaimEl && btnClaimEl.addEventListener("click", renderClaimPage);
+      btnDailyEl && btnDailyEl.addEventListener("click", handleDailyBonus);
+      btnTwitterEl && btnTwitterEl.addEventListener("click", handleTwitterBonus);
+      btnTwitchEl && btnTwitchEl.addEventListener("click", handleTwitchBonus);
 
       // Init
       updateMonedas();
       renderMenu();
 
-      console.log("App actualizada: añadido 'Reclamar Recompensa de Creador' al menú y cabecera. Códigos persistentes, sobres gratis y sobres sin duplicados internos.");
+      console.log("App initialised (robust state load). Current state:", { monedas, freePacks });
       // expose for debug
       window.__CARDS = CARDS;
       window.__album = album;
       window.__CREATOR_CODES = CREATOR_CODES;
       window.__freePacks = freePacks;
+      window.__debug_readNumberFromStorage = readNumberFromStorage;
+      window.__debug_persisted = persisted;
     });
   </script>
 </body>
