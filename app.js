@@ -230,4 +230,10 @@ BeaPerez;10000
 
   // Mostrar menú al hacer clic en logo o panel de monedas
   monedasPanel.onclick = renderMenu;
+
+  window.mostrarAlbum = mostrarAlbum;
+window.abrirSobre = abrirSobre;
+window.bonusDiario = bonusDiario;
+window.canjearCodigo = canjearCodigo;
+window.renderMenu = renderMenu;
 });
