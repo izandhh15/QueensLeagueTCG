@@ -75,10 +75,10 @@
       max-width: var(--max-width); 
       margin: 1rem auto; 
       padding: 1rem; 
-      background: transparent; 
-      color: var(--white); 
-      border: 2px solid var(--white); 
+      background: var(--white); 
+      color: var(--accent-text); 
       border-radius: var(--radius); 
+      box-shadow: 0 10px 30px rgba(6,204,189,0.06); 
       min-height: 0; 
       overflow: visible; 
     }
@@ -89,7 +89,7 @@
 
     /* Filters area */
     .filters { display:flex; gap:0.5rem; flex-wrap:wrap; align-items:center; margin-bottom: .6rem; }
-    .filter-btn { background:transparent; border:2px solid rgba(255,255,255,0.1); padding:.45rem .7rem; border-radius:10px; cursor:pointer; font-weight:700; color: var(--white); }
+    .filter-btn { background:transparent; border:2px solid rgba(0,0,0,0.06); padding:.45rem .7rem; border-radius:10px; cursor:pointer; font-weight:700; }
     .filter-btn.active { background:var(--accent); color:var(--accent-text); }
 
     .album-grid, .packs-grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap:1rem; margin-top:1rem; }
@@ -116,11 +116,12 @@
     #modal[style*="display: flex"], #modal-cards[style*="display: flex"], #modal-creator-code[style*="display: flex"] { display:flex !important; pointer-events:auto; }
     .modal-box { 
       width: min(92vw, 500px); 
-      background: var(--bg); 
+      background: transparent; 
+      border: 2px solid var(--white);
       border-radius: 12px; 
       padding: 18px; 
       text-align: center; 
-      color: var(--accent-text); 
+      color: var(--white); 
       box-shadow: 0 18px 48px rgba(6,204,189,0.12); 
       position: relative; 
     }
@@ -443,7 +444,7 @@
         mainContent.innerHTML = `
           <div class="menu-principal">
             <h2 style="margin:0 0 .3rem 0;">Bienvenido al Álbum Virtual</h2>
-            <p style="margin:0 0 .6rem 0; color:var(--white); text-align:center;">Pulsa "Abrir Sobre" para comprar+abrir sobres. Cada sobre cuesta <strong>${PACK_COST} monedas</strong>. Las cartas raras (supercampeonas) aparecen muy rara vez.</p>
+            <p style="margin:0 0 .6rem 0; color:var(--accent-text); text-align:center;">Pulsa "Abrir Sobre" para comprar+abrir sobres. Cada sobre cuesta <strong>${PACK_COST} monedas</strong>. Las cartas raras (supercampeonas) aparecen muy rara vez.</p>
             <div class="actions">
               <button id="menu-open-packs" class="login-btn">Abrir Sobre (ir a página de sobres)</button>
               <button id="menu-view-album" class="login-btn">Ver Mi Álbum</button>
@@ -581,8 +582,7 @@
             <button id="back-menu-2" class="login-btn" style="background:transparent; color:var(--accent); border:2px solid var(--accent);">Volver</button>
           </div>
           <div class="album-grid" id="album-grid"></div>
-          <p style="margin-top:12px; color:var(--accent); font-weight:700;">Puedes pulsar cualquier cromo para ver su numeración y nombre.</p>
-          <p style="margin-top:12px; color:var(--accent); font-weight:700;">Puedes pulsar el botón vender duplicadas para vender tus cartas duplicadas por un valor del 10%, excepto de las cartas especiales que es de un 25%.</p>
+          <p style="margin-top:12px; color:var(--accent); font-weight:700;">Pulsa cualquier cromo para verlo; puedes vender duplicadas (cada duplicada = 100 monedas, excepto "supercampeonas" que valen 250 monedas).</p>
         `;
         document.getElementById("back-menu-2")?.addEventListener("click", renderMenu);
         document.getElementById("btn-sell-all-duplicates-album")?.addEventListener("click", sellAllDuplicates);
