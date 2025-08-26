@@ -176,7 +176,7 @@
 
   <script>
     document.addEventListener("DOMContentLoaded", () => {
-      // ---- Cards list (from you) ----
+      // ---- Cards list (user-provided) ----
       const CARDS = [
         { id:1,nombre:"Escudo 1K",tipo:"escudo",imagen:"https://i.ibb.co/CpJ3c7B8/01-Escudo1-K.png"},
         { id:2,nombre:"Escudo Aniquiladoras FC",tipo:"escudo",imagen:"https://i.ibb.co/N2hVWpqv/02-Escudo-Aniquiladoras.png"},
@@ -246,22 +246,33 @@
       const PACK_COST = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--pack-cost')) || 1000;
       const PACK_SLOTS = 5; // cada sobre da 5 cartas
 
-      // Probabilities by tipo (weights)
-      // supercampeonas: VERY RARE
+      // Probabilities by tipo (weights). You can tweak these numbers to increase/decrease rarity.
       const TYPE_WEIGHTS = {
-        supercampeonas: 2,
+        supercampeonas: 2,   // muy raro
         presidenta: 20,
         escudo: 40,
         escudoqlame: 20,
         presisqlame: 18
       };
 
-      // Pre-group cards by tipo for faster selection
-      const cardsByType = {};
-      CARDS.forEach(c => {
-        cardsByType[c.tipo] = cardsByType[c.tipo] || [];
-        cardsByType[c.tipo].push(c);
-      });
+      // Build a weighted pool of individual cards (pool contains references to card objects).
+      // Each card is added to the pool `weight` times (weight derived from its tipo).
+      // This allows selecting random cards across all types while keeping rarities.
+      let weightedPool = [];
+      (function buildWeightedPool(){
+        weightedPool = [];
+        CARDS.forEach(card => {
+          const w = Math.max(1, Math.round(TYPE_WEIGHTS[card.tipo] || 10));
+          for (let i = 0; i < w; i++) weightedPool.push(card);
+        });
+        // small shuffle to reduce any deterministic ordering bias
+        for (let i = weightedPool.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [weightedPool[i], weightedPool[j]] = [weightedPool[j], weightedPool[i]];
+        }
+        // debug
+        console.log("Weighted pool built:", weightedPool.length, "entries");
+      })();
 
       // DOM refs
       const monedasPanel = document.getElementById("monedas-panel");
@@ -316,35 +327,21 @@
       if (modalCardsClose) modalCardsClose.addEventListener("click", () => modalCards.style.display = "none");
       if (modalCards) modalCards.addEventListener("click", (e) => { if (e.target === modalCards) modalCards.style.display = "none"; });
 
-      // Weighted random selection of tipo
-      function weightedRandomType() {
-        const entries = Object.entries(TYPE_WEIGHTS);
-        const total = entries.reduce((s,[,w]) => s + w, 0);
-        let r = Math.random() * total;
-        for (const [tipo, weight] of entries) {
-          if (r < weight) return tipo;
-          r -= weight;
+      // Random pick from weightedPool (with replacement) — allows duplicates but variety
+      function pickRandomCardFromPool() {
+        if (!weightedPool.length) {
+          // fallback uniform
+          return CARDS[Math.floor(Math.random() * CARDS.length)];
         }
-        // fallback
-        return entries[0][0];
+        const idx = Math.floor(Math.random() * weightedPool.length);
+        return weightedPool[idx];
       }
 
-      // pick a random card from a given tipo; if none exist, fallback to any card
-      function pickCardOfType(tipo) {
-        const list = cardsByType[tipo] || [];
-        if (list.length === 0) {
-          const all = CARDS;
-          return all[Math.floor(Math.random() * all.length)];
-        }
-        return list[Math.floor(Math.random() * list.length)];
-      }
-
-      // generate PACK_SLOTS cards for a pack using weighted types
+      // Generate a pack of PACK_SLOTS cards (each chosen from the weightedPool with replacement)
       function generatePack() {
         const result = [];
         for (let i = 0; i < PACK_SLOTS; i++) {
-          const tipo = weightedRandomType();
-          const card = pickCardOfType(tipo);
+          const card = pickRandomCardFromPool();
           result.push(card);
         }
         return result;
@@ -373,7 +370,7 @@
       function renderPacksPage() {
         mainContent.innerHTML = `
           <h2 style="margin:0 0 .4rem 0;">Abrir Sobres</h2>
-          <p style="margin:0 0 .6rem 0;">Pulsa un sobre para comprarlo y abrirlo. Cada sobre cuesta <strong>${PACK_COST} monedas</strong>. Todos los sobres pueden darte cartas (tipo elegido por probabilidad).</p>
+          <p style="margin:0 0 .6rem 0;">Pulsa un sobre para comprarlo y abrirlo. Cada sobre cuesta <strong>${PACK_COST} monedas</strong>. Los sobres pueden darte cartas de cualquiera de las categorías; las supercampeonas son muy raras.</p>
           <div style="display:flex; gap:12px; justify-content:flex-end;">
             <button id="open-all" class="login-btn">Abrir todos los sobres</button>
             <button id="back-menu" class="login-btn" style="background:transparent; color:var(--accent); border:2px solid var(--accent);">Volver al menú</button>
@@ -434,12 +431,10 @@
         monedas -= PACK_COST;
         updateMonedas();
 
-        // generate random content with weights
+        // generate random content using weighted pool (cards can repeat)
         const newCards = generatePack();
-        // add to album
-        newCards.forEach(c => {
-          album[c.id] = (album[c.id] || 0) + 1;
-        });
+        // add to album (allow duplicates)
+        newCards.forEach(c => album[c.id] = (album[c.id] || 0) + 1);
         packsOpened[idx] = true;
         saveState();
         packDiv.classList.add("opened");
@@ -478,8 +473,7 @@
       function showPackCardsModal(titleText, cards) {
         modalCardsGrid.innerHTML = "";
         modalCardsInfo.textContent = titleText;
-        // show cards (cards is array from generatePack). If undefined, show last PACK_SLOTS from album (fallback)
-        const toShow = Array.isArray(cards) && cards.length ? cards : PACK_SLOTS ? CARDS.slice(0,PACK_SLOTS) : [];
+        const toShow = Array.isArray(cards) && cards.length ? cards : [];
         toShow.forEach(card => {
           const div = document.createElement("div");
           div.className = "cromo";
@@ -607,15 +601,11 @@
       updateMonedas();
       renderMenu();
 
-      // Helpful console info
-      console.log("App inicializada. Packs cuestan", PACK_COST, "monedas. Tipo weights:", TYPE_WEIGHTS);
-      console.log("Puedes filtrar por tipos en el álbum: ", Object.keys(cardsByType).sort());
-
-      // Expose some things for debugging
+      console.log("App inicializada. Now packs pick from full card pool with weights. Weighted pool size:", weightedPool.length);
       window.__CARDS = CARDS;
       window.__album = album;
+      window.__weightedPool = weightedPool;
       window.__generatePack = generatePack;
-      window.__saveState = saveState;
     });
   </script>
 </body>
