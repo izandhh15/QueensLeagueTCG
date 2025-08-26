@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Queens League Oysho - Álbum Virtual</title>
   <meta name="description" content="Álbum virtual de Queens League Oysho — sobres, cromos y bonos" />
+  <link rel="icon" href="https://queensleague.pro/favicon.ico" />
   <style>
     :root{
       --bg: #2a0a49;
@@ -31,45 +32,107 @@
       -moz-osx-font-smoothing:grayscale;
       line-height:1.4;
     }
-    header { display: grid; grid-template-columns: 1fr auto 1fr; align-items:center; gap:1rem; padding:0 1.25rem; background:var(--bg); border-bottom:2px solid var(--accent); box-shadow:0 3px 12px var(--shadow-accent); position:sticky; top:0; z-index:50; height:var(--header-height); }
-    .header-left { justify-self:start; display:flex; align-items:center; gap:.8rem; }
-    .header-center { justify-self:center; display:flex; align-items:center; }
-    .header-right { justify-self:end; display:flex; align-items:center; gap:.75rem; }
-    .logo { font-size:1.25rem; font-weight:700; color:var(--accent); cursor:pointer; }
-    .main-menu { display:flex; gap:.5rem; align-items:center; }
-    .main-menu button { background: transparent; color: var(--white); border: 2px solid rgba(255,255,255,0.06); padding: .45rem .75rem; border-radius: 8px; cursor:pointer; font-weight:700; font-size:.92rem;}
-    #monedas-panel { background:var(--accent); color:var(--accent-text); padding:.32rem .75rem; border-radius:10px; font-weight:700; box-shadow:0 6px 20px var(--shadow-accent); white-space:nowrap; }
-    #main-content{ max-width:1100px; margin:1rem auto; padding:1rem; background:var(--white); color:var(--accent-text); border-radius:12px; box-shadow:0 10px 30px rgba(6,204,189,0.06);}
-    .login-btn { background:var(--accent); color:var(--accent-text); border:none; padding:.6rem .9rem; border-radius:8px; cursor:pointer; font-weight:700; }
-    .packs-grid,.album-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(120px,1fr)); gap:1rem; }
-    .pack { position:relative; height:160px; border-radius:12px; overflow:hidden; cursor:pointer; border:3px solid rgba(6,204,189,0.08); display:flex; align-items:center; justify-content:center; background:linear-gradient(180deg,#350a54,#2a0a49); }
+
+    /* HEADER */
+    header {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      gap: 1rem;
+      padding: 0 1.25rem;
+      background: var(--bg);
+      border-bottom: 2px solid var(--accent);
+      box-shadow: 0 3px 12px var(--shadow-accent);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      height: var(--header-height);
+    }
+    .header-left { justify-self: start; display:flex; align-items:center; gap:0.8rem; }
+    .header-center { justify-self: center; display:flex; align-items:center; }
+    .header-right { justify-self: end; display:flex; align-items:center; gap:0.75rem; }
+
+    .logo {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--accent);
+      letter-spacing: 0.4px;
+      cursor: pointer;
+    }
+
+    .redes { display:flex; gap:0.6rem; align-items:center; }
+    .redes a { color: var(--accent); text-decoration:none; padding: 0.2rem 0.45rem; border-radius:8px; font-weight:600; font-size:0.92rem; }
+    .redes a:hover { background: var(--accent); color: var(--accent-text); }
+
+    .main-menu { display:flex; gap:0.5rem; align-items:center; }
+    .main-menu button { background: transparent; color: var(--white); border: 2px solid rgba(255,255,255,0.06); padding: .45rem .75rem; border-radius: 8px; cursor: pointer; font-weight:700; font-size:0.92rem; }
+    .main-menu button:hover { background: var(--accent); color: var(--accent-text); }
+
+    #monedas-panel { background: var(--accent); color: var(--accent-text); padding: .32rem .75rem; border-radius: 10px; font-weight:700; box-shadow: 0 6px 20px var(--shadow-accent); white-space: nowrap; }
+
+    /* MAIN */
+    #main-content{ max-width: var(--max-width); margin: 1rem auto; padding: 1rem; background: var(--white); color: var(--accent-text); border-radius: var(--radius); box-shadow: 0 10px 30px rgba(6,204,189,0.06); min-height: 0; overflow: visible; }
+
+    .menu-principal { display:flex; flex-direction:column; gap:0.9rem; align-items:center; padding: 0.25rem; }
+    .actions { display:flex; gap:0.6rem; flex-wrap:wrap; justify-content:center; }
+    .login-btn { background: var(--accent); color: var(--accent-text); border: none; padding: .6rem .9rem; border-radius: 8px; cursor: pointer; font-weight:700; }
+
+    /* Filters area - easy tap */
+    .filters { display:flex; gap:0.5rem; flex-wrap:wrap; align-items:center; margin-bottom: .6rem; }
+    .filter-btn { background:transparent; border:2px solid rgba(0,0,0,0.06); padding:.45rem .7rem; border-radius:10px; cursor:pointer; font-weight:700; }
+    .filter-btn.active { background:var(--accent); color:var(--accent-text); }
+
+    .album-grid, .packs-grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap:1rem; margin-top:1rem; }
+
+    .cromo { background: var(--card-bg); border-radius: 10px; padding: .5rem; display:flex; flex-direction:column; align-items:center; justify-content:flex-start; position:relative; box-shadow: 0 6px 16px rgba(6,204,189,0.06); min-height: 140px; }
+
+    .cromo img { width:100px; height:140px; object-fit:cover; border-radius:8px; border: 3px solid var(--accent); background: var(--white); cursor:pointer; transition: transform var(--transition); }
+    .cromo img:focus { outline: 3px solid rgba(6,204,189,0.18); }
+
+    /* Pack style uses REVERSO as design */
+    .pack { position:relative; height:160px; border-radius:12px; overflow:hidden; cursor:pointer; border:3px solid rgba(6,204,189,0.08); box-shadow: 0 10px 28px rgba(6,204,189,0.06); display:flex; align-items:center; justify-content:center; }
     .pack img { width:100%; height:100%; object-fit:cover; display:block; }
     .pack .pack-badge { position:absolute; right:8px; bottom:8px; background:var(--accent); color:var(--accent-text); padding:6px 8px; border-radius:8px; font-weight:800; }
-    .pack.opened { opacity:.55; filter:grayscale(20%); cursor:default; transform:scale(.98); }
-    .cromo { background:var(--card-bg); border-radius:10px; padding:.5rem; display:flex; flex-direction:column; align-items:center; position:relative; min-height:140px; }
-    .cromo img { width:100px; height:140px; object-fit:cover; border-radius:8px; border:3px solid var(--accent); background:var(--white); cursor:pointer; }
-    .duplicadas { position:absolute; top:8px; right:10px; background:var(--accent); color:var(--accent-text); padding:6px 10px; border-radius:999px; font-weight:800; }
-    .btn-vender { position:absolute; bottom:8px; right:8px; background:var(--accent); color:var(--accent-text); border:none; padding:6px 10px; border-radius:8px; font-weight:700; cursor:pointer; }
-    .filters { display:flex; gap:.5rem; align-items:center; }
-    #modal,#modal-cards { position:fixed; inset:0; display:none; align-items:center; justify-content:center; background:rgba(42,10,73,0.78); z-index:1200; padding:1rem; }
-    .modal-box { width:min(92vw,920px); background:var(--white); color:var(--accent-text); padding:18px; border-radius:12px; position:relative; }
-    .modal-close { position:absolute; top:10px; right:12px; font-size:1.6rem; color:var(--accent); background:transparent; border:none; }
-    #notificacion { position:fixed; top:28px; left:50%; transform:translateX(-50%); background:var(--accent); color:var(--accent-text); padding:10px 20px; border-radius:12px; font-weight:800; z-index:2000; display:none; }
-    .footer-content { display:flex; justify-content:center; gap:.6rem; align-items:center; padding:.9rem 1rem; color:var(--accent); background:var(--bg); border-top:1px solid rgba(6,204,189,0.06); }
-    @media(max-width:420px){ header{grid-template-columns:1fr auto;height:auto;padding:10px} .header-center{display:none} }
+    .pack.opened { opacity:.55; filter:grayscale(30%); cursor:default; transform:scale(.98); }
+
+    .duplicadas { position:absolute; top:8px; right:10px; background: var(--accent); color: var(--accent-text); padding:6px 10px; border-radius:999px; font-weight:800; }
+
+    .btn-vender { position:absolute; bottom:8px; right:8px; background: var(--accent); color: var(--accent-text); border: none; padding:6px 10px; border-radius:8px; font-weight:700; cursor:pointer; }
+
+    .progreso-album { text-align:center; font-weight:800; color: var(--accent); margin-bottom: .6rem; }
+
+    /* Modal */
+    #modal, #modal-cards { position: fixed; inset: 0; display: none; align-items: center; justify-content: center; background: rgba(42,10,73,0.78); z-index: 1200; padding: 1rem; pointer-events: none; }
+    #modal[style*="display: flex"], #modal-cards[style*="display: flex"] { display:flex !important; pointer-events:auto; }
+    .modal-box { width: min(92vw, 920px); background: var(--white); border-radius: 12px; padding: 18px; text-align: center; color: var(--accent-text); box-shadow: 0 18px 48px rgba(6,204,189,0.12); position: relative; }
+    .modal-info-top { font-weight:800; color: var(--accent); margin-bottom: 12px; text-align:center; }
+    .modal-img-wrap img { max-width: 92%; height: auto; border-radius: 10px; border: 6px solid var(--white); box-shadow: 0 18px 48px rgba(6,204,189,0.18); background: var(--white); }
+    .modal-close { position: absolute; top: 10px; right: 12px; font-size: 1.6rem; color: var(--accent); background: transparent; border: none; cursor: pointer; }
+
+    #notificacion { position: fixed; top: 28px; left: 50%; transform: translateX(-50%); background: var(--accent); color: var(--accent-text); padding: 10px 20px; border-radius: 12px; font-weight:800; z-index: 2000; display:none; }
+
+    footer { margin-top: 1rem; }
+    .footer-content { display:flex; justify-content:center; gap: 0.6rem; align-items:center; padding: 0.9rem 1rem; color: var(--accent); background: var(--bg); border-top: 1px solid rgba(6,204,189,0.06); border-radius: 6px; }
+
+    @media (max-width:900px) { .cromo img { width:86px; height:120px; } .pack { height:140px } }
+    @media (max-width:420px) { header { grid-template-columns: 1fr auto; height:auto; padding:10px } .header-center { display:none } }
   </style>
 </head>
 <body>
   <header>
     <div class="header-left">
       <div class="logo" id="logo">Álbum Queens League Oysho</div>
+      <nav class="redes" aria-label="Redes">
+        <a href="https://queensleague.pro" target="_blank" rel="noopener">Web</a>
+        <a href="https://x.com/QueensLeague" target="_blank" rel="noopener">X</a>
+        <a href="https://instagram.com/QueensLeague" target="_blank" rel="noopener">Instagram</a>
+      </nav>
     </div>
 
     <div class="header-center">
       <nav class="main-menu" id="main-menu" aria-label="Menu principal">
         <button id="btn-sobres">Abrir Sobre</button>
         <button id="btn-album">Ver Mi Álbum</button>
-        <button id="btn-claim">Reclamar Recompensa de Creador</button>
         <button id="btn-daily">Bonus Diario</button>
         <button id="btn-twitter">Bonus X</button>
         <button id="btn-twitch">Bonus Twitch</button>
@@ -83,39 +146,37 @@
 
   <main id="main-content" role="main" tabindex="-1"></main>
 
-  <div id="modal" aria-hidden="true"><div class="modal-box"><button class="modal-close" id="modal-close">&times;</button><div id="modal-info" style="font-weight:800;color:var(--accent);margin-bottom:12px"></div><div style="display:flex;justify-content:center"><img id="modal-img" src="" alt="" style="max-width:92%;border-radius:10px;border:6px solid #fff"></div></div></div>
+  <!-- Card modal -->
+  <div id="modal" aria-hidden="true" role="dialog">
+    <div class="modal-box" role="document">
+      <button class="modal-close" id="modal-close" aria-label="Cerrar">&times;</button>
+      <div class="modal-info-top" id="modal-info-top"></div>
+      <div class="modal-img-wrap"><img id="modal-img" src="" alt="Cromo ampliado"></div>
+    </div>
+  </div>
 
-  <div id="modal-cards" aria-hidden="true"><div class="modal-box" id="modal-cards-box"><button class="modal-close" id="modal-cards-close">&times;</button><div id="modal-cards-info" style="font-weight:800;color:var(--accent);margin-bottom:12px"></div><div id="modal-cards-grid" class="album-grid"></div></div></div>
+  <!-- Pack cards modal -->
+  <div id="modal-cards" aria-hidden="true" role="dialog">
+    <div class="modal-box" id="modal-cards-box">
+      <button class="modal-close" id="modal-cards-close" aria-label="Cerrar">&times;</button>
+      <div id="modal-cards-info" class="modal-info-top"></div>
+      <div id="modal-cards-grid" class="album-grid"></div>
+    </div>
+  </div>
 
   <div id="notificacion" role="status" aria-live="polite"></div>
 
   <footer>
-    <div class="footer-content"><span>Queens League Oysho &copy; 2025 · Álbum virtual</span></div>
+    <div class="footer-content">
+      <span>Queens League Oysho &copy; 2025 · Álbum virtual</span>
+      <span>|</span>
+      <a href="https://github.com/izandhh15" target="_blank" rel="noopener">Github izandhh15</a>
+    </div>
   </footer>
 
   <script>
-    // -- Utilities for robust state handling --
-    function readNumberFromStorage(key, fallback = null) {
-      try {
-        const raw = localStorage.getItem(key);
-        if (raw === null) return fallback;
-        const num = Number(raw);
-        if (!Number.isNaN(num)) return num;
-        const m = String(raw).match(/-?\d+/);
-        if (m) return Number(m[0]);
-        return fallback;
-      } catch (e) {
-        console.warn("readNumberFromStorage error", e);
-        return fallback;
-      }
-    }
-
-    function safeJsonParse(raw, fallback) {
-      try { return raw ? JSON.parse(raw) : fallback; } catch (e) { console.warn("JSON parse failed", e); return fallback; }
-    }
-
     document.addEventListener("DOMContentLoaded", () => {
-      // --- Data (cards and config) ---
+      // ---- Cards list (user-provided) ----
       const CARDS = [
         { id:1,nombre:"Escudo 1K",tipo:"escudo",imagen:"https://i.ibb.co/CpJ3c7B8/01-Escudo1-K.png"},
         { id:2,nombre:"Escudo Aniquiladoras FC",tipo:"escudo",imagen:"https://i.ibb.co/N2hVWpqv/02-Escudo-Aniquiladoras.png"},
@@ -163,7 +224,7 @@
         { id:56,nombre:"Espe",tipo:"presisqlame",imagen:"https://i.ibb.co/MDN445S2/14-Amablitz.png"},
         { id:57,nombre:"Ara + Fer",tipo:"presisqlame",imagen:"https://i.ibb.co/MDN445S2/14-Amablitz.png"},
         { id:58,nombre:"Pame Verdirame + Crystal Molly",tipo:"presisqlame",imagen:"https://i.ibb.co/MDN445S2/14-Amablitz.png"},
-        { id:59,nombre:"Alana + BarcaGaner",tipo:"presisqlame",imagen:"https://i.ibb.co/MDN445S2/14-Amablitz.png"},
+        { id:50,nombre:"Alana + BarcaGaner",tipo:"presisqlame",imagen:"https://i.ibb.co/MDN445S2/14-Amablitz.png"},
         { id:60,nombre:"VickyPalami",tipo:"presisqlame",imagen:"https://i.ibb.co/MDN445S2/14-Amablitz.png"},
         { id:25,nombre:"Ainara Navas",tipo:"supercampeonas",imagen:"https://i.ibb.co/ZRzW9Lx8/25-SUPERCAMPEONAS-Ainara-Navas.png"},
         { id:26,nombre:"Bea Pérez",tipo:"supercampeonas",imagen:"https://i.ibb.co/PswsRSBC/26-SUPERCAMPEONAS-Beatriz-Perez.png"},
@@ -180,386 +241,373 @@
       ];
 
       const REVERSO = "https://i.ibb.co/F443KZqx/00-REVERSO.png";
-      const PACK_COST = Number(getComputedStyle(document.documentElement).getPropertyValue('--pack-cost')) || 1000;
-      const PACK_SLOTS = 5;
+      const PACK_COST = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--pack-cost')) || 1000;
+      const PACK_SLOTS = 5; // cada sobre da 5 cartas
 
-      // --- load persisted state robustly ---
-      const persistedMonedas = readNumberFromStorage("monedas_queens", 2000);
-      const persistedAlbum = safeJsonParse(localStorage.getItem("album_queens"), {});
-      const persistedTwitter = safeJsonParse(localStorage.getItem("bonus_twitter_claimed"), false);
-      const persistedTwitch = safeJsonParse(localStorage.getItem("bonus_twitch_claimed"), false);
-      const persistedCreator = safeJsonParse(localStorage.getItem("claimed_creator_codes"), {});
-      const persistedFreePacks = readNumberFromStorage("free_packs", 0);
+      // Probabilities by tipo (weights). You can tweak these numbers to increase/decrease rarity.
+      const TYPE_WEIGHTS = {
+        supercampeonas: 2,   // muy raro
+        presidenta: 20,
+        escudo: 40,
+        escudoqlame: 20,
+        presisqlame: 18
+      };
 
-      let monedas = (typeof persistedMonedas === "number" && !Number.isNaN(persistedMonedas)) ? persistedMonedas : 2000;
-      let album = (typeof persistedAlbum === "object" && persistedAlbum !== null) ? persistedAlbum : {};
-      let claimedTwitter = persistedTwitter || false;
-      let claimedTwitch = persistedTwitch || false;
-      let claimed_creator_codes = persistedCreator || {};
-      let freePacks = Number.isInteger(persistedFreePacks) ? persistedFreePacks : (parseInt(persistedFreePacks) || 0);
-
-      // make sure packs_opened not persisted
-      localStorage.removeItem("packs_opened");
-      let packsOpened = {};
-
-      // build weighted pool
-      const TYPE_WEIGHTS = { supercampeonas:2, presidenta:20, escudo:40, escudoqlame:20, presisqlame:18 };
+      // Build a weighted pool of individual cards (pool contains references to card objects).
       let weightedPool = [];
-      (function buildPool(){
+      (function buildWeightedPool(){
         weightedPool = [];
         CARDS.forEach(card => {
           const w = Math.max(1, Math.round(TYPE_WEIGHTS[card.tipo] || 10));
-          for (let i=0;i<w;i++) weightedPool.push(card);
+          for (let i = 0; i < w; i++) weightedPool.push(card);
         });
-        for (let i=weightedPool.length-1;i>0;i--){
-          const j = Math.floor(Math.random()*(i+1));
+        // shuffle pool
+        for (let i = weightedPool.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
           [weightedPool[i], weightedPool[j]] = [weightedPool[j], weightedPool[i]];
         }
+        console.log("Weighted pool ready:", weightedPool.length, "entries");
       })();
 
       // DOM refs
       const monedasPanel = document.getElementById("monedas-panel");
       const mainContent = document.getElementById("main-content");
       const notificacion = document.getElementById("notificacion");
+      const modal = document.getElementById("modal");
+      const modalImg = document.getElementById("modal-img");
+      const modalClose = document.getElementById("modal-close");
+      const modalInfoTop = document.getElementById("modal-info-top");
+      const modalCards = document.getElementById("modal-cards");
+      const modalCardsGrid = document.getElementById("modal-cards-grid");
+      const modalCardsInfo = document.getElementById("modal-cards-info");
+      const modalCardsClose = document.getElementById("modal-cards-close");
 
-      const modalEl = document.getElementById("modal");
-      const modalCloseBtn = document.getElementById("modal-close");
-      const modalCardsEl = document.getElementById("modal-cards");
-      const modalCardsCloseBtn = document.getElementById("modal-cards-close");
+      const btnSobres = document.getElementById("btn-sobres");
+      const btnAlbum = document.getElementById("btn-album");
+      const btnDaily = document.getElementById("btn-daily");
+      const btnTwitter = document.getElementById("btn-twitter");
+      const btnTwitch = document.getElementById("btn-twitch");
 
-      if (modalCloseBtn) modalCloseBtn.addEventListener("click", () => modalEl.style.display = "none");
-      if (modalCardsCloseBtn) modalCardsCloseBtn.addEventListener("click", () => modalCardsEl.style.display = "none");
-      if (modalEl) modalEl.addEventListener("click", e => { if (e.target === modalEl) modalEl.style.display = "none"; });
-      if (modalCardsEl) modalCardsEl.addEventListener("click", e => { if (e.target === modalCardsEl) modalCardsEl.style.display = "none"; });
+      // State: keep album and monedas persistent, but reset packs on each reload so user can open more on refresh
+      let monedas = parseInt(localStorage.getItem("monedas_queens")) || 2000;
+      let album = JSON.parse(localStorage.getItem("album_queens")) || {};
+      let claimedTwitter = JSON.parse(localStorage.getItem("bonus_twitter_claimed")) || false;
+      let claimedTwitch = JSON.parse(localStorage.getItem("bonus_twitch_claimed")) || false;
 
-      // save state
+      // Important: remove persisted packs_opened so that on page refresh packs reload and can be opened again
+      localStorage.removeItem("packs_opened");
+      let packsOpened = {}; // not persisted across refresh intentionally
+
+      let currentFilter = "Todas";
+      let showOnlyObtained = false;
+
+      // Utilities
       function saveState() {
-        try {
-          localStorage.setItem("monedas_queens", String(monedas));
-          localStorage.setItem("album_queens", JSON.stringify(album));
-          localStorage.setItem("bonus_twitter_claimed", JSON.stringify(claimedTwitter));
-          localStorage.setItem("bonus_twitch_claimed", JSON.stringify(claimedTwitch));
-          localStorage.setItem("claimed_creator_codes", JSON.stringify(claimed_creator_codes));
-          localStorage.setItem("free_packs", String(freePacks));
-        } catch (e) { console.error("saveState error", e); }
+        // persist only monedas, album, bonuses — NOT packsOpened so packs reset on refresh
+        localStorage.setItem("monedas_queens", String(monedas));
+        localStorage.setItem("album_queens", JSON.stringify(album));
+        localStorage.setItem("bonus_twitter_claimed", JSON.stringify(claimedTwitter));
+        localStorage.setItem("bonus_twitch_claimed", JSON.stringify(claimedTwitch));
       }
-
-      function updateMonedasUI() {
-        monedasPanel.textContent = "Monedas: " + monedas + (freePacks ? ` · Sobres gratis: ${freePacks}` : "");
+      function updateMonedas() {
+        monedasPanel.textContent = "Monedas: " + monedas;
         saveState();
       }
-
-      function showNotificacionMsg(msg, timeout = 2400) {
+      function showNotificacion(msg, timeout = 2400) {
+        if (!notificacion) return;
         notificacion.textContent = msg;
         notificacion.style.display = "block";
-        setTimeout(()=> notificacion.style.display = "none", timeout);
+        setTimeout(() => notificacion.style.display = "none", timeout);
       }
 
-      // pick random card from weighted pool
-      function pickRandomCardFromPool(){
-        if (!weightedPool.length) return CARDS[Math.floor(Math.random()*CARDS.length)];
-        return weightedPool[Math.floor(Math.random()*weightedPool.length)];
+      // Modal handlers
+      if (modalClose) modalClose.addEventListener("click", () => modal.style.display = "none");
+      if (modal) modal.addEventListener("click", (e) => { if (e.target === modal) modal.style.display = "none"; });
+      if (modalCardsClose) modalCardsClose.addEventListener("click", () => modalCards.style.display = "none");
+      if (modalCards) modalCards.addEventListener("click", (e) => { if (e.target === modalCards) modalCards.style.display = "none"; });
+
+      // Random pick from weightedPool (with replacement)
+      function pickRandomCardFromPool() {
+        if (!weightedPool.length) return CARDS[Math.floor(Math.random() * CARDS.length)];
+        const idx = Math.floor(Math.random() * weightedPool.length);
+        return weightedPool[idx];
       }
 
-      // generate pack with no duplicates inside
+      // Generate a pack of PACK_SLOTS cards (with replacement, cards can repeat)
       function generatePack() {
-        const chosen = new Set();
-        const out = [];
-        let attempts = 0;
-        while(out.length < PACK_SLOTS && attempts < 2000){
-          const c = pickRandomCardFromPool();
-          if (!chosen.has(c.id)) { chosen.add(c.id); out.push(c); }
-          attempts++;
+        const result = [];
+        for (let i = 0; i < PACK_SLOTS; i++) {
+          result.push(pickRandomCardFromPool());
         }
-        if (out.length < PACK_SLOTS) {
-          const remaining = CARDS.filter(x => !chosen.has(x.id));
-          while(out.length < PACK_SLOTS && remaining.length) {
-            const i = Math.floor(Math.random()*remaining.length);
-            out.push(remaining.splice(i,1)[0]);
-          }
-        }
-        return out;
+        return result;
       }
 
-      // CREATOR CODES
-      const CREATOR_CODES = [
-        { code: "IZANDHH", reward: { type: "coins", amount: 2000 }, description: "Bonus Izandhh: +2000 monedas" },
-        { code: "STREAMERA", reward: { type: "coins", amount: 1500 }, description: "Bonus Streamer A: +1500 monedas" },
-        { code: "FREEPACK", reward: { type: "pack", amount: 1 }, description: "Sobre gratis: 1 sobre gratis" },
-        { code: "GIFT25", reward: { type: "card", cardId: 25, amount: 1 }, description: "Regalo: 1 cromo Supercampeonas (ID 25)" }
-      ];
+      // ---------- VIEWS ----------
 
-      function redeemCreatorCode(input){
-        if(!input) { showNotificacionMsg("Introduce un código."); return; }
-        const code = String(input).trim().toUpperCase();
-        const found = CREATOR_CODES.find(c => c.code.toUpperCase() === code);
-        if(!found){ showNotificacionMsg("Código no válido."); return; }
-        if(claimed_creator_codes[code]){ showNotificacionMsg("Código ya canjeado."); return; }
-
-        const r = found.reward;
-        if(r.type === "coins"){ monedas += (r.amount||0); showNotificacionMsg(found.description || `+${r.amount} monedas`); }
-        else if(r.type === "pack"){ freePacks += (r.amount||1); showNotificacionMsg(found.description || `+${r.amount||1} sobre(s)`); }
-        else if(r.type === "card"){ const cid = r.cardId; const amt = r.amount||1; album[cid] = (album[cid]||0) + amt; showNotificacionMsg(found.description || `Recibiste ${amt} carta(s)`); }
-        else showNotificacionMsg("Recompensa desconocida.");
-
-        claimed_creator_codes[code] = true;
-        saveState();
-        updateMonedasUI();
-      }
-
-      // UI: render menu
-      function renderMenu(){
+      function renderMenu() {
         mainContent.innerHTML = `
           <div class="menu-principal">
-            <h2 style="margin:0 0 .3rem 0;color:#222">Bienvenido al Álbum Virtual</h2>
-            <p style="margin:0 0 .6rem 0;color:#444">Pulsa "Abrir Sobre" para comprar+abrir sobres. Cada sobre cuesta <strong>${PACK_COST} monedas</strong>.</p>
+            <h2 style="margin:0 0 .3rem 0;">Bienvenido al Álbum Virtual</h2>
+            <p style="margin:0 0 .6rem 0; color:#444; text-align:center;">Pulsa "Abrir Sobre" para comprar+abrir sobres. Cada sobre cuesta <strong>${PACK_COST} monedas</strong>. Las cartas raras (supercampeonas) aparecen muy rara vez.</p>
             <div class="actions">
-              <button id="menu-open-packs" class="login-btn">Abrir Sobre</button>
+              <button id="menu-open-packs" class="login-btn">Abrir Sobre (ir a página de sobres)</button>
               <button id="menu-view-album" class="login-btn">Ver Mi Álbum</button>
-              <button id="menu-claim" class="login-btn">Reclamar Recompensa de Creador</button>
+              <button id="menu-daily" class="login-btn">Bonus Diario</button>
             </div>
           </div>
         `;
-        document.getElementById("menu-open-packs").addEventListener("click", renderPacksPage);
-        document.getElementById("menu-view-album").addEventListener("click", renderAlbumPage);
-        document.getElementById("menu-claim").addEventListener("click", renderClaimPage);
+        document.getElementById("menu-open-packs")?.addEventListener("click", renderPacksPage);
+        document.getElementById("menu-view-album")?.addEventListener("click", renderAlbumPage);
+        document.getElementById("menu-daily")?.addEventListener("click", handleDailyBonus);
       }
 
       // Packs page
-      function renderPacksPage(){
+      function renderPacksPage() {
         mainContent.innerHTML = `
-          <h2 style="margin:0 0 .4rem 0;color:#222">Abrir Sobres</h2>
-          <p style="margin:0 0 .6rem 0;color:#444">Pulsa un sobre para comprarlo y abrirlo. Si tienes sobres gratis se usarán primero.</p>
-          <div style="display:flex;gap:12px;justify-content:flex-end">
+          <h2 style="margin:0 0 .4rem 0;">Abrir Sobres</h2>
+          <p style="margin:0 0 .6rem 0;">Pulsa un sobre para comprarlo y abrirlo. Cada sobre cuesta <strong>${PACK_COST} monedas</strong>. Los sobres pueden darte cartas de cualquier tipo; las supercampeonas son muy raras.</p>
+          <div style="display:flex; gap:12px; justify-content:flex-end;">
             <button id="open-all" class="login-btn">Abrir todos los sobres</button>
-            <button id="back-menu" class="login-btn" style="background:transparent;color:var(--accent);border:2px solid var(--accent);">Volver</button>
+            <button id="back-menu" class="login-btn" style="background:transparent; color:var(--accent); border:2px solid var(--accent);">Volver al menú</button>
           </div>
-          <div class="packs-grid" id="packs-grid" style="margin-top:12px"></div>
+          <div class="packs-grid" id="packs-grid" style="margin-top:12px;"></div>
         `;
         const packsGrid = document.getElementById("packs-grid");
-        for(let i=1;i<=5;i++){
+        packsGrid.innerHTML = "";
+        for (let i = 1; i <= 5; i++) {
           const div = document.createElement("div");
           div.className = "pack";
-          div.dataset.index = i;
-          div.innerHTML = `<img src="${REVERSO}" alt="Sobre ${i}"><div class="pack-badge">${PACK_COST} Ⓜ</div><div style="position:absolute;left:10px;top:10px;color:#fff;font-weight:800;background:rgba(0,0,0,0.35);padding:6px 8px;border-radius:8px">Sobre ${i}</div>`;
-          if(packsOpened[String(i)]) div.classList.add("opened");
-          div.addEventListener("click", ()=> handlePackClick(div));
+          div.dataset.index = String(i);
+          // reverso as pack design
+          const img = document.createElement("img");
+          img.src = REVERSO;
+          img.alt = `Sobre ${i}`;
+          div.appendChild(img);
+
+          const badge = document.createElement("div");
+          badge.className = "pack-badge";
+          badge.textContent = `${PACK_COST} Ⓜ`;
+          div.appendChild(badge);
+
+          const label = document.createElement("div");
+          label.style.position = "absolute";
+          label.style.left = "10px";
+          label.style.top = "10px";
+          label.style.color = "#fff";
+          label.style.fontWeight = "800";
+          label.style.background = "rgba(0,0,0,0.35)";
+          label.style.padding = "6px 8px";
+          label.style.borderRadius = "8px";
+          label.textContent = `Sobre ${i}`;
+          div.appendChild(label);
+
+          // packsOpened is reset on page load, so all packs show unopened after refresh
+          if (packsOpened[String(i)]) div.classList.add("opened");
+
+          div.addEventListener("click", () => handlePackClick(div));
           packsGrid.appendChild(div);
         }
-        document.getElementById("open-all").addEventListener("click", openAllPacks);
-        document.getElementById("back-menu").addEventListener("click", renderMenu);
+
+        document.getElementById("open-all")?.addEventListener("click", openAllPacks);
+        document.getElementById("back-menu")?.addEventListener("click", renderMenu);
       }
 
-      // Pack actions
-      function handlePackClick(packDiv){
-        const idx = String(packDiv.dataset.index);
-        if(packsOpened[idx]) { showNotificacionMsg("Este sobre ya está abierto en esta sesión."); return; }
+      function handlePackClick(packDiv) {
+        const idx = String(packDiv?.dataset?.index || "");
+        if (!packDiv || !idx) return;
+        if (packsOpened[idx]) {
+          showNotificacion("Este sobre ya está abierto (durante esta sesión).");
+          return;
+        }
+        if (monedas < PACK_COST) {
+          showNotificacion(`Necesitas ${PACK_COST} monedas para abrir este sobre.`);
+          return;
+        }
+        // Deduct coins
+        monedas -= PACK_COST;
+        updateMonedas();
 
-        if (freePacks > 0) { freePacks--; }
-        else if (monedas >= PACK_COST) { monedas -= PACK_COST; }
-        else { showNotificacionMsg(`Necesitas ${PACK_COST} monedas para abrir este sobre.`); return; }
-
-        updateMonedasUI();
-
-        const cards = generatePack();
-        cards.forEach(c => album[c.id] = (album[c.id]||0) + 1);
-        packsOpened[idx] = true;
+        // generate random content using weighted pool (cards can repeat)
+        const newCards = generatePack();
+        // add to album (allow duplicates)
+        newCards.forEach(c => album[c.id] = (album[c.id] || 0) + 1);
+        packsOpened[idx] = true; // not persisted: will reset on refresh
         saveState();
         packDiv.classList.add("opened");
-        showPackCardsModal(`Has abierto el Sobre ${idx}. Contenido:`, cards);
+        showPackCardsModal(`Has comprado y abierto el Sobre ${idx}. Contenido:`, newCards);
       }
 
-      function openAllPacks(){
+      function openAllPacks() {
         const packDivs = document.querySelectorAll(".packs-grid .pack");
-        let opened = 0, cannot = 0; const openedCards=[];
-        packDivs.forEach(div=>{
+        let countOpened = 0;
+        let cannotOpen = 0;
+        const openedCards = [];
+        packDivs.forEach(div => {
           const idx = String(div.dataset.index);
-          if(packsOpened[idx]) return;
-          if (freePacks > 0) { freePacks--; }
-          else if (monedas >= PACK_COST) { monedas -= PACK_COST; }
-          else { cannot++; return; }
-          const cards = generatePack();
-          cards.forEach(c=> { album[c.id] = (album[c.id]||0)+1; openedCards.push(c); });
-          packsOpened[idx] = true;
-          div.classList.add("opened");
-          opened++;
+          if (!packsOpened[idx]) {
+            if (monedas >= PACK_COST) {
+              monedas -= PACK_COST;
+              const pCards = generatePack();
+              pCards.forEach(c => { album[c.id] = (album[c.id] || 0) + 1; openedCards.push(c); });
+              packsOpened[idx] = true;
+              div.classList.add("opened");
+              countOpened++;
+            } else {
+              cannotOpen++;
+            }
+          }
         });
-        if(opened===0){ showNotificacionMsg("No tienes suficientes monedas para abrir sobres."); return; }
-        saveState(); updateMonedasUI();
-        showPackCardsModal(`Has abierto ${opened} sobres.` + (cannot ? ` No hubo monedas para ${cannot} sobres.` : ''), openedCards);
+        if (countOpened === 0) {
+          showNotificacion("No tienes suficientes monedas para abrir nuevos sobres.");
+          return;
+        }
+        saveState();
+        updateMonedas();
+        showPackCardsModal(`Has abierto ${countOpened} sobres.` + (cannotOpen ? ` No hubo monedas para ${cannotOpen} sobres.` : ''), openedCards);
       }
 
-      function showPackCardsModal(title, cards){
-        const grid = document.getElementById("modal-cards-grid");
-        document.getElementById("modal-cards-info").textContent = title;
-        grid.innerHTML = "";
-        cards.forEach(card=>{
-          const d = document.createElement("div"); d.className = "cromo";
-          d.innerHTML = `<img src="${card.imagen}" alt="${card.nombre}">`;
-          grid.appendChild(d);
+      function showPackCardsModal(titleText, cards) {
+        modalCardsGrid.innerHTML = "";
+        modalCardsInfo.textContent = titleText;
+        const toShow = Array.isArray(cards) && cards.length ? cards : [];
+        toShow.forEach(card => {
+          const div = document.createElement("div");
+          div.className = "cromo";
+          div.innerHTML = `<img src="${card ? card.imagen : REVERSO}" alt="${card ? card.nombre : 'Cromo'}" tabindex="0">`;
+          modalCardsGrid.appendChild(div);
         });
-        modalCardsEl.style.display = "flex";
+        modalCards.style.display = "flex";
       }
 
-      // Album view
-      function renderAlbumPage(){
+      // Album view with filters for types
+      const TYPES_ORDER = ["Todas","escudo","escudoqlame","presidenta","presisqlame","supercampeonas"];
+      function renderAlbumPage() {
         mainContent.innerHTML = `
-          <h2 style="margin:0 0 .4rem 0;color:#222">Mi Álbum</h2>
-          <div style="display:flex;gap:.6rem;align-items:center;margin-bottom:.6rem">
-            <p id="progreso" class="progreso-album" style="margin:0"></p>
-            <div class="filters" id="filters" style="margin-left:auto"></div>
-            <button id="back-menu-2" class="login-btn" style="background:transparent;color:var(--accent);border:2px solid var(--accent);">Volver</button>
+          <h2 style="margin:0 0 .4rem 0;">Mi Álbum</h2>
+          <div style="display:flex; gap:.6rem; align-items:center; margin-bottom:.6rem;">
+            <p class="progreso-album" id="progreso" style="margin:0"></p>
+            <div class="filters" id="filters" style="margin-left:auto;"></div>
+            <button id="back-menu-2" class="login-btn" style="background:transparent; color:var(--accent); border:2px solid var(--accent);">Volver</button>
           </div>
           <div class="album-grid" id="album-grid"></div>
+          <p style="margin-top:12px; color:var(--accent); font-weight:700;">Pulsa cualquier cromo para verlo; puedes vender duplicadas (cada duplicada = 100 monedas, excepto "supercampeonas" que valen 250 monedas).</p>
         `;
-        document.getElementById("back-menu-2").addEventListener("click", renderMenu);
+        document.getElementById("back-menu-2")?.addEventListener("click", renderMenu);
         const filtroCont = document.getElementById("filters");
-        const TYPES = ["Todas","escudo","escudoqlame","presidenta","presisqlame","supercampeonas"];
         filtroCont.innerHTML = "";
-        TYPES.forEach(t=>{
-          const btn = document.createElement("button"); btn.className = "filter-btn"; btn.textContent = t;
-          btn.addEventListener("click", ()=>{ currentFilter = t; renderAlbumPage(); });
+        TYPES_ORDER.forEach(t => {
+          const btn = document.createElement("button");
+          btn.className = "filter-btn" + (currentFilter === t ? " active" : "");
+          btn.textContent = t === "Todas" ? "Todas" : t;
+          btn.addEventListener("click", () => { currentFilter = t; renderAlbumPage(); });
           filtroCont.appendChild(btn);
         });
+
         const albumGrid = document.getElementById("album-grid");
         const total = CARDS.length;
         const obtained = CARDS.filter(c => album[c.id]).length;
         document.getElementById("progreso").textContent = `Cartas obtenidas: ${obtained} / ${total}`;
-        let cardsToShow = CARDS.slice().sort((a,b)=>a.id-b.id);
-        if(currentFilter !== "Todas") cardsToShow = cardsToShow.filter(c=>c.tipo===currentFilter);
-        albumGrid.innerHTML = "";
-        cardsToShow.forEach(card=>{
-          const d = document.createElement("div"); d.className = "cromo";
+
+        let cardsToShow = CARDS.slice().sort((a,b) => a.id - b.id);
+        if (currentFilter !== "Todas") cardsToShow = cardsToShow.filter(c => c.tipo === currentFilter);
+
+        if (cardsToShow.length === 0) {
+          albumGrid.innerHTML = `<div style="padding:1rem; color:#666">No hay cartas en esta categoría.</div>`;
+          return;
+        }
+
+        cardsToShow.forEach(card => {
+          const div = document.createElement("div");
+          div.className = "cromo";
           const img = document.createElement("img");
           img.src = album[card.id] ? card.imagen : REVERSO;
           img.alt = card.nombre;
-          img.addEventListener("click", ()=> openCardModal(card));
-          d.appendChild(img);
-          if(album[card.id] && album[card.id] > 1){
-            const dup = document.createElement("span"); dup.className="duplicadas"; dup.textContent = album[card.id];
-            const btn = document.createElement("button"); btn.className="btn-vender"; btn.textContent="Vender";
-            btn.addEventListener("click", (e)=>{ e.stopPropagation(); sellDuplicates(card.id); });
-            d.appendChild(dup); d.appendChild(btn);
+          img.tabIndex = 0;
+          img.addEventListener("click", () => openCardModal(card));
+          img.addEventListener("keyup", (e) => { if (e.key === "Enter") openCardModal(card); });
+          div.appendChild(img);
+
+          if (album[card.id] && album[card.id] > 1) {
+            const dup = document.createElement("span"); dup.className = "duplicadas"; dup.textContent = album[card.id];
+            div.appendChild(dup);
+            const btn = document.createElement("button"); btn.className = "btn-vender"; btn.textContent = "Vender";
+            btn.addEventListener("click", (e) => { e.stopPropagation(); sellDuplicates(card.id); });
+            div.appendChild(btn);
           }
-          albumGrid.appendChild(d);
+          albumGrid.appendChild(div);
         });
       }
 
-      function openCardModal(card){
+      // Card modal: info at top centered
+      function openCardModal(card) {
         const copies = album[card.id] || 0;
-        document.getElementById("modal-info").textContent = copies > 0 ? `${card.nombre} · Copias: ${copies}` : `${card.nombre} · Aún no obtenida`;
-        document.getElementById("modal-img").src = card.imagen;
-        document.getElementById("modal-img").alt = card.nombre;
-        modalEl.style.display = "flex";
+        modalInfoTop.textContent = copies > 0 ? `${card.nombre} · Copias: ${copies}` : `${card.nombre} · Aún no obtenida`;
+        modalImg.src = card.imagen;
+        modalImg.alt = card.nombre;
+        modal.style.display = "flex";
       }
 
-      function sellDuplicates(cardId){
+      // SELL DUPLICATES: special value for supercampeonas (250 each), normal 100 for others
+      function sellDuplicates(cardId) {
         const qty = album[cardId] || 0;
-        if(qty <= 1) { showNotificacionMsg("No tienes duplicadas para vender."); return; }
+        if (qty <= 1) { showNotificacion("No tienes duplicadas para vender."); return; }
         const duplicates = qty - 1;
-        const card = CARDS.find(c=>c.id===cardId);
-        const per = (card && card.tipo==="supercampeonas") ? 250 : 100;
-        const gained = duplicates * per;
+
+        // find card to know its tipo
+        const card = CARDS.find(c => c.id === cardId);
+        const perDuplicateValue = (card && card.tipo === "supercampeonas") ? 250 : 100;
+        const gained = duplicates * perDuplicateValue;
+
         monedas += gained;
         album[cardId] = 1;
-        saveState(); updateMonedasUI();
-        showNotificacionMsg(`Vendiste ${duplicates} duplicadas y ganaste ${gained} monedas`);
+        saveState(); updateMonedas();
+        showNotificacion(`Vendiste ${duplicates} duplicadas y ganaste ${gained} monedas`);
         renderAlbumPage();
       }
 
-      // Claim page (with restore/export helpers)
-      function renderClaimPage(){
-        const redeemedList = Object.keys(claimed_creator_codes).filter(k=>claimed_creator_codes[k]);
-        mainContent.innerHTML = `
-          <h2 style="margin:0 0 .4rem 0;color:#222">Reclamar Recompensa de Creador</h2>
-          <p style="margin:0 0 .6rem 0;color:#444">Introduce el código que te da la creadora/streamer. Cada código se canjea una sola vez por usuario.</p>
-          <div style="display:flex;gap:.6rem;align-items:center;margin-bottom:.8rem">
-            <input id="creator-code-input" placeholder="Introduce código" style="padding:.6rem .8rem;border-radius:8px;border:1px solid #ddd;flex:1" />
-            <button id="redeem-code" class="login-btn">Canjear</button>
-            <button id="restore-coins" class="login-btn" style="background:transparent;color:var(--accent);border:2px solid var(--accent);">Restaurar Monedas</button>
-            <button id="back-menu-claim" class="login-btn" style="background:transparent;color:var(--accent);border:2px solid var(--accent);">Volver</button>
-          </div>
-          <div style="display:flex;gap:1rem;align-items:flex-start">
-            <div style="flex:1">
-              <h4 style="margin:.2rem 0">Códigos canjeados</h4>
-              <div id="redeemed-codes" style="background:#fafafa;padding:10px;border-radius:8px;color:#444;min-height:40px">${redeemedList.length ? redeemedList.join(", ") : "No has canjeado códigos todavía."}</div>
-              <div style="margin-top:.6rem"><button id="export-state" class="login-btn" style="background:transparent;color:var(--accent);border:2px solid var(--accent)">Exportar estado</button> <button id="clear-corrupt" class="login-btn" style="background:transparent;color:var(--accent);border:2px solid var(--accent)">Limpiar localStorage (riesgo)</button></div>
-            </div>
-            <div style="width:260px">
-              <h4 style="margin:.2rem 0">Estado</h4>
-              <div style="background:#fafafa;padding:10px;border-radius:8px;color:#444">
-                <div>Monedas: <strong id="status-coins">${monedas}</strong></div>
-                <div>Sobres gratis: <strong id="status-freepacks">${freePacks}</strong></div>
-                <div style="margin-top:8px;font-size:.9rem;color:#666">(Los códigos están en el archivo; cada código solo se canjea 1 vez por usuario).</div>
-              </div>
-            </div>
-          </div>
-        `;
-        document.getElementById("redeem-code").addEventListener("click", ()=>{
-          const v = document.getElementById("creator-code-input").value || "";
-          redeemCreatorCode(v);
-          document.getElementById("redeemed-codes").textContent = Object.keys(claimed_creator_codes).filter(k=>claimed_creator_codes[k]).join(", ") || "No has canjeado códigos todavía.";
-          document.getElementById("status-coins").textContent = monedas;
-          document.getElementById("status-freepacks").textContent = freePacks;
-        });
-        document.getElementById("back-menu-claim").addEventListener("click", renderMenu);
-        document.getElementById("restore-coins").addEventListener("click", ()=>{
-          const parsed = readNumberFromStorage("monedas_queens", null);
-          if(parsed === null){ showNotificacionMsg("No se pudo leer un valor válido de localStorage."); return; }
-          monedas = parsed; saveState(); updateMonedasUI();
-          document.getElementById("status-coins").textContent = monedas;
-          showNotificacionMsg("Monedas restauradas desde localStorage: " + monedas);
-        });
-        document.getElementById("export-state").addEventListener("click", ()=>{
-          const dump = { monedas, freePacks, album, claimed_creator_codes };
-          const txt = JSON.stringify(dump, null, 2);
-          // quick copy to clipboard
-          navigator.clipboard?.writeText(txt).then(()=> showNotificacionMsg("Estado copiado al portapapeles."), ()=> showNotificacionMsg("Copia manual: abre la consola y copia window.__EXPORT_STATE"));
-          window.__EXPORT_STATE = dump;
-        });
-        document.getElementById("clear-corrupt").addEventListener("click", ()=>{
-          if(!confirm("Esto eliminará todas las claves guardadas (monedas, album, códigos canjeados). ¿Continuar?")) return;
-          localStorage.removeItem("monedas_queens");
-          localStorage.removeItem("album_queens");
-          localStorage.removeItem("claimed_creator_codes");
-          localStorage.removeItem("free_packs");
-          localStorage.removeItem("bonus_twitter_claimed");
-          localStorage.removeItem("bonus_twitch_claimed");
-          monedas = 2000; album = {}; claimed_creator_codes = {}; freePacks = 0; claimedTwitter=false; claimedTwitch=false;
-          saveState(); updateMonedasUI();
-          showNotificacionMsg("localStorage limpiado. Estado reiniciado.");
-          renderClaimPage();
-        });
+      // Bonuses
+      function handleDailyBonus() {
+        const last = parseInt(localStorage.getItem("bonus_daily_last") || "0");
+        const now = Date.now();
+        const oneDay = 24 * 60 * 60 * 1000;
+        if (!last || now - last > oneDay) {
+          monedas += 2000;
+          localStorage.setItem("bonus_daily_last", String(now));
+          saveState(); updateMonedas();
+          showNotificacion("Bonus diario: +2000 monedas");
+        } else {
+          showNotificacion("Ya reclamaste el bonus diario en las últimas 24h.");
+        }
+      }
+      function handleTwitterBonus() {
+        window.open("https://x.com/izandhh", "_blank", "noopener");
+        if (claimedTwitter) { showNotificacion("Bonus X ya reclamado."); return; }
+        claimedTwitter = true; monedas += 1500; saveState(); updateMonedas();
+        showNotificacion("Bonus por seguir en X: +1500 monedas");
+      }
+      function handleTwitchBonus() {
+        window.open("https://twitch.tv/izandhh", "_blank", "noopener");
+        if (claimedTwitch) { showNotificacion("Bonus Twitch ya reclamado."); return; }
+        claimedTwitch = true; monedas += 1500; saveState(); updateMonedas();
+        showNotificacion("Bonus por seguir en Twitch: +1500 monedas");
       }
 
-      // init wiring header buttons
-      document.getElementById("btn-sobres").addEventListener("click", renderPacksPage);
-      document.getElementById("btn-album").addEventListener("click", renderAlbumPage);
-      document.getElementById("btn-claim").addEventListener("click", renderClaimPage);
-      document.getElementById("btn-daily").addEventListener("click", ()=>{
-        const last = parseInt(localStorage.getItem("bonus_daily_last")||"0"); const now = Date.now();
-        if(!last || now - last > 24*60*60*1000){ monedas += 2000; localStorage.setItem("bonus_daily_last",String(now)); saveState(); updateMonedasUI(); showNotificacionMsg("Bonus diario: +2000 monedas"); }
-        else showNotificacionMsg("Ya reclamaste el bonus diario en las últimas 24h.");
-      });
-      document.getElementById("btn-twitter").addEventListener("click", ()=>{
-        window.open("https://x.com/izandhh","_blank","noopener");
-        if(claimedTwitter) { showNotificacionMsg("Bonus X ya reclamado."); return; }
-        claimedTwitter = true; monedas += 1500; saveState(); updateMonedasUI(); showNotificacionMsg("Bonus por seguir en X: +1500 monedas");
-      });
-      document.getElementById("btn-twitch").addEventListener("click", ()=>{
-        window.open("https://twitch.tv/izandhh","_blank","noopener");
-        if(claimedTwitch) { showNotificacionMsg("Bonus Twitch ya reclamado."); return; }
-        claimedTwitch = true; monedas += 1500; saveState(); updateMonedasUI(); showNotificacionMsg("Bonus por seguir en Twitch: +1500 monedas");
-      });
+      // Header buttons wiring
+      btnSobres && btnSobres.addEventListener("click", renderPacksPage);
+      btnAlbum && btnAlbum.addEventListener("click", renderAlbumPage);
+      btnDaily && btnDaily.addEventListener("click", handleDailyBonus);
+      btnTwitter && btnTwitter.addEventListener("click", handleTwitterBonus);
+      btnTwitch && btnTwitch.addEventListener("click", handleTwitchBonus);
 
-      // initial UI
-      updateMonedasUI();
+      // Init
+      updateMonedas();
       renderMenu();
 
-      // debug exposure
-      window.__STATE = { monedas, freePacks, album, claimed_creator_codes };
-      window.__dump = () => ({ monedas, freePacks, album, claimed_creator_codes, localStorageSnapshot: Object.assign({}, localStorage) });
-      console.log("App initialized. Debug helpers: window.__STATE, window.__dump()");
+      console.log("App inicializada. Packs se recargan en cada refresh (packsOpened not persisted). Duplicadas supercampeonas valen 250 cada una.");
+      window.__CARDS = CARDS;
+      window.__album = album;
+      window.__weightedPool = weightedPool;
+      window.__generatePack = generatePack;
     });
   </script>
 </body>
