@@ -1,366 +1,367 @@
 // ==============================
 // Álbum Virtual Queens League Oysho
-// App principal
+// files/app.js (cargado desde index.html)
+// Versión robusta: espera DOMContentLoaded, no usa inline onclick
 // ==============================
 
-// --------- CONFIGURACIÓN Y DATOS ---------
+document.addEventListener("DOMContentLoaded", () => {
+  // ----- CONFIG -----
+  const REVERSO = "https://i.ibb.co/F443KZqx/00-REVERSO.png";
 
-    const REVERSO = "https://i.ibb.co/F443KZqx/00-REVERSO.png";
-    const CARD_CATEGORIES = [
-      { name: "Escudos", filter: c => c.tipo === "escudo" },
-      { name: "Escudos QL America", filter: c => c.tipo === "escudoqlame" },
-      { name: "Presidentas/es", filter: c => c.tipo === "presidenta" },
-      { name: "Presidentas/es QL America", filter: c => c.tipo === "presisqlame" },
-      { name: "Supercampeonas", filter: c => c.tipo === "supercampeonas" }
-    ];
+  const CARD_CATEGORIES = [
+    { name: "Todas", filter: c => true },
+    { name: "Escudos", filter: c => c.tipo === "escudo" },
+    { name: "Presidentas/es", filter: c => c.tipo === "presidenta" },
+    { name: "Supercampeonas", filter: c => c.tipo === "supercampeonas" }
+  ];
 
-    // Ejemplo de cartas (añade las tuyas)
-    const CARDS = [
-    { id:1,nombre:"Escudo 1K",tipo:"escudo",imagen:"https://i.ibb.co/CpJ3c7B8/01-Escudo1-K.png"},
-    { id:2,nombre:"Escudo Aniquiladoras FC",tipo:"escudo",imagen:"https://i.ibb.co/N2hVWpqv/02-Escudo-Aniquiladoras.png"},
-    { id:3,nombre:"Escudo El Barrio",tipo:"escudo",imagen:"https://i.ibb.co/7JcZNXSQ/03-Escudo-Barrio.png"},
-    { id:4,nombre:"Escudo Jijantas FC",tipo:"escudo",imagen:"https://i.ibb.co/d4w5ppfS/04-Escudo-Jijantas.png"},
-    { id:5,nombre:"Escudo Kunitas",tipo:"escudo",imagen:"https://i.ibb.co/RMxrmnY/05-Escudo-Kunitas.png"},
-    { id:6,nombre:"Escudo Las Troncas FC",tipo:"escudo",imagen:"https://i.ibb.co/TDwwW6Qj/06-Escudo-Las-Troncas.png"},
-    { id:7,nombre:"Escudo PIO FC",tipo:"escudo",imagen:"https://i.ibb.co/Fk5XtqqS/07-Escudo-PIO.png"},
-    { id:8,nombre:"Escudo Porcinas FC",tipo:"escudo",imagen:"https://i.ibb.co/W4D56C3R/08-Escudo-Porcinas.png"},
-    { id:9,nombre:"Escudo Rayo de Barcelona",tipo:"escudo",imagen:"https://i.ibb.co/wr7Q4sVP/09-Escudo-Rayo-De-Barcelona.png"},
-    { id:10,nombre:"Escudo Saiyans FC",tipo:"escudo",imagen:"https://i.ibb.co/9kxn2vn9/10-Escudo-Saiyans-FC.png"},
-    { id:11,nombre:"Escudo Ultimate Móstoles",tipo:"escudo",imagen:"https://i.ibb.co/zVGgWPTf/11-Escudo-Ultimate-M-stoles.png"},
-    { id:12,nombre:"Escudo Xbuyer Team",tipo:"escudo",imagen:"https://i.ibb.co/nM27z99j/12-Escudo-XBuyer-Team.png"},
-    { id:37,nombre:"Escudo Atlético Parceras",tipo:"escudoqlame",imagen:"https://i.ibb.co/MDN445S2/14-Amablitz.png"},
-    { id:38,nombre:"Escudo Club de Cuervos",tipo:"escudoqlame",imagen:"https://i.ibb.co/MDN445S2/14-Amablitz.png"},
-    { id:39,nombre:"Escudo Galácticas del Caribe",tipo:"escudoqlame",imagen:"https://i.ibb.co/MDN445S2/14-Amablitz.png"},
-    { id:40,nombre:"Escudo Las Aliens FC",tipo:"escudoqlame",imagen:"https://i.ibb.co/MDN445S2/14-Amablitz.png"},
-    { id:41,nombre:"Escudo Las Chamas FC",tipo:"escudoqlame",imagen:"https://i.ibb.co/MDN445S2/14-Amablitz.png"},
-    { id:42,nombre:"Escudo Las Santas FC",tipo:"escudoqlame",imagen:"https://i.ibb.co/MDN445S2/14-Amablitz.png"},
-    { id:43,nombre:"Escudo Muchachas FC",tipo:"escudoqlame",imagen:"https://i.ibb.co/MDN445S2/14-Amablitz.png"},
-    { id:44,nombre:"Escudo Olimpo United",tipo:"escudoqlame",imagen:"https://i.ibb.co/MDN445S2/14-Amablitz.png"},
-    { id:45,nombre:"Escudo Peluche Caligari",tipo:"escudoqlame",imagen:"https://i.ibb.co/MDN445S2/14-Amablitz.png"},
-    { id:46,nombre:"Escudo Persas FC",tipo:"escudoqlame",imagen:"https://i.ibb.co/MDN445S2/14-Amablitz.png"},
-    { id:47,nombre:"Escudo Raniza FC",tipo:"escudoqlame",imagen:"https://i.ibb.co/MDN445S2/14-Amablitz.png"},
-    { id:48,nombre:"Escudo Real Titán FC",tipo:"escudoqlame",imagen:"https://i.ibb.co/MDN445S2/14-Amablitz.png"},
-    { id:49,nombre:"Escudo Atlético Parceras",tipo:"escudoqlame",imagen:"https://i.ibb.co/MDN445S2/14-Amablitz.png"},
-    { id:13,nombre:"Mayichi (1K)",tipo:"presidenta",imagen:"https://i.ibb.co/MDN445S2/14-Amablitz.png"},
-    { id:14,nombre:"Ama Blitz (Aniquiladoras FC)",tipo:"presidenta",imagen:"https://i.ibb.co/0p9Js9tm/13-Mayichi.png"},
-    { id:15,nombre:"Adri Contreras + Mercedes Roa (El Barrio)",tipo:"presidenta",imagen:"https://i.ibb.co/V01ZjqVb/15-Mercedes-Roa-Adri-Contreras.png"},
-    { id:16,nombre:"Gerard Romero + Lis Cid (Jijantas FC)",tipo:"presidenta",imagen:"https://i.ibb.co/tTncqzTb/16-Gerard-Romero-Lis-Cid.png"},
-    { id:17,nombre:"Jo Valicenti (Kunitas)",tipo:"presidenta",imagen:"https://i.ibb.co/whpJcVz0/17-Jo-Valicenti.png"},
-    { id:18,nombre:"Violeta (Las Troncas FC)",tipo:"presidenta",imagen:"https://i.ibb.co/Kpp37QqZ/18-Violeta.png"},
-    { id:19,nombre:"Rivers (PIO FC)",tipo:"presidenta",imagen:"https://i.ibb.co/hRbZNNry/19-Rivers.png"},
-    { id:20,nombre:"Gemita (Porcinas FC)",tipo:"presidenta",imagen:"https://i.ibb.co/kgQqHB40/20-Gemita.png"},
-    { id:21,nombre:"Spursito (Rayo de Barcelona)",tipo:"presidenta",imagen:"https://i.ibb.co/CpYRPJ7v/21-Spursito.png"},
-    { id:22,nombre:"Totakeki (Saiyans FC)",tipo:"presidenta",imagen:"https://i.ibb.co/fYQ41S7r/22-Totakeki.png"},
-    { id:23,nombre:"Noe9977 (Ultimate Móstoles)",tipo:"presidenta",imagen:"https://i.ibb.co/G4qQYCTY/23-Noe9977.png"},
-    { id:24,nombre:"Javi Buyer + Eric Minibuyer (Xbuyer Team)",tipo:"presidenta",imagen:"https://i.ibb.co/KjRXYVtY/24-Hnos-Buyer.png"},
-     { id:50,nombre:"Escudo Atlético Parceras",tipo:"escudoqlame",imagen:"https://i.ibb.co/MDN445S2/14-Amablitz.png"},
-    { id:51,nombre:"Escudo Club de Cuervos",tipo:"escudoqlame",imagen:"https://i.ibb.co/MDN445S2/14-Amablitz.png"},
-    { id:52,nombre:"Escudo Galácticas del Caribe",tipo:"escudoqlame",imagen:"https://i.ibb.co/MDN445S2/14-Amablitz.png"},
-    { id:53,nombre:"Escudo Las Aliens FC",tipo:"presisqlame",imagen:"https://i.ibb.co/MDN445S2/14-Amablitz.png"},
-    { id:54,nombre:"Escudo Las Chamas FC",tipo:"presisqlame",imagen:"https://i.ibb.co/MDN445S2/14-Amablitz.png"},
-    { id:55,nombre:"Escudo Las Santas FC",tipo:"presisqlame",imagen:"https://i.ibb.co/MDN445S2/14-Amablitz.png"},
-    { id:56,nombre:"Escudo Muchachas FC",tipo:"presisqlame",imagen:"https://i.ibb.co/MDN445S2/14-Amablitz.png"},
-    { id:57,nombre:"Escudo Olimpo United",tipo:"presisqlame",imagen:"https://i.ibb.co/MDN445S2/14-Amablitz.png"},
-    { id:58,nombre:"Escudo Peluche Caligari",tipo:"presisqlame",imagen:"https://i.ibb.co/MDN445S2/14-Amablitz.png"},
-    { id:59,nombre:"Escudo Persas FC",tipo:"presisqlame",imagen:"https://i.ibb.co/MDN445S2/14-Amablitz.png"},
-    { id:60,nombre:"Escudo Raniza FC",tipo:"presisqlame",imagen:"https://i.ibb.co/MDN445S2/14-Amablitz.png"},
-    { id:61,nombre:"Escudo Real Titán FC",tipo:"presisqlame",imagen:"https://i.ibb.co/MDN445S2/14-Amablitz.png"},
-    { id:62,nombre:"Escudo Atlético Parceras",tipo:"presisqlame",imagen:"https://i.ibb.co/MDN445S2/14-Amablitz.png"},
-    { id:25,nombre:"Ainara Navas",tipo:"supercampeonas",imagen:"https://i.ibb.co/ZRzW9Lx8/25-SUPERCAMPEONAS-Ainara-Navas.png"},
-    { id:26,nombre:"Bea Pérez",tipo:"supercampeonas",imagen:"https://i.ibb.co/PswsRSBC/26-SUPERCAMPEONAS-Beatriz-Perez.png"},
-    { id:27,nombre:"Alba Ortiz",tipo:"supercampeonas",imagen:"https://i.ibb.co/qMhQgx0f/27-SUPERCAMPEONAS-Alba-Ortiz.png"},
-    { id:28,nombre:"Aroney González",tipo:"supercampeonas",imagen:"https://i.ibb.co/0yYfkK9x/28-SUPERCAMPEONAS-Aroney-Gonzalez.png"},
-    { id:29,nombre:"Paula Nieto",tipo:"supercampeonas",imagen:"https://i.ibb.co/F4WmsH3C/29-SUPERCAMPEONAS-Paula-Nieto.png"},
-    { id:30,nombre:"Blanca Cros",tipo:"supercampeonas",imagen:"https://i.ibb.co/H9Bnsd5/30-SUPERCAMPEONAS-Blanca-Cros.png"},
-    { id:31,nombre:"Mar Dalmau",tipo:"supercampeonas",imagen:"https://i.ibb.co/svv4Wrs0/31-SUPERCAMPEONAS-Mar-Dalmau.png"},
-    { id:32,nombre:"Zoraida Pichardo",tipo:"supercampeonas",imagen:"https://i.ibb.co/Cs806S8S/32-SUPERCAMPEONAS-Zoraida-Pichardo.png"},
-    { id:33,nombre:"Maria Pi",tipo:"supercampeonas",imagen:"https://i.ibb.co/7xWRkBtW/33-SUPERCAMPEONAS-Maria-Pi.png"},
-    { id:34,nombre:"Patricia Mascaró",tipo:"supercampeonas",imagen:"https://i.ibb.co/C5g5jLZv/34-SUPERCAMPEONAS-Patricia-Mascar.png"},
-    { id:35,nombre:"Berta Velasco",tipo:"supercampeonas",imagen:"https://i.ibb.co/vC7tvZD3/35-SUPERCAMPEONAS-Berta-Velasco.png"},
-    { id:36,nombre:"Paula Blas",tipo:"supercampeonas",imagen:"https://i.ibb.co/cKjf90R8/36-SUPERCAMPEONAS-Paula-Blas.png"}
-];
+  // Ejemplo de cartas: añade/edita las URLs e ids que necesites
+  const CARDS = [
+    { id: 1, nombre: "Escudo A", tipo: "escudo", imagen: "https://i.ibb.co/CpJ3c7B8/01-Escudo1-K.png" },
+    { id: 2, nombre: "Escudo B", tipo: "escudo", imagen: "https://i.ibb.co/9y8p38r/02-Escudo2-K.png" },
+    { id: 3, nombre: "Aroney Gonzalez", tipo: "presidenta", imagen: "https://i.ibb.co/6XG0kXc/sample-presidenta.png" },
+    { id: 4, nombre: "Mar Serracanta", tipo: "presidenta", imagen: "https://i.ibb.co/3W9L0sF/sample-supercampeona.png" },
+    { id: 5, nombre: "Super QL 1", tipo: "supercampeonas", imagen: "https://i.ibb.co/sample1/super1.png" },
+    { id: 6, nombre: "Super QL 2", tipo: "supercampeonas", imagen: "https://i.ibb.co/sample1/super2.png" }
+  ];
 
-    const CODIGOS_CREADORES = `
-    AroneyGonzalez;10000
-    MarSerracanta;10000
-    BertaVelasco;10000
-    AinaraNavas;10000
-    BeaPerez;10000
-    `.trim().split('\n').map(line => {
-      const [codigo, monedas] = line.split(';');
-      return { codigo: codigo.trim().toLowerCase(), monedas: parseInt(monedas.trim()) };
-    });
+  // Códigos de creador (minúsculas en storage)
+  const CODIGOS_CREADORES = [
+    { codigo: "aroneygonzalez", monedas: 10000 },
+    { codigo: "marserracanta", monedas: 10000 },
+    { codigo: "bertavelasco", monedas: 10000 },
+    { codigo: "ainaranavas", monedas: 10000 },
+    { codigo: "beaperez", monedas: 10000 }
+  ];
 
-    // --------- ELEMENTOS HTML (asegurar existencia) ---------
-    const monedasPanel = document.getElementById("monedas-panel");
-    const mainContent = document.getElementById("main-content");
-    const modal = document.getElementById("modal");
-    const modalImg = document.getElementById("modal-img");
-    const modalClose = document.getElementById("modal-close");
-    const modalInfo = document.getElementById("modal-info");
-    const userPanel = document.getElementById("user-panel");
-    const notificacion = document.getElementById("notificacion");
+  // ----- DOM references -----
+  const monedasPanel = document.getElementById("monedas-panel");
+  const mainContent = document.getElementById("main-content");
+  const modal = document.getElementById("modal");
+  const modalImg = document.getElementById("modal-img");
+  const modalClose = document.getElementById("modal-close");
+  const modalInfo = document.getElementById("modal-info");
+  const userPanel = document.getElementById("user-panel");
+  const notificacion = document.getElementById("notificacion");
+  const loginModal = document.getElementById("login-modal");
+  const loginDiscordBtn = document.getElementById("login-discord");
+  const loginGoogleBtn = document.getElementById("login-google");
+  const loginCloseBtn = document.getElementById("login-close");
+  const logo = document.getElementById("logo");
 
-    if (!monedasPanel || !mainContent || !userPanel) {
-      console.error("Elementos críticos no encontrados:", {
-        monedasPanel: !!monedasPanel,
-        mainContent: !!mainContent,
-        userPanel: !!userPanel
-      });
-      if (notificacion) {
-        notificacion.textContent = "Error: elementos de la página no encontrados. Revisa el HTML.";
-        notificacion.style.display = "block";
-      }
+  if (!monedasPanel || !mainContent || !userPanel) {
+    console.error("Elementos críticos no encontrados en DOM.");
+    if (notificacion) {
+      notificacion.textContent = "Error: elementos de la página no encontrados. Revisa el HTML.";
+      notificacion.style.display = "block";
+    }
+    return;
+  }
+
+  // ----- Estado (localStorage) -----
+  let monedas = parseInt(localStorage.getItem("monedas_queens")) || 2000;
+  let album = JSON.parse(localStorage.getItem("album_queens")) || {}; // album[cardId] = cantidad
+  let codigosUsados = JSON.parse(localStorage.getItem("codigos_usados_queens")) || [];
+
+  // ----- Usuario simulado -----
+  function getUser() {
+    try { return JSON.parse(localStorage.getItem("album_user")) || null; } catch(e) { return null; }
+  }
+  function setUser(user) {
+    localStorage.setItem("album_user", JSON.stringify(user));
+    renderUserPanel();
+    renderMenu();
+  }
+  function logoutUser() {
+    localStorage.removeItem("album_user");
+    renderUserPanel();
+    renderMenu();
+  }
+  function loginDiscord() {
+    // Simula un inicio con Discord (frontend only)
+    const user = {
+      name: "DiscordUser",
+      avatar: "https://cdn-icons-png.flaticon.com/512/5968/5968756.png",
+      provider: "Discord"
+    };
+    setUser(user);
+    if (loginModal) loginModal.style.display = "none";
+    showNotificacion("Conectado como " + user.name);
+  }
+  function loginGoogle() {
+    const user = {
+      name: "GoogleUser",
+      avatar: "https://cdn-icons-png.flaticon.com/512/281/281764.png",
+      provider: "Google"
+    };
+    setUser(user);
+    if (loginModal) loginModal.style.display = "none";
+    showNotificacion("Conectado como " + user.name);
+  }
+
+  // ----- Utilidades -----
+  function saveState() {
+    localStorage.setItem("monedas_queens", monedas);
+    localStorage.setItem("album_queens", JSON.stringify(album));
+  }
+
+  function showNotificacion(msg, timeout = 2000) {
+    if (!notificacion) { console.log("NOTIF:", msg); return; }
+    notificacion.textContent = msg;
+    notificacion.style.display = "block";
+    setTimeout(() => { notificacion.style.display = "none"; }, timeout);
+  }
+
+  function updateMonedas() {
+    monedasPanel.textContent = "Monedas: " + monedas;
+    saveState();
+  }
+
+  // ----- Modal -----
+  if (modalClose) modalClose.addEventListener("click", () => { modal.style.display = "none"; });
+  if (modal) modal.addEventListener("click", e => { if (e.target === modal) modal.style.display = "none"; });
+
+  // ----- Album rendering -----
+  function mostrarAlbum(filtroName = "Todas") {
+    if (!getUser()) {
+      showNotificacion("Inicia sesión para ver tu álbum");
       return;
     }
 
-    // --------- ESTADO (localStorage) ---------
-    let monedas = parseInt(localStorage.getItem("monedas_queens")) || 2000;
-    let album = JSON.parse(localStorage.getItem("album_queens")) || {};
-    let codigosUsados = JSON.parse(localStorage.getItem("codigos_usados_queens")) || [];
+    mainContent.innerHTML = "";
+    // Selector de filtro
+    const select = document.createElement("select");
+    select.className = "filtro-categoria";
+    CARD_CATEGORIES.forEach(cat => {
+      const opt = document.createElement("option");
+      opt.value = cat.name; opt.textContent = cat.name;
+      if (cat.name === filtroName) opt.selected = true;
+      select.appendChild(opt);
+    });
+    select.addEventListener("change", () => mostrarAlbum(select.value));
+    mainContent.appendChild(select);
 
-    // --------- USUARIO / LOGIN (simulado) ---------
-    function getUser() {
-      try { return JSON.parse(localStorage.getItem("album_user")) || null; } catch(e) { return null; }
-    }
-    function setUser(user) {
-      localStorage.setItem("album_user", JSON.stringify(user));
-      renderUserPanel();
-    }
-    function logoutUser() {
-      localStorage.removeItem("album_user");
-      renderUserPanel();
-      renderMenu();
-    }
-    function loginDiscord() {
-      const user = { name: "DiscordUser", avatar: "https://cdn-icons-png.flaticon.com/512/5968/5968756.png", provider: "Discord" };
-      setUser(user); renderMenu();
-    }
-    function loginGoogle() {
-      const user = { name: "GoogleUser", avatar: "https://cdn-icons-png.flaticon.com/512/281/281764.png", provider: "Google" };
-      setUser(user); renderMenu();
-    }
+    // Progreso
+    const filteredCards = CARDS.filter(CARD_CATEGORIES.find(c => c.name === filtroName).filter);
+    const obtenidas = filteredCards.filter(c => album[c.id]).length;
+    const progreso = document.createElement("p");
+    progreso.className = "progreso-album";
+    progreso.textContent = `Cartas obtenidas: ${obtenidas} / ${filteredCards.length}`;
+    mainContent.appendChild(progreso);
 
-    function renderUserPanel() {
-      const user = getUser();
-      userPanel.innerHTML = "";
-      if (user) {
-        userPanel.innerHTML = `
-          <img class="avatar" src="${user.avatar}" alt="${user.name}">
-          <span>${user.name} (${user.provider})</span>
-          <button class="logout-btn" id="logout-btn">Salir</button>
-        `;
-        const lb = document.getElementById("logout-btn");
-        if (lb) lb.addEventListener("click", logoutUser);
-      } else {
-        userPanel.innerHTML = `
-          <button class="login-btn" id="login-discord">Discord</button>
-          <button class="login-btn" id="login-google">Google</button>
-        `;
-        const ld = document.getElementById("login-discord");
-        const lg = document.getElementById("login-google");
-        if (ld) ld.addEventListener("click", loginDiscord);
-        if (lg) lg.addEventListener("click", loginGoogle);
-      }
-    }
+    // Grid
+    const grid = document.createElement("div"); grid.className = "album-grid";
+    filteredCards.sort((a,b) => a.id - b.id).forEach(card => {
+      const div = document.createElement("div"); div.className = "cromo";
+      const img = document.createElement("img");
+      img.alt = card.nombre;
+      img.src = album[card.id] ? card.imagen : REVERSO;
+      img.tabIndex = 0;
+      img.addEventListener("click", () => ampliarCromo(card));
+      img.addEventListener("keyup", (e) => { if (e.key === "Enter") ampliarCromo(card); });
+      div.appendChild(img);
 
-    // --------- UTILIDADES ---------
-    function showNotificacion(msg, timeout = 2200) {
-      if (!notificacion) {
-        console.log("NOTIFICACIÓN:", msg);
-        return;
-      }
-      notificacion.textContent = msg;
-      notificacion.style.display = "block";
-      setTimeout(() => { notificacion.style.display = "none"; }, timeout);
-    }
+      if (album[card.id] && album[card.id] > 1) {
+        const dup = document.createElement("span"); dup.className = "duplicadas";
+        dup.textContent = album[card.id];
+        div.appendChild(dup);
 
-    // --------- MODAL ---------
-    if (modalClose) modalClose.addEventListener("click", () => { if (modal) modal.style.display = "none"; });
-    if (modal) modal.addEventListener("click", e => { if (e.target === modal) modal.style.display = "none"; });
-
-    // --------- MONEDAS ---------
-    function updateMonedas() {
-      monedasPanel.textContent = "Monedas: " + monedas;
-      localStorage.setItem("monedas_queens", monedas);
-    }
-
-    // --------- ÁLBUM Y DEMÁS FUNCIONES (simplificadas) ---------
-    function mostrarAlbum(filtro = null) {
-      if (!getUser()) {
-        showNotificacion("¡Inicia sesión para ver tu álbum!");
-        renderUserPanel();
-        return;
-      }
-      mainContent.innerHTML = "";
-      let cardsFiltradas = CARDS.slice().sort((a,b) => a.id - b.id);
-      if (filtro) {
-        const cat = CARD_CATEGORIES.find(cat => cat.name === filtro);
-        if (cat) cardsFiltradas = cardsFiltradas.filter(cat.filter);
+        const btnVen = document.createElement("button"); btnVen.className = "btn-vender";
+        btnVen.textContent = "Vender";
+        btnVen.addEventListener("click", (ev) => { ev.stopPropagation(); venderDuplicadas(card.id); });
+        div.appendChild(btnVen);
       }
 
-      // select filtros
-      const select = document.createElement("select");
-      select.className = "filtro-categoria";
-      CARD_CATEGORIES.forEach(cat => {
-        const opt = document.createElement("option");
-        opt.value = cat.name; opt.textContent = cat.name;
-        select.appendChild(opt);
-      });
-      select.addEventListener("change", () => mostrarAlbum(select.value));
-      mainContent.appendChild(select);
+      grid.appendChild(div);
+    });
+    mainContent.appendChild(grid);
+    updateMonedas();
+  }
 
-      // progreso
-      const obtenidas = cardsFiltradas.filter(card => album[card.id]).length;
-      const total = cardsFiltradas.length;
-      const progreso = document.createElement("p");
-      progreso.textContent = `Cartas obtenidas: ${obtenidas} / ${total}`;
-      progreso.className = "progreso-album";
-      mainContent.appendChild(progreso);
+  function ampliarCromo(card) {
+    if (!modal || !modalImg || !modalInfo) return;
+    modal.style.display = "flex";
+    modalImg.src = card.imagen;
+    modalImg.alt = card.nombre;
+    modalInfo.textContent = album[card.id] ? `Tienes ${album[card.id]} copias.` : "";
+  }
 
-      const grid = document.createElement("div"); grid.className = "album-grid";
-      cardsFiltradas.forEach(card => {
-        const div = document.createElement("div"); div.className = "cromo";
-        const img = document.createElement("img");
-        img.src = album[card.id] ? card.imagen : REVERSO;
-        img.alt = card.nombre;
-        img.addEventListener("click", () => ampliarCromo(card));
-        div.appendChild(img);
-
-        if (album[card.id] && album[card.id] > 1) {
-          const dup = document.createElement("span"); dup.className = "duplicadas"; dup.textContent = album[card.id];
-          div.appendChild(dup);
-          const btnVen = document.createElement("button"); btnVen.className = "btn-vender"; btnVen.textContent = "Vender";
-          btnVen.addEventListener("click", (e) => { e.stopPropagation(); venderDuplicadas(card.id); });
-          div.appendChild(btnVen);
-        }
-        grid.appendChild(div);
-      });
-      mainContent.appendChild(grid);
-      updateMonedas();
+  function venderDuplicadas(cardId) {
+    if (!album[cardId] || album[cardId] <= 1) {
+      showNotificacion("No tienes duplicadas para vender.");
+      return;
     }
+    const vendidas = album[cardId] - 1;
+    const ganancia = vendidas * 100;
+    monedas += ganancia;
+    album[cardId] = 1;
+    saveState();
+    updateMonedas();
+    showNotificacion(`Vendidas ${vendidas} duplicadas → +${ganancia} monedas`);
+    mostrarAlbum(document.querySelector(".filtro-categoria")?.value || "Todas");
+  }
 
-    function ampliarCromo(card) {
-      if (!modal || !modalImg || !modalInfo) return;
-      modal.style.display = "flex";
-      modalImg.src = card.imagen;
-      modalImg.alt = card.nombre;
-      modalInfo.textContent = (album[card.id] && album[card.id] > 1) ? `Tienes ${album[card.id]} copias.` : "";
+  // ----- Abrir sobre -----
+  function abrirSobre() {
+    if (!getUser()) { showNotificacion("Inicia sesión para abrir sobres"); return; }
+    const COSTE = 1000;
+    if (monedas < COSTE) { showNotificacion("No tienes suficientes monedas"); return; }
+    monedas -= COSTE; updateMonedas();
+
+    mainContent.innerHTML = "<h2>¡Sobre abierto!</h2><div class='sobre-grid'></div>";
+    const grid = mainContent.querySelector('.sobre-grid');
+
+    const nuevas = [];
+    for (let i = 0; i < 5; i++) {
+      const card = CARDS[Math.floor(Math.random() * CARDS.length)];
+      album[card.id] = (album[card.id] || 0) + 1;
+      nuevas.push(card);
     }
+    saveState();
 
-    function venderDuplicadas(cardId) {
-      if (album[cardId] && album[cardId] > 1) {
-        let vendidas = album[cardId] - 1;
-        monedas += vendidas * 100;
-        album[cardId] = 1;
-        localStorage.setItem("album_queens", JSON.stringify(album));
-        updateMonedas();
-        showNotificacion(`Vendiste ${vendidas} duplicadas y ganaste ${vendidas * 100} monedas`);
-        mostrarAlbum(document.querySelector(".filtro-categoria")?.value);
-      }
+    nuevas.forEach(card => {
+      const div = document.createElement("div"); div.className = "cromo";
+      const img = document.createElement("img"); img.src = card.imagen; img.alt = card.nombre;
+      img.addEventListener("click", () => ampliarCromo(card));
+      div.appendChild(img);
+      grid.appendChild(div);
+    });
+    showNotificacion("¡Has recibido 5 cartas!");
+  }
+
+  // ----- Bonus diario -----
+  function bonusDiario() {
+    if (!getUser()) { showNotificacion("Inicia sesión para reclamar bonus"); return; }
+    const last = parseInt(localStorage.getItem("last_daily") || "0");
+    const now = Date.now();
+    if (!last || now - last > 24 * 60 * 60 * 1000) {
+      monedas += 2000; updateMonedas();
+      localStorage.setItem("last_daily", now.toString());
+      showNotificacion("Bonus diario: 2000 monedas 🎉");
+    } else {
+      showNotificacion("Ya reclamaste el bonus diario hoy");
     }
+  }
 
-    function abrirSobre() {
-      if (!getUser()) { showNotificacion("Inicia sesión para abrir sobres."); return; }
-      if (monedas < 1000) { showNotificacion("No tienes suficientes monedas."); return; }
-      monedas -= 1000; updateMonedas();
-      mainContent.innerHTML = "<h2>¡Sobre abierto!</h2><div class='sobre-grid'></div>";
-      const grid = mainContent.querySelector('.sobre-grid');
-      let nuevas = [];
-      for (let i = 0; i < 5; i++) {
-        const card = CARDS[Math.floor(Math.random() * CARDS.length)];
-        nuevas.push(card);
-        album[card.id] = (album[card.id]||0)+1;
-      }
-      localStorage.setItem("album_queens", JSON.stringify(album));
-      nuevas.forEach(card => {
-        const div = document.createElement("div"); div.className = "cromo";
-        const img = document.createElement("img"); img.src = card.imagen; img.alt = card.nombre;
-        img.addEventListener("click", () => ampliarCromo(card));
-        div.appendChild(img); grid.appendChild(div);
-      });
-      showNotificacion("¡Has recibido 5 cartas nuevas!");
-    }
-
-    function bonusDiario() {
-      if (!getUser()) { showNotificacion("Inicia sesión para tu bonus diario."); return; }
-      const last = localStorage.getItem("last_daily"); const now=Date.now();
-      if(!last || now-last>24*60*60*1000){
-        monedas+=2000; updateMonedas(); localStorage.setItem("last_daily", now);
-        showNotificacion("Has reclamado 2000 monedas diarias 🎉");
-      } else showNotificacion("Ya reclamaste hoy ⏰");
-    }
-
-    function canjearCodigo() {
-      if (!getUser()) { showNotificacion("Inicia sesión para canjear códigos."); return; }
-      const input = document.getElementById("input-codigo");
-      if (!input) { showNotificacion("Campo de código no encontrado."); return; }
-      const val = input.value.trim().toLowerCase();
-      if (!val) return;
-      const codigoObj = CODIGOS_CREADORES.find(obj => obj.codigo === val);
-      if (codigoObj) {
-        if (!codigosUsados.includes(val)) {
-          monedas += codigoObj.monedas; codigosUsados.push(val); updateMonedas();
-          localStorage.setItem("codigos_usados_queens", JSON.stringify(codigosUsados));
-          showNotificacion(`¡Has recibido ${codigoObj.monedas} monedas!`);
-        } else showNotificacion("Código ya usado.");
-      } else showNotificacion("Código no válido.");
+  // ----- Canjear código -----
+  function canjearCodigo() {
+    if (!getUser()) { showNotificacion("Inicia sesión para canjear códigos"); return; }
+    const input = document.getElementById("input-codigo");
+    if (!input) { showNotificacion("Campo de código no encontrado"); return; }
+    const val = input.value.trim().toLowerCase();
+    if (!val) { showNotificacion("Introduce un código"); return; }
+    if (codigosUsados.includes(val)) {
+      showNotificacion("Código ya usado");
       input.value = "";
+      return;
     }
+    const match = CODIGOS_CREADORES.find(c => c.codigo === val);
+    if (!match) {
+      showNotificacion("Código no válido");
+      input.value = "";
+      return;
+    }
+    monedas += match.monedas; updateMonedas();
+    codigosUsados.push(val);
+    localStorage.setItem("codigos_usados_queens", JSON.stringify(codigosUsados));
+    showNotificacion(`Canjeado: +${match.monedas} monedas`);
+    input.value = "";
+  }
 
-    function renderMenu() {
-      if (!getUser()) {
-        mainContent.innerHTML = `
-          <div class="menu-principal">
-            <h2>¡Bienvenido al Álbum Virtual!</h2>
-            <p>Para jugar, primero inicia sesión con Discord o Google.</p>
+  // ----- Menú principal -----
+  function renderMenu() {
+    const user = getUser();
+    if (!user) {
+      mainContent.innerHTML = `
+        <div class="menu-principal">
+          <h2>¡Bienvenido al Álbum Virtual!</h2>
+          <p>Inicia sesión para guardar tu progreso y abrir sobres.</p>
+          <div style="display:flex; gap:8px;">
             <button class="login-btn" id="menu-login-discord">Iniciar con Discord</button>
             <button class="login-btn" id="menu-login-google">Iniciar con Google</button>
           </div>
-        `;
-        document.getElementById("menu-login-discord")?.addEventListener("click", loginDiscord);
-        document.getElementById("menu-login-google")?.addEventListener("click", loginGoogle);
-        return;
-      }
-      mainContent.innerHTML = `
-        <div class="menu-principal">
-          <button id="btn-ver-album">Ver Álbum</button>
-          <button id="btn-abrir-sobre">Abrir Sobre (1000 monedas)</button>
-          <button id="btn-bonus-diario">Bonus Diario</button>
-          <input id="input-codigo" type="text" placeholder="Código de creador" style="margin-top:1em;">
-          <button id="btn-canjear">Canjear Código</button>
         </div>
       `;
-      document.getElementById("btn-ver-album")?.addEventListener("click", () => mostrarAlbum());
-      document.getElementById("btn-abrir-sobre")?.addEventListener("click", abrirSobre);
-      document.getElementById("btn-bonus-diario")?.addEventListener("click", bonusDiario);
-      document.getElementById("btn-canjear")?.addEventListener("click", canjearCodigo);
-      updateMonedas();
+      document.getElementById("menu-login-discord")?.addEventListener("click", () => {
+        if (loginModal) loginModal.style.display = "flex";
+      });
+      document.getElementById("menu-login-google")?.addEventListener("click", () => {
+        if (loginModal) loginModal.style.display = "flex";
+      });
+      return;
     }
 
-    // Exponer funciones globalmente para compatibilidad si usas onclick en HTML
-    window.mostrarAlbum = mostrarAlbum;
-    window.abrirSobre = abrirSobre;
-    window.bonusDiario = bonusDiario;
-    window.canjearCodigo = canjearCodigo;
-    window.renderMenu = renderMenu;
-    window.loginDiscord = loginDiscord;
-    window.loginGoogle = loginGoogle;
-    window.logoutUser = logoutUser;
-    window.renderUserPanel = renderUserPanel;
+    mainContent.innerHTML = `
+      <div class="menu-principal">
+        <h2>Hola, ${user.name}</h2>
+        <div style="display:flex; gap:0.6rem; flex-wrap:wrap; justify-content:center;">
+          <button id="btn-ver-album" class="login-btn">Ver Álbum</button>
+          <button id="btn-abrir-sobre" class="login-btn">Abrir Sobre (1000 monedas)</button>
+          <button id="btn-bonus-diario" class="login-btn">Bonus Diario</button>
+        </div>
+        <div style="margin-top:10px;">
+          <input id="input-codigo" type="text" placeholder="Código de creador" />
+          <button id="btn-canjear" class="login-btn" style="margin-left:6px;">Canjear Código</button>
+        </div>
+      </div>
+    `;
+    document.getElementById("btn-ver-album")?.addEventListener("click", () => mostrarAlbum());
+    document.getElementById("btn-abrir-sobre")?.addEventListener("click", abrirSobre);
+    document.getElementById("btn-bonus-diario")?.addEventListener("click", bonusDiario);
+    document.getElementById("btn-canjear")?.addEventListener("click", canjearCodigo);
 
-    // Inicializa
-    renderUserPanel();
-    renderMenu();
-    monedasPanel.addEventListener("click", renderMenu);
+    updateMonedas();
+  }
 
-    console.log("app.js inicializado correctamente.");
-  } catch (err) {
-    console.error("Error inicializando app.js:", err);
-    const not = document.getElementById("notificacion");
-    if (not) {
-      not.textContent = "Error en la app. Mira la consola.";
-      not.style.display = "block";
+  // ----- Render user panel in header -----
+  function renderUserPanel() {
+    const user = getUser();
+    userPanel.innerHTML = "";
+    if (user) {
+      const img = document.createElement("img"); img.className = "avatar"; img.src = user.avatar; img.alt = user.name;
+      userPanel.appendChild(img);
+      const span = document.createElement("span"); span.textContent = `${user.name} (${user.provider})`;
+      userPanel.appendChild(span);
+      const btn = document.createElement("button"); btn.className = "logout-btn"; btn.textContent = "Salir";
+      btn.addEventListener("click", () => {
+        logoutUser();
+        showNotificacion("Sesión cerrada");
+      });
+      userPanel.appendChild(btn);
+    } else {
+      const btnD = document.createElement("button"); btnD.className = "login-btn"; btnD.textContent = "Discord";
+      btnD.addEventListener("click", () => { if (loginModal) loginModal.style.display = "flex"; });
+      const btnG = document.createElement("button"); btnG.className = "login-btn"; btnG.textContent = "Google";
+      btnG.addEventListener("click", () => { if (loginModal) loginModal.style.display = "flex"; });
+      userPanel.appendChild(btnD); userPanel.appendChild(btnG);
     }
   }
+
+  // ----- Event listeners login modal -----
+  if (loginDiscordBtn) loginDiscordBtn.addEventListener("click", loginDiscord);
+  if (loginGoogleBtn) loginGoogleBtn.addEventListener("click", loginGoogle);
+  if (loginCloseBtn) loginCloseBtn.addEventListener("click", () => { if (loginModal) loginModal.style.display = "none"; });
+
+  // logo click reload
+  if (logo) logo.addEventListener("click", () => {
+    renderUserPanel(); renderMenu();
+  });
+
+  // ----- Expose some functions for debugging / inline use if needed -----
+  window.mostrarAlbum = mostrarAlbum;
+  window.abrirSobre = abrirSobre;
+  window.bonusDiario = bonusDiario;
+  window.canjearCodigo = canjearCodigo;
+  window.renderMenu = renderMenu;
+  window.loginDiscord = loginDiscord;
+  window.loginGoogle = loginGoogle;
+  window.logoutUser = logoutUser;
+  window.renderUserPanel = renderUserPanel;
+
+  // ----- Inicialización -----
+  renderUserPanel();
+  renderMenu();
+  updateMonedas();
+
+  console.log("App inicializada correctamente.");
 });
