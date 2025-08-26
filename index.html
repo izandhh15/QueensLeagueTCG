@@ -33,7 +33,7 @@
       line-height:1.4;
     }
 
-    /* HEADER: grid to center the menu */
+    /* HEADER */
     header {
       display: grid;
       grid-template-columns: 1fr auto 1fr;
@@ -48,7 +48,6 @@
       z-index: 50;
       height: var(--header-height);
     }
-
     .header-left { justify-self: start; display:flex; align-items:center; gap:0.8rem; }
     .header-center { justify-self: center; display:flex; align-items:center; }
     .header-right { justify-self: end; display:flex; align-items:center; gap:0.75rem; }
@@ -59,261 +58,64 @@
       color: var(--accent);
       letter-spacing: 0.4px;
       cursor: pointer;
-      user-select: none;
     }
 
     .redes { display:flex; gap:0.6rem; align-items:center; }
-    .redes a {
-      color: var(--accent);
-      text-decoration:none;
-      padding: 0.2rem 0.45rem;
-      border-radius:8px;
-      font-weight:600;
-      transition: background var(--transition), color var(--transition), transform var(--transition);
-      font-size:0.92rem;
-    }
-    .redes a:hover { background: var(--accent); color: var(--accent-text); transform: translateY(-1px); }
+    .redes a { color: var(--accent); text-decoration:none; padding: 0.2rem 0.45rem; border-radius:8px; font-weight:600; font-size:0.92rem; }
+    .redes a:hover { background: var(--accent); color: var(--accent-text); }
 
-    /* Main menu centered */
-    .main-menu {
-      display:flex;
-      gap:0.5rem;
-      align-items:center;
-    }
-    .main-menu button {
-      background: transparent;
-      color: var(--white);
-      border: 2px solid rgba(255,255,255,0.06);
-      padding: .45rem .75rem;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight:700;
-      transition: background var(--transition), color var(--transition), transform var(--transition);
-      font-size:0.92rem;
-    }
-    .main-menu button:hover { background: var(--accent); color: var(--accent-text); transform: translateY(-2px); }
+    .main-menu { display:flex; gap:0.5rem; align-items:center; }
+    .main-menu button { background: transparent; color: var(--white); border: 2px solid rgba(255,255,255,0.06); padding: .45rem .75rem; border-radius: 8px; cursor: pointer; font-weight:700; font-size:0.92rem; }
+    .main-menu button:hover { background: var(--accent); color: var(--accent-text); }
 
-    /* coins */
-    #monedas-panel {
-      background: var(--accent);
-      color: var(--accent-text);
-      padding: .32rem .75rem;
-      border-radius: 10px;
-      font-weight:700;
-      box-shadow: 0 6px 20px var(--shadow-accent);
-      cursor: pointer;
-      border: 2px solid var(--accent-text);
-      transition: transform var(--transition), box-shadow var(--transition);
-      white-space: nowrap;
-    }
+    #monedas-panel { background: var(--accent); color: var(--accent-text); padding: .32rem .75rem; border-radius: 10px; font-weight:700; box-shadow: 0 6px 20px var(--shadow-accent); white-space: nowrap; }
 
-    /* MAIN CONTENT */
-    #main-content{
-      max-width: var(--max-width);
-      margin: 1rem auto;
-      padding: 1rem;
-      background: var(--white);
-      color: var(--accent-text);
-      border-radius: var(--radius);
-      box-shadow: 0 10px 30px rgba(6,204,189,0.06);
-      min-height: 0;
-      display:block;
-      align-items: flex-start;
-      overflow: visible;
-    }
+    /* MAIN */
+    #main-content{ max-width: var(--max-width); margin: 1rem auto; padding: 1rem; background: var(--white); color: var(--accent-text); border-radius: var(--radius); box-shadow: 0 10px 30px rgba(6,204,189,0.06); min-height: 0; overflow: visible; }
 
     .menu-principal { display:flex; flex-direction:column; gap:0.9rem; align-items:center; padding: 0.25rem; }
-    .menu-principal .actions { display:flex; gap:0.6rem; flex-wrap:wrap; justify-content:center; }
+    .actions { display:flex; gap:0.6rem; flex-wrap:wrap; justify-content:center; }
     .login-btn { background: var(--accent); color: var(--accent-text); border: none; padding: .6rem .9rem; border-radius: 8px; cursor: pointer; font-weight:700; }
 
-    .album-grid, .sobre-grid, .packs-grid {
-      display:grid;
-      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-      gap:1rem;
-      margin-top:1rem;
-    }
+    /* Filters area - easy tap */
+    .filters { display:flex; gap:0.5rem; flex-wrap:wrap; align-items:center; margin-bottom: .6rem; }
+    .filter-btn { background:transparent; border:2px solid rgba(0,0,0,0.06); padding:.45rem .7rem; border-radius:10px; cursor:pointer; font-weight:700; }
+    .filter-btn.active { background:var(--accent); color:var(--accent-text); }
 
-    .cromo {
-      background: var(--card-bg);
-      border-radius: 10px;
-      padding: .5rem;
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      justify-content:flex-start;
-      position:relative;
-      box-shadow: 0 6px 16px rgba(6,204,189,0.06);
-      overflow:visible;
-      min-height: 140px;
-    }
+    .album-grid, .packs-grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap:1rem; margin-top:1rem; }
 
-    .cromo img {
-      width:100px;
-      height:140px;
-      object-fit:cover;
-      border-radius:8px;
-      border: 3px solid var(--accent);
-      background: var(--white);
-      cursor:pointer;
-      transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
-    }
+    .cromo { background: var(--card-bg); border-radius: 10px; padding: .5rem; display:flex; flex-direction:column; align-items:center; justify-content:flex-start; position:relative; box-shadow: 0 6px 16px rgba(6,204,189,0.06); min-height: 140px; }
 
-    /* Pack style: show REVERSO image as design and cost badge */
-    .pack {
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      height:160px;
-      border-radius:12px;
-      background: linear-gradient(180deg,#350a54,#2a0a49);
-      color:var(--accent);
-      font-weight:800;
-      cursor:pointer;
-      border: 3px solid rgba(6,204,189,0.08);
-      box-shadow: 0 10px 28px rgba(6,204,189,0.06);
-      position:relative;
-      overflow:hidden;
-    }
-    .pack img { width:100%; height:100%; object-fit:cover; opacity:0.98; }
-    .pack .pack-label {
-      position:absolute;
-      left:8px;
-      top:8px;
-      background: rgba(0,0,0,0.45);
-      color:#fff;
-      padding:6px 8px;
-      border-radius:8px;
-      font-weight:700;
-      font-size:0.92rem;
-      pointer-events:none;
-    }
-    .pack .pack-cost {
-      position:absolute;
-      right:8px;
-      bottom:8px;
-      background: var(--accent);
-      color: var(--accent-text);
-      padding:6px 8px;
-      border-radius:8px;
-      font-weight:800;
-      font-size:0.9rem;
-    }
-    .pack.opened { opacity: 0.55; transform: scale(.98); cursor:default; filter:grayscale(20%); }
+    .cromo img { width:100px; height:140px; object-fit:cover; border-radius:8px; border: 3px solid var(--accent); background: var(--white); cursor:pointer; transition: transform var(--transition); }
+    .cromo img:focus { outline: 3px solid rgba(6,204,189,0.18); }
 
-    .duplicadas {
-      position:absolute;
-      top:8px;
-      right:10px;
-      background: var(--accent);
-      color: var(--accent-text);
-      padding:6px 10px;
-      border-radius:999px;
-      font-weight:800;
-      border:2px solid var(--accent-text);
-      box-shadow: 0 6px 18px rgba(6,204,189,0.12);
-    }
+    /* Pack style uses REVERSO as design */
+    .pack { position:relative; height:160px; border-radius:12px; overflow:hidden; cursor:pointer; border:3px solid rgba(6,204,189,0.08); box-shadow: 0 10px 28px rgba(6,204,189,0.06); display:flex; align-items:center; justify-content:center; }
+    .pack img { width:100%; height:100%; object-fit:cover; display:block; }
+    .pack .pack-badge { position:absolute; right:8px; bottom:8px; background:var(--accent); color:var(--accent-text); padding:6px 8px; border-radius:8px; font-weight:800; }
+    .pack.opened { opacity:.55; filter:grayscale(30%); cursor:default; transform:scale(.98); }
 
-    .btn-vender {
-      position:absolute;
-      bottom:8px;
-      right:8px;
-      background: var(--accent);
-      color: var(--accent-text);
-      border: none;
-      padding:6px 10px;
-      border-radius:8px;
-      font-weight:700;
-      cursor:pointer;
-      transition: background var(--transition), transform var(--transition);
-    }
+    .duplicadas { position:absolute; top:8px; right:10px; background: var(--accent); color: var(--accent-text); padding:6px 10px; border-radius:999px; font-weight:800; }
+
+    .btn-vender { position:absolute; bottom:8px; right:8px; background: var(--accent); color: var(--accent-text); border: none; padding:6px 10px; border-radius:8px; font-weight:700; cursor:pointer; }
 
     .progreso-album { text-align:center; font-weight:800; color: var(--accent); margin-bottom: .6rem; }
 
-    /* MODAL: box centered with info above image */
-    #modal, #modal-cards {
-      position: fixed;
-      inset: 0;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      background: rgba(42,10,73,0.78);
-      z-index: 1200;
-      padding: 1rem;
-      pointer-events: none;
-    }
+    /* Modal */
+    #modal, #modal-cards { position: fixed; inset: 0; display: none; align-items: center; justify-content: center; background: rgba(42,10,73,0.78); z-index: 1200; padding: 1rem; pointer-events: none; }
     #modal[style*="display: flex"], #modal-cards[style*="display: flex"] { display:flex !important; pointer-events:auto; }
+    .modal-box { width: min(92vw, 920px); background: var(--white); border-radius: 12px; padding: 18px; text-align: center; color: var(--accent-text); box-shadow: 0 18px 48px rgba(6,204,189,0.12); position: relative; }
+    .modal-info-top { font-weight:800; color: var(--accent); margin-bottom: 12px; text-align:center; }
+    .modal-img-wrap img { max-width: 92%; height: auto; border-radius: 10px; border: 6px solid var(--white); box-shadow: 0 18px 48px rgba(6,204,189,0.18); background: var(--white); }
+    .modal-close { position: absolute; top: 10px; right: 12px; font-size: 1.6rem; color: var(--accent); background: transparent; border: none; cursor: pointer; }
 
-    .modal-box {
-      width: min(92vw, 920px);
-      background: var(--white);
-      border-radius: 12px;
-      padding: 18px;
-      text-align: center;
-      color: var(--accent-text);
-      box-shadow: 0 18px 48px rgba(6,204,189,0.12);
-      position: relative;
-    }
-
-    .modal-info-top {
-      font-weight:800;
-      color: var(--accent);
-      margin-bottom: 12px;
-      text-align:center;
-    }
-
-    .modal-img-wrap {
-      display:flex;
-      justify-content:center;
-      align-items:center;
-    }
-
-    .modal-img-wrap img {
-      max-width: 92%;
-      height: auto;
-      border-radius: 10px;
-      border: 6px solid var(--white);
-      box-shadow: 0 18px 48px rgba(6,204,189,0.18);
-      background: var(--white);
-    }
-
-    .modal-close {
-      position: absolute;
-      top: 10px;
-      right: 12px;
-      font-size: 1.6rem;
-      color: var(--accent);
-      background: transparent;
-      border: none;
-      cursor: pointer;
-    }
-
-    #notificacion {
-      position: fixed;
-      top: 28px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: var(--accent);
-      color: var(--accent-text);
-      padding: 10px 20px;
-      border-radius: 12px;
-      font-weight:800;
-      box-shadow: 0 10px 30px rgba(6,204,189,0.12);
-      z-index: 2000;
-      display:none;
-    }
+    #notificacion { position: fixed; top: 28px; left: 50%; transform: translateX(-50%); background: var(--accent); color: var(--accent-text); padding: 10px 20px; border-radius: 12px; font-weight:800; z-index: 2000; display:none; }
 
     footer { margin-top: 1rem; }
     .footer-content { display:flex; justify-content:center; gap: 0.6rem; align-items:center; padding: 0.9rem 1rem; color: var(--accent); background: var(--bg); border-top: 1px solid rgba(6,204,189,0.06); border-radius: 6px; }
 
-    @media (max-width:900px) {
-      .cromo img { width:86px; height:120px; }
-      .modal-box { padding: 12px; }
-    }
-    @media (max-width:420px) {
-      header { grid-template-columns: 1fr auto; grid-auto-rows: auto; height: auto; padding: 10px; }
-      .header-right { justify-self: end; }
-      .header-center { display:none; }
-    }
+    @media (max-width:900px) { .cromo img { width:86px; height:120px; } .pack { height:140px } }
+    @media (max-width:420px) { header { grid-template-columns: 1fr auto; height:auto; padding:10px } .header-center { display:none } }
   </style>
 </head>
 <body>
@@ -342,22 +144,18 @@
     </div>
   </header>
 
-  <main id="main-content" role="main" tabindex="-1">
-    <!-- contenido dinámico -->
-  </main>
+  <main id="main-content" role="main" tabindex="-1"></main>
 
-  <!-- Modal para ver carta con info centrada arriba -->
+  <!-- Card modal -->
   <div id="modal" aria-hidden="true" role="dialog">
     <div class="modal-box" role="document">
       <button class="modal-close" id="modal-close" aria-label="Cerrar">&times;</button>
       <div class="modal-info-top" id="modal-info-top"></div>
-      <div class="modal-img-wrap">
-        <img id="modal-img" src="" alt="Cromo ampliado">
-      </div>
+      <div class="modal-img-wrap"><img id="modal-img" src="" alt="Cromo ampliado"></div>
     </div>
   </div>
 
-  <!-- Modal para cartas del sobre -->
+  <!-- Pack cards modal -->
   <div id="modal-cards" aria-hidden="true" role="dialog">
     <div class="modal-box" id="modal-cards-box">
       <button class="modal-close" id="modal-cards-close" aria-label="Cerrar">&times;</button>
@@ -378,7 +176,7 @@
 
   <script>
     document.addEventListener("DOMContentLoaded", () => {
-      // --- Lista de cartas ---
+      // ---- Cards list (from you) ----
       const CARDS = [
         { id:1,nombre:"Escudo 1K",tipo:"escudo",imagen:"https://i.ibb.co/CpJ3c7B8/01-Escudo1-K.png"},
         { id:2,nombre:"Escudo Aniquiladoras FC",tipo:"escudo",imagen:"https://i.ibb.co/N2hVWpqv/02-Escudo-Aniquiladoras.png"},
@@ -445,19 +243,34 @@
       ];
 
       const REVERSO = "https://i.ibb.co/F443KZqx/00-REVERSO.png";
-      const PACK_CONTENT = [1,2,3,4,5]; // siempre lo mismo según petición
       const PACK_COST = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--pack-cost')) || 1000;
+      const PACK_SLOTS = 5; // cada sobre da 5 cartas
+
+      // Probabilities by tipo (weights)
+      // supercampeonas: VERY RARE
+      const TYPE_WEIGHTS = {
+        supercampeonas: 2,
+        presidenta: 20,
+        escudo: 40,
+        escudoqlame: 20,
+        presisqlame: 18
+      };
+
+      // Pre-group cards by tipo for faster selection
+      const cardsByType = {};
+      CARDS.forEach(c => {
+        cardsByType[c.tipo] = cardsByType[c.tipo] || [];
+        cardsByType[c.tipo].push(c);
+      });
 
       // DOM refs
       const monedasPanel = document.getElementById("monedas-panel");
       const mainContent = document.getElementById("main-content");
       const notificacion = document.getElementById("notificacion");
-
       const modal = document.getElementById("modal");
       const modalImg = document.getElementById("modal-img");
       const modalClose = document.getElementById("modal-close");
       const modalInfoTop = document.getElementById("modal-info-top");
-
       const modalCards = document.getElementById("modal-cards");
       const modalCardsGrid = document.getElementById("modal-cards-grid");
       const modalCardsInfo = document.getElementById("modal-cards-info");
@@ -471,12 +284,11 @@
 
       // State
       let monedas = parseInt(localStorage.getItem("monedas_queens")) || 2000;
-      let album = JSON.parse(localStorage.getItem("album_queens")) || {};
+      let album = JSON.parse(localStorage.getItem("album_queens")) || {}; // album[id] = qty
       let claimedTwitter = JSON.parse(localStorage.getItem("bonus_twitter_claimed")) || false;
       let claimedTwitch = JSON.parse(localStorage.getItem("bonus_twitch_claimed")) || false;
-      // track which packs were opened (index 1..5)
-      let packsOpened = JSON.parse(localStorage.getItem("packs_opened")) || {}; // e.g. { "1": true, "2": true }
-
+      let packsOpened = JSON.parse(localStorage.getItem("packs_opened")) || {}; // { "1": true, ... }
+      let currentFilter = "Todas";
       let showOnlyObtained = false;
 
       // Utilities
@@ -491,7 +303,7 @@
         monedasPanel.textContent = "Monedas: " + monedas;
         saveState();
       }
-      function showNotificacion(msg, timeout = 2200) {
+      function showNotificacion(msg, timeout = 2400) {
         if (!notificacion) return;
         notificacion.textContent = msg;
         notificacion.style.display = "block";
@@ -504,13 +316,47 @@
       if (modalCardsClose) modalCardsClose.addEventListener("click", () => modalCards.style.display = "none");
       if (modalCards) modalCards.addEventListener("click", (e) => { if (e.target === modalCards) modalCards.style.display = "none"; });
 
+      // Weighted random selection of tipo
+      function weightedRandomType() {
+        const entries = Object.entries(TYPE_WEIGHTS);
+        const total = entries.reduce((s,[,w]) => s + w, 0);
+        let r = Math.random() * total;
+        for (const [tipo, weight] of entries) {
+          if (r < weight) return tipo;
+          r -= weight;
+        }
+        // fallback
+        return entries[0][0];
+      }
+
+      // pick a random card from a given tipo; if none exist, fallback to any card
+      function pickCardOfType(tipo) {
+        const list = cardsByType[tipo] || [];
+        if (list.length === 0) {
+          const all = CARDS;
+          return all[Math.floor(Math.random() * all.length)];
+        }
+        return list[Math.floor(Math.random() * list.length)];
+      }
+
+      // generate PACK_SLOTS cards for a pack using weighted types
+      function generatePack() {
+        const result = [];
+        for (let i = 0; i < PACK_SLOTS; i++) {
+          const tipo = weightedRandomType();
+          const card = pickCardOfType(tipo);
+          result.push(card);
+        }
+        return result;
+      }
+
       // ---------- VIEWS ----------
 
       function renderMenu() {
         mainContent.innerHTML = `
           <div class="menu-principal">
             <h2 style="margin:0 0 .3rem 0;">Bienvenido al Álbum Virtual</h2>
-            <p style="margin:0 0 .6rem 0; color:#444">Usa el menú superior para navegar. "Ver Mi Álbum" muestra todas las cartas (las no obtenidas salen con reverso).</p>
+            <p style="margin:0 0 .6rem 0; color:#444; text-align:center;">Pulsa "Abrir Sobre" para comprar+abrir sobres. Cada sobre cuesta <strong>${PACK_COST} monedas</strong>. Las cartas raras (supercampeonas) aparecen muy rara vez.</p>
             <div class="actions">
               <button id="menu-open-packs" class="login-btn">Abrir Sobre (ir a página de sobres)</button>
               <button id="menu-view-album" class="login-btn">Ver Mi Álbum</button>
@@ -523,10 +369,11 @@
         document.getElementById("menu-daily")?.addEventListener("click", handleDailyBonus);
       }
 
+      // Packs page: show 5 packs (design = REVERSO), click to buy/open (cost deducted)
       function renderPacksPage() {
         mainContent.innerHTML = `
           <h2 style="margin:0 0 .4rem 0;">Abrir Sobres</h2>
-          <p style="margin:0 0 .6rem 0;">Pulsa un sobre para comprarlo y abrirlo. Cada sobre cuesta <strong>${PACK_COST} monedas</strong> y contiene siempre las mismas 5 cartas.</p>
+          <p style="margin:0 0 .6rem 0;">Pulsa un sobre para comprarlo y abrirlo. Cada sobre cuesta <strong>${PACK_COST} monedas</strong>. Todos los sobres pueden darte cartas (tipo elegido por probabilidad).</p>
           <div style="display:flex; gap:12px; justify-content:flex-end;">
             <button id="open-all" class="login-btn">Abrir todos los sobres</button>
             <button id="back-menu" class="login-btn" style="background:transparent; color:var(--accent); border:2px solid var(--accent);">Volver al menú</button>
@@ -538,34 +385,41 @@
         for (let i = 1; i <= 5; i++) {
           const div = document.createElement("div");
           div.className = "pack";
-          div.dataset.index = i;
-          // show REVERSO image as pack design
+          div.dataset.index = String(i);
+          // reverso as pack design
           const img = document.createElement("img");
           img.src = REVERSO;
           img.alt = `Sobre ${i}`;
           div.appendChild(img);
 
+          const badge = document.createElement("div");
+          badge.className = "pack-badge";
+          badge.textContent = `${PACK_COST} Ⓜ`;
+          div.appendChild(badge);
+
           const label = document.createElement("div");
-          label.className = "pack-label";
+          label.style.position = "absolute";
+          label.style.left = "10px";
+          label.style.top = "10px";
+          label.style.color = "#fff";
+          label.style.fontWeight = "800";
+          label.style.background = "rgba(0,0,0,0.35)";
+          label.style.padding = "6px 8px";
+          label.style.borderRadius = "8px";
           label.textContent = `Sobre ${i}`;
           div.appendChild(label);
 
-          const cost = document.createElement("div");
-          cost.className = "pack-cost";
-          cost.textContent = `${PACK_COST} Ⓜ`;
-          div.appendChild(cost);
-
-          // if already opened, mark
           if (packsOpened[String(i)]) div.classList.add("opened");
 
-          div.addEventListener("click", () => openSinglePack(div));
+          div.addEventListener("click", () => handlePackClick(div));
           packsGrid.appendChild(div);
         }
+
         document.getElementById("open-all")?.addEventListener("click", openAllPacks);
         document.getElementById("back-menu")?.addEventListener("click", renderMenu);
       }
 
-      function openSinglePack(packDiv) {
+      function handlePackClick(packDiv) {
         const idx = String(packDiv?.dataset?.index || "");
         if (!packDiv || !idx) return;
         if (packsOpened[idx]) {
@@ -576,32 +430,39 @@
           showNotificacion(`Necesitas ${PACK_COST} monedas para abrir este sobre.`);
           return;
         }
-        // cobrar, abrir y dar cartas (siempre el mismo contenido)
+        // Deduct coins
         monedas -= PACK_COST;
         updateMonedas();
-        PACK_CONTENT.forEach(id => { album[id] = (album[id] || 0) + 1; });
+
+        // generate random content with weights
+        const newCards = generatePack();
+        // add to album
+        newCards.forEach(c => {
+          album[c.id] = (album[c.id] || 0) + 1;
+        });
         packsOpened[idx] = true;
         saveState();
-        // visually mark pack opened
         packDiv.classList.add("opened");
-        showPackCardsModal(`Has comprado y abierto el Sobre ${idx}. Contenido:`);
+        showPackCardsModal(`Has comprado y abierto el Sobre ${idx}. Contenido:`, newCards);
       }
 
       function openAllPacks() {
         const packDivs = document.querySelectorAll(".packs-grid .pack");
         let countOpened = 0;
-        let couldNotOpen = 0;
+        let cannotOpen = 0;
+        const openedCards = [];
         packDivs.forEach(div => {
           const idx = String(div.dataset.index);
           if (!packsOpened[idx]) {
             if (monedas >= PACK_COST) {
               monedas -= PACK_COST;
-              PACK_CONTENT.forEach(id => { album[id] = (album[id] || 0) + 1; });
+              const pCards = generatePack();
+              pCards.forEach(c => { album[c.id] = (album[c.id] || 0) + 1; openedCards.push(c); });
               packsOpened[idx] = true;
               div.classList.add("opened");
               countOpened++;
             } else {
-              couldNotOpen++;
+              cannotOpen++;
             }
           }
         });
@@ -611,56 +472,57 @@
         }
         saveState();
         updateMonedas();
-        if (couldNotOpen > 0) {
-          showPackCardsModal(`Has abierto ${countOpened} sobres (faltaron monedas para abrir ${couldNotOpen} sobres). Cada sobre trae las mismas cartas:`);
-        } else {
-          showPackCardsModal(`Has abierto ${countOpened} sobres. Cada sobre trae las mismas cartas:`);
-        }
+        showPackCardsModal(`Has abierto ${countOpened} sobres.` + (cannotOpen ? ` No hubo monedas para ${cannotOpen} sobres.` : ''), openedCards);
       }
 
-      function showPackCardsModal(titleText) {
+      function showPackCardsModal(titleText, cards) {
         modalCardsGrid.innerHTML = "";
         modalCardsInfo.textContent = titleText;
-        // mostrar las cartas del pack
-        PACK_CONTENT.forEach(id => {
-          const card = CARDS.find(c => c.id === id);
+        // show cards (cards is array from generatePack). If undefined, show last PACK_SLOTS from album (fallback)
+        const toShow = Array.isArray(cards) && cards.length ? cards : PACK_SLOTS ? CARDS.slice(0,PACK_SLOTS) : [];
+        toShow.forEach(card => {
           const div = document.createElement("div");
           div.className = "cromo";
-          div.innerHTML = `<img src="${card ? card.imagen : REVERSO}" alt="${card ? card.nombre : 'Cromo'}">`;
+          div.innerHTML = `<img src="${card ? card.imagen : REVERSO}" alt="${card ? card.nombre : 'Cromo'}" tabindex="0">`;
           modalCardsGrid.appendChild(div);
         });
         modalCards.style.display = "flex";
       }
 
-      // Album
+      // Album view with filters for types
+      const TYPES_ORDER = ["Todas","escudo","escudoqlame","presidenta","presisqlame","supercampeonas"];
       function renderAlbumPage() {
         mainContent.innerHTML = `
           <h2 style="margin:0 0 .4rem 0;">Mi Álbum</h2>
           <div style="display:flex; gap:.6rem; align-items:center; margin-bottom:.6rem;">
             <p class="progreso-album" id="progreso" style="margin:0"></p>
-            <button id="toggle-show" class="login-btn" style="margin-left:auto; padding:.4rem .7rem; font-size:.9rem;">Mostrar solo obtenidas</button>
+            <div class="filters" id="filters" style="margin-left:auto;"></div>
             <button id="back-menu-2" class="login-btn" style="background:transparent; color:var(--accent); border:2px solid var(--accent);">Volver</button>
           </div>
           <div class="album-grid" id="album-grid"></div>
-          <p style="margin-top:12px; color:var(--accent); font-weight:700;">Puedes vender duplicadas (cada duplicada = 100 monedas)</p>
+          <p style="margin-top:12px; color:var(--accent); font-weight:700;">Pulsa cualquier cromo para verlo; puedes vender duplicadas (cada duplicada = 100 monedas).</p>
         `;
-
-        document.getElementById("toggle-show")?.addEventListener("click", () => {
-          showOnlyObtained = !showOnlyObtained;
-          document.getElementById("toggle-show").textContent = showOnlyObtained ? "Mostrar todas" : "Mostrar solo obtenidas";
-          renderAlbumPage();
-        });
         document.getElementById("back-menu-2")?.addEventListener("click", renderMenu);
+        const filtroCont = document.getElementById("filters");
+        filtroCont.innerHTML = "";
+        TYPES_ORDER.forEach(t => {
+          const btn = document.createElement("button");
+          btn.className = "filter-btn" + (currentFilter === t ? " active" : "");
+          btn.textContent = t === "Todas" ? "Todas" : t;
+          btn.addEventListener("click", () => { currentFilter = t; renderAlbumPage(); });
+          filtroCont.appendChild(btn);
+        });
 
         const albumGrid = document.getElementById("album-grid");
         const total = CARDS.length;
         const obtained = CARDS.filter(c => album[c.id]).length;
         document.getElementById("progreso").textContent = `Cartas obtenidas: ${obtained} / ${total}`;
 
-        const cardsToShow = showOnlyObtained ? CARDS.filter(c => album[c.id]) : CARDS.slice().sort((a,b) => a.id - b.id);
+        let cardsToShow = CARDS.slice().sort((a,b) => a.id - b.id);
+        if (currentFilter !== "Todas") cardsToShow = cardsToShow.filter(c => c.tipo === currentFilter);
 
         if (cardsToShow.length === 0) {
-          albumGrid.innerHTML = `<div style="padding:1rem; color:#666">Aún no tienes cartas. Ve a "Abrir Sobre" para conseguirlas.</div>`;
+          albumGrid.innerHTML = `<div style="padding:1rem; color:#666">No hay cartas en esta categoría.</div>`;
           return;
         }
 
@@ -670,7 +532,9 @@
           const img = document.createElement("img");
           img.src = album[card.id] ? card.imagen : REVERSO;
           img.alt = card.nombre;
+          img.tabIndex = 0;
           img.addEventListener("click", () => openCardModal(card));
+          img.addEventListener("keyup", (e) => { if (e.key === "Enter") openCardModal(card); });
           div.appendChild(img);
 
           if (album[card.id] && album[card.id] > 1) {
@@ -684,14 +548,10 @@
         });
       }
 
-      // Open card modal with info centered above the image
+      // Card modal: info at top centered
       function openCardModal(card) {
         const copies = album[card.id] || 0;
-        if (copies > 0) {
-          modalInfoTop.textContent = `${card.nombre} · Copias: ${copies}`;
-        } else {
-          modalInfoTop.textContent = `${card.nombre} · Aún no obtenida`;
-        }
+        modalInfoTop.textContent = copies > 0 ? `${card.nombre} · Copias: ${copies}` : `${card.nombre} · Aún no obtenida`;
         modalImg.src = card.imagen;
         modalImg.alt = card.nombre;
         modal.style.display = "flex";
@@ -747,7 +607,15 @@
       updateMonedas();
       renderMenu();
 
-      console.log("App inicializada — sobres ahora cuestan " + PACK_COST + " monedas y son visualmente distintos (revés).");
+      // Helpful console info
+      console.log("App inicializada. Packs cuestan", PACK_COST, "monedas. Tipo weights:", TYPE_WEIGHTS);
+      console.log("Puedes filtrar por tipos en el álbum: ", Object.keys(cardsByType).sort());
+
+      // Expose some things for debugging
+      window.__CARDS = CARDS;
+      window.__album = album;
+      window.__generatePack = generatePack;
+      window.__saveState = saveState;
     });
   </script>
 </body>
