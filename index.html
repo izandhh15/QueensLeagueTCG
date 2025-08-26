@@ -133,7 +133,7 @@
       <nav class="main-menu" id="main-menu" aria-label="Menu principal">
         <button id="btn-sobres">Abrir Sobre</button>
         <button id="btn-album">Ver Mi Álbum</button>
-        <button id="btn-creator">Código de Creador</button>
+        <button id="btn-claim">Reclamar Recompensa de Creador</button>
         <button id="btn-daily">Bonus Diario</button>
         <button id="btn-twitter">Bonus X</button>
         <button id="btn-twitch">Bonus Twitch</button>
@@ -298,7 +298,7 @@
 
       const btnSobres = document.getElementById("btn-sobres");
       const btnAlbum = document.getElementById("btn-album");
-      const btnCreator = document.getElementById("btn-creator");
+      const btnClaim = document.getElementById("btn-claim");
       const btnDaily = document.getElementById("btn-daily");
       const btnTwitter = document.getElementById("btn-twitter");
       const btnTwitch = document.getElementById("btn-twitch");
@@ -560,26 +560,50 @@
         renderAlbumPage();
       }
 
-      // Creator code UI
-      function renderCreatorPage() {
+      // CREATOR CLAIM PAGE
+      function renderClaimPage() {
+        // list redeemed codes for user (persisted)
+        const redeemedList = Object.keys(claimed_creator_codes).filter(k => claimed_creator_codes[k]);
+
         mainContent.innerHTML = `
-          <h2 style="margin:0 0 .4rem 0;">Código de Creador</h2>
-          <p style="margin:0 0 .6rem 0;">Introduce el código que te da la creadora/streamer. Los códigos se canjean una sola vez por usuario.</p>
+          <h2 style="margin:0 0 .4rem 0;">Reclamar Recompensa de Creador</h2>
+          <p style="margin:0 0 .6rem 0;">Introduce el código que te da la creadora/streamer. Cada código se canjea una sola vez por usuario.</p>
+
           <div style="display:flex; gap:.6rem; align-items:center; margin-bottom:.8rem;">
             <input id="creator-code-input" placeholder="Introduce código" style="padding:.6rem .8rem; border-radius:8px; border:1px solid #ddd; flex:1" />
             <button id="redeem-code" class="login-btn">Canjear</button>
-            <button id="back-menu-3" class="login-btn" style="background:transparent; color:var(--accent); border:2px solid var(--accent);">Volver</button>
+            <button id="back-menu-claim" class="login-btn" style="background:transparent; color:var(--accent); border:2px solid var(--accent);">Volver</button>
           </div>
-          <div style="margin-top:.6rem; color:#555;">
-            <p style="margin:.2rem 0;"><strong>Nota:</strong> los códigos se definen en el archivo. Ejemplos: monedas, carta concreta o sobres gratis.</p>
+
+          <div style="display:flex; gap:1rem; align-items:flex-start;">
+            <div style="flex:1;">
+              <h4 style="margin:.2rem 0">Códigos canjeados</h4>
+              <div id="redeemed-codes" style="background:#fafafa; padding:10px; border-radius:8px; color:#444; min-height:40px;">${redeemedList.length ? redeemedList.join(", ") : "No has canjeado códigos todavía."}</div>
+            </div>
+            <div style="width:260px;">
+              <h4 style="margin:.2rem 0">Estado</h4>
+              <div style="background:#fafafa; padding:10px; border-radius:8px; color:#444;">
+                <div>Monedas: <strong id="status-coins">${monedas}</strong></div>
+                <div>Sobres gratis: <strong id="status-freepacks">${freePacks}</strong></div>
+                <div style="margin-top:8px; font-size:.9rem; color:#666;">(Los códigos están definidos en el archivo; cada código solo puede canjearse una vez por usuario.)</div>
+              </div>
+            </div>
           </div>
         `;
+
         document.getElementById("redeem-code")?.addEventListener("click", () => {
           const input = document.getElementById("creator-code-input");
           const v = input && input.value ? input.value.trim() : "";
           redeemCreatorCode(v);
+          // update UI pieces
+          const redeemedDiv = document.getElementById("redeemed-codes");
+          const list = Object.keys(claimed_creator_codes).filter(k => claimed_creator_codes[k]);
+          redeemedDiv.textContent = list.length ? list.join(", ") : "No has canjeado códigos todavía.";
+          document.getElementById("status-coins").textContent = monedas;
+          document.getElementById("status-freepacks").textContent = freePacks;
         });
-        document.getElementById("back-menu-3")?.addEventListener("click", renderMenu);
+
+        document.getElementById("back-menu-claim")?.addEventListener("click", renderMenu);
       }
 
       // Bonuses
@@ -612,7 +636,7 @@
       // Header wiring
       btnSobres && btnSobres.addEventListener("click", renderPacksPage);
       btnAlbum && btnAlbum.addEventListener("click", renderAlbumPage);
-      btnCreator && btnCreator.addEventListener("click", renderCreatorPage);
+      btnClaim && btnClaim.addEventListener("click", renderClaimPage);
       btnDaily && btnDaily.addEventListener("click", handleDailyBonus);
       btnTwitter && btnTwitter.addEventListener("click", handleTwitterBonus);
       btnTwitch && btnTwitch.addEventListener("click", handleTwitchBonus);
@@ -621,7 +645,7 @@
       updateMonedas();
       renderMenu();
 
-      console.log("App actualizada: añadido apartado Código de Creador (canje, persistencia, sobres gratis).");
+      console.log("App actualizada: 'Reclamar Recompensa de Creador' añadido al menú y a la cabecera. Códigos persistentes y sobres gratis integrados.");
       // expose for debug
       window.__CARDS = CARDS;
       window.__album = album;
