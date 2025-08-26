@@ -1,213 +1,218 @@
-/* Reset y estilo global */
+/* ==========================
+   RESET BÁSICO
+========================== */
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  font-family: Arial, sans-serif;
 }
 
 body {
-  font-family: 'Arial', sans-serif;
-  background-color: #2a0a49;
-  color: #06ccbd;
+  background: #111;
+  color: #eee;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
+}
+
+/* ==========================
+   HEADER
+========================== */
+header {
+  background: #06ccbd;
+  color: #111;
+  padding: 15px;
+  display: flex;
+  justify-content: space-between;
   align-items: center;
-  min-height: 100vh;
-  padding: 20px;
+  font-weight: bold;
+  font-size: 1.2rem;
 }
 
-/* Título principal */
-h1 {
-  color: #06ccbd;
-  text-align: center;
-  font-size: 2.2rem;
-  margin-bottom: 15px;
-  text-shadow: 1px 1px 2px #000;
-}
-
-/* Panel de monedas */
 #monedas-panel {
-  margin: 10px;
-  font-size: 18px;
+  background: #fff;
+  color: #111;
+  padding: 6px 12px;
+  border-radius: 10px;
   font-weight: bold;
-  color: #06ccbd;
-  text-align: center;
 }
 
-/* Botones generales */
+/* ==========================
+   BOTONES GENERALES
+========================== */
 button {
-  background-color: #06ccbd;
-  color: #2a0a49;
+  background: #06ccbd;
   border: none;
-  border-radius: 10px;
-  padding: 10px 16px;
+  padding: 10px 18px;
   margin: 5px;
-  font-weight: bold;
+  border-radius: 10px;
   cursor: pointer;
-  transition: all 0.2s ease-in-out;
+  font-weight: bold;
+  transition: 0.2s;
 }
 
 button:hover {
-  transform: scale(1.05);
-  opacity: 0.9;
-}
-
-/* Contenedor de códigos */
-#codigo-container {
-  display: flex;
-  gap: 10px;
-  margin: 10px 0;
-  width: 90%;
-  max-width: 500px;
-}
-
-#codigo-input {
-  flex: 1;
-  padding: 10px;
-  border-radius: 8px;
-  border: none;
-  font-size: 16px;
-}
-
-/* Filtros por categoría */
-#filtros {
-  display: flex;
-  gap: 10px;
-  margin: 15px 0;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
-.filtro-btn {
-  background-color: #06ccbd;
-  color: #2a0a49;
-  border: none;
-  border-radius: 8px;
-  padding: 8px 12px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.filtro-btn:hover {
-  opacity: 0.9;
+  background: #04a99d;
   transform: scale(1.05);
 }
 
-/* Mini-títulos de secciones */
-.section-title {
-  color: #06ccbd;
-  font-size: 1.5rem;
-  text-align: left;
-  margin: 20px 0 10px 0;
-  border-bottom: 2px solid #06ccbd;
-  padding-bottom: 5px;
-  width: 90%;
+button:active {
+  transform: scale(0.95);
 }
 
-/* Grid de cartas */
+/* ==========================
+   SECCIONES
+========================== */
+section {
+  padding: 20px;
+  flex-grow: 1;
+}
+
+#welcome-screen,
+#pack-view,
+#album-view {
+  text-align: center;
+}
+
+/* ==========================
+   BONUSES Y CANJEO
+========================== */
+.bonuses, .canjeo {
+  margin-top: 15px;
+}
+
+.canjeo input {
+  padding: 8px;
+  border-radius: 8px;
+  border: none;
+  margin-right: 5px;
+}
+
+/* ==========================
+   GRID DE CROMOS
+========================== */
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
-  gap: 10px;
+  grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+  gap: 12px;
   margin: 15px 0;
-  width: 90%;
 }
 
-/* Carta individual */
 .cromo {
+  background: #222;
+  border: 2px solid #06ccbd;
+  border-radius: 12px;
+  overflow: hidden;
   position: relative;
-  cursor: pointer;
-  transition: transform 0.2s ease;
+  transition: 0.2s;
 }
 
 .cromo img {
   width: 100%;
-  border-radius: 8px;
-  border: 2px solid #06ccbd;
+  display: block;
 }
 
 .cromo:hover {
   transform: scale(1.05);
+  border-color: #fff;
 }
 
-/* Contador de duplicadas */
 .cromo span {
   position: absolute;
-  bottom: 5px;
-  right: 5px;
-  background: #06ccbd;
-  color: #2a0a49;
-  padding: 2px 6px;
-  border-radius: 8px;
-  font-size: 12px;
-  font-weight: bold;
+  bottom: 6px;
+  right: 6px;
+  background: rgba(0, 0, 0, 0.7);
+  color: #fff;
+  padding: 3px 7px;
+  border-radius: 6px;
+  font-size: 0.8rem;
 }
 
-/* Modal */
-#modal {
+/* ==========================
+   TÍTULOS DE SECCIONES
+========================== */
+h2, h3 {
+  margin: 15px 0 10px;
+  color: #06ccbd;
+  text-align: left;
+}
+
+h2 {
+  font-size: 1.6rem;
+}
+
+h3 {
+  font-size: 1.2rem;
+  border-bottom: 2px solid #06ccbd;
+  padding-bottom: 4px;
+}
+
+/* ==========================
+   MENÚ DE FILTROS
+========================== */
+#filtros {
+  margin: 15px 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+}
+
+#filtros .filtro-btn {
+  background: #222;
+  color: #06ccbd;
+  border: 2px solid #06ccbd;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+}
+
+#filtros .filtro-btn:hover {
+  background: #06ccbd;
+  color: #111;
+}
+
+/* ==========================
+   MODAL
+========================== */
+.modal {
   display: none;
   position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  background: rgba(0,0,0,0.85);
-  justify-content: center;
+  z-index: 100;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.9);
   align-items: center;
-  z-index: 1000;
+  justify-content: center;
 }
 
-#modal img {
+.modal img {
   max-width: 90%;
   max-height: 90%;
   border-radius: 12px;
-  border: 5px solid #06ccbd;
-  box-shadow: 0 0 20px #06ccbd;
+  border: 3px solid #06ccbd;
 }
 
 #modal-close {
   position: absolute;
   top: 20px;
   right: 30px;
-  font-size: 36px;
-  font-weight: bold;
+  font-size: 2rem;
   color: #fff;
   cursor: pointer;
-  transition: transform 0.2s ease;
 }
 
-#modal-close:hover {
-  transform: scale(1.2);
-}
-
-/* Botón vender duplicadas */
-#btn-vender {
-  display: block;
-  margin: 10px auto;
-  background-color: #06ccbd;
-  color: #2a0a49;
-  border-radius: 8px;
-  padding: 10px 15px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-#btn-vender:hover {
-  opacity: 0.9;
-  transform: scale(1.05);
-}
-
-/* Responsive */
-@media (max-width: 600px) {
-  h1 {
-    font-size: 1.8rem;
-  }
-
-  #codigo-container {
-    flex-direction: column;
-  }
-
-  #codigo-input {
-    width: 100%;
-  }
+/* ==========================
+   FOOTER
+========================== */
+footer {
+  text-align: center;
+  padding: 15px;
+  background: #222;
+  font-size: 0.9rem;
+  margin-top: auto;
+  border-top: 2px solid #06ccbd;
 }
