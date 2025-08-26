@@ -1,4 +1,366 @@
-<script>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Queens League Oysho - Álbum Virtual</title>
+  <meta name="description" content="Álbum virtual de Queens League Oysho — sobres, cromos y bonos" />
+  <link rel="icon" href="https://queensleague.pro/favicon.ico" />
+  <style>
+    :root{
+      --bg: #2a0a49;
+      --accent: #06ccbd;
+      --accent-text: #2a0a49;
+      --card-bg: #e5e7eb;
+      --white: #ffffff;
+      --danger: #e11d48;
+      --shadow-accent: rgba(6,204,189,0.18);
+      --max-width: 1100px;
+      --radius: 12px;
+      --transition: 200ms ease;
+      --header-height: 72px;
+      --pack-cost: 1000;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}\
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background: var(--bg);
+      color: var(--white);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      display:flex;
+      flex-direction:column;
+    }
+    header {
+      background: var(--accent);
+      color: var(--accent-text);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 2rem;
+      height: var(--header-height);
+      box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+      position: sticky;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 100;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 1.5rem;
+    }
+    nav ul {
+      display: flex;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      gap: 1.5rem;
+    }
+    nav ul li a, .header-button {
+      text-decoration: none;
+      color: var(--accent-text);
+      font-weight: 600;
+      transition: color var(--transition);
+      cursor: pointer;
+    }
+    nav ul li a:hover, .header-button:hover {
+      color: var(--white);
+    }
+    #monedas-panel {
+      font-size: 1.2rem;
+      font-weight: 700;
+      background: rgba(0,0,0,0.1);
+      padding: 0.5rem 1rem;
+      border-radius: var(--radius);
+    }
+    main {
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2rem 1rem;
+      width: 100%;
+      max-width: var(--max-width);
+      margin: 0 auto;
+    }
+    #main-content {
+      width: 100%;
+    }
+    .menu-principal {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+      text-align: center;
+    }
+    .login-btn {
+      background: var(--accent);
+      color: var(--accent-text);
+      border: none;
+      padding: 12px 24px;
+      border-radius: var(--radius);
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform var(--transition);
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+    }
+    .login-btn:hover { transform: scale(1.05); }
+    .packs-grid, .album-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 1.2rem;
+      padding-top: 1rem;
+    }
+    .pack, .cromo {
+      position: relative;
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      overflow: hidden;
+      aspect-ratio: 1 / 1.4;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+      transition: transform var(--transition), box-shadow var(--transition);
+    }
+    .pack:hover, .cromo:hover { transform: translateY(-5px); box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1); }
+    .pack.opened { cursor:not-allowed; opacity:0.6; }
+    .pack img, .cromo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .pack-badge {
+      position: absolute;
+      bottom: 8px;
+      right: 8px;
+      background: var(--accent);
+      color: var(--accent-text);
+      padding: 4px 8px;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      font-weight: bold;
+    }
+    .duplicadas {
+      position: absolute;
+      top: 8px;
+      left: 8px;
+      background: var(--danger);
+      color: var(--white);
+      padding: 4px 8px;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      font-weight: bold;
+      z-index: 10;
+    }
+    .btn-vender {
+      position: absolute;
+      bottom: 8px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--danger);
+      color: var(--white);
+      border: none;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      font-weight: bold;
+      cursor: pointer;
+      display: none;
+      transition: opacity var(--transition);
+      opacity: 0;
+    }
+    .cromo:hover .btn-vender { display: block; opacity: 1; }
+    #notificacion {
+      position: fixed;
+      top: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--accent);
+      color: var(--accent-text);
+      padding: 1rem 2rem;
+      border-radius: var(--radius);
+      box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+      z-index: 200;
+      display: none;
+    }
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 300;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0,0,0,0.8);
+      justify-content: center;
+      align-items: center;
+    }
+    .modal-content {
+      background-color: var(--card-bg);
+      padding: 1.5rem;
+      border-radius: var(--radius);
+      max-width: 90%;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+    }
+    .modal-content h3 {
+      color: var(--accent-text);
+      margin: 0;
+    }
+    .modal-content img {
+      max-width: 100%;
+      height: auto;
+      border-radius: var(--radius);
+      box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    }
+    .close-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      color: var(--accent-text);
+      font-size: 2rem;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .modal-cards-content {
+      background-color: var(--bg);
+      padding: 2rem;
+      border-radius: var(--radius);
+      max-width: 90%;
+      width: 1000px;
+      box-sizing: border-box;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .modal-cards-content h3 {
+      color: var(--white);
+      margin: 0 0 1rem 0;
+    }
+    .modal-cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 1rem;
+      width: 100%;
+    }
+    .modal-cards-grid .cromo {
+      height: auto;
+      margin-top: 0;
+      aspect-ratio: unset;
+    }
+    .modal-cards-grid .cromo img {
+      width: 100%;
+    }
+    .modal-creator-code-content {
+      background-color: var(--card-bg);
+      padding: 2rem;
+      border-radius: var(--radius);
+      max-width: 400px;
+      width: 100%;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+    }
+    .modal-creator-code-content h3 {
+      color: var(--accent-text);
+      margin: 0;
+    }
+    .modal-creator-code-content input {
+      padding: 0.5rem;
+      border: 1px solid #ccc;
+      border-radius: var(--radius);
+      width: 100%;
+    }
+    .modal-creator-code-content button {
+      width: 100%;
+    }
+    .filters .filter-btn {
+      background: rgba(255,255,255,0.1);
+      color: var(--white);
+      border: 1px solid rgba(255,255,255,0.2);
+      padding: 6px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .filters .filter-btn.active {
+      background: var(--accent);
+      color: var(--accent-text);
+      border-color: var(--accent);
+    }
+    @media (max-width: 768px) {
+      header { padding: 0 1rem; }
+      nav { display: none; }
+      .packs-grid, .album-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
+      .modal-cards-grid { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); }
+    }
+    @media (max-width: 480px) {
+      .packs-grid, .album-grid { grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); }
+      .modal-cards-grid { grid-template-columns: repeat(auto-fill, minmax(90px, 1fr)); }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Queens League Oysho</h1>
+    <span id="monedas-panel">Monedas: 0</span>
+    <nav>
+      <ul>
+        <li><a id="btn-sobres">Abrir Sobres</a></li>
+        <li><a id="btn-album">Mi Álbum</a></li>
+        <li><a id="btn-daily">Bonus Diario</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <div id="main-content">
+      </div>
+  </main>
+
+  <div id="notificacion"></div>
+
+  <div id="modal" class="modal">
+    <div class="modal-content">
+      <span id="modal-close" class="close-btn">&times;</span>
+      <h3 id="modal-info-top"></h3>
+      <img id="modal-img" src="" alt="">
+    </div>
+  </div>
+
+  <div id="modal-cards" class="modal">
+    <div class="modal-cards-content">
+      <span id="modal-cards-close" class="close-btn">&times;</span>
+      <h3 id="modal-cards-info"></h3>
+      <div id="modal-cards-grid" class="modal-cards-grid"></div>
+    </div>
+  </div>
+
+  <div id="modal-creator-code" class="modal">
+    <div class="modal-creator-code-content">
+      <span id="modal-creator-code-close" class="close-btn">&times;</span>
+      <h3>Canjear código de creador</h3>
+      <input type="text" id="creator-code-input" placeholder="Introduce el código">
+      <button id="redeem-creator-code" class="login-btn">Canjear</button>
+    </div>
+  </div>
+
+  <script>
     document.addEventListener("DOMContentLoaded", () => {
       // ---- Cards list (user-provided) ----
       const CARDS = [
@@ -17,9 +379,9 @@
         { id:37,nombre:"Escudo Atlético Parceras",tipo:"escudoqlame",imagen:"https://i.ibb.co/NdZKc3sJ/37-Escudo-Atletico-Parceras.png"},
         { id:38,nombre:"Escudo Club de Cuervos",tipo:"escudoqlame",imagen:"https://i.ibb.co/tpX3Dpbk/38-Escudo-Club-De-Cuervos.png"},
         { id:39,nombre:"Escudo Galácticas del Caribe",tipo:"escudoqlame",imagen:"https://i.ibb.co/bjs2K3sy/39-Escudo-Galacticas-Del-Caribe.png"},
-        { id:40,nombre:"Escudo Las Aliens FC",tipo:"escudoqlame",imagen:"https://i.ibb.co/YFmK6Fdn/40-Escudo-Las-Aliens-FC.png"},
-        { id:41,nombre:"Escudo Las Chamas FC",tipo:"escudoqlame",imagen:"https://i.ibb.co/HTwMP29d/41-Escudo-Las-Chamas-FC.png"},
-        { id:42,nombre:"Escudo Las Santas FC",tipo:"escudoqlame",imagen:"https://i.ibb.co/dspST13h/42-Escudo-Las-Santas-FC.png"},
+        { id:40,nombre:"Escudo Las Aliens FC",tipo:"escudoqlame",imagen:"https://i.ibb.co/YFmK6Fdn/40-Las-Aliens-FC.png"},
+        { id:41,nombre:"Escudo Las Chamas FC",tipo:"escudoqlame",imagen:"https://i.ibb.co/HTwMP29d/41-Las-Chamas-FC.png"},
+        { id:42,nombre:"Escudo Las Santas FC",tipo:"escudoqlame",imagen:"https://i.ibb.co/dspST13h/42-Las-Santas-FC.png"},
         { id:43,nombre:"Escudo Muchachas FC",tipo:"escudoqlame",imagen:"https://i.ibb.co/S70w9X3P/43-Muchachas-FC.png"},
         { id:44,nombre:"Escudo Olimpo United",tipo:"escudoqlame",imagen:"https://i.ibb.co/kVm2q728/44-Olimpo-United.png"},
         { id:45,nombre:"Escudo Peluche Caligari",tipo:"escudoqlame",imagen:"https://i.ibb.co/wFJcxQb0/45-Peluche-Caligari.png"},
@@ -449,6 +811,8 @@
                   totalGained += gained;
                   totalSold += duplicates;
                   cardsWithDuplicates[cardId] = 1;
+              } else {
+                  cardsWithDuplicates[cardId] = qty;
               }
           }
 
@@ -458,11 +822,11 @@
           }
 
           monedas += totalGained;
-          album = cardsWithDuplicates; // Reemplaza el álbum con el nuevo álbum sin duplicados
+          album = cardsWithDuplicates;
           saveState();
           updateMonedas();
           showNotificacion(`Vendiste ${totalSold} cartas duplicadas y ganaste un total de ${totalGained} monedas.`);
-          renderAlbumPage(); // Vuelve a renderizar la página para mostrar los cambios
+          renderAlbumPage();
       }
 
       // Bonuses
@@ -506,3 +870,5 @@
       renderMenu();
     });
   </script>
+</body>
+</html>
