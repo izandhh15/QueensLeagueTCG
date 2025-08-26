@@ -1,4 +1,3 @@
-body {
   font-family: 'Segoe UI', Arial, sans-serif;
   background: #2a0a49;
   color: #fff;
@@ -20,6 +19,7 @@ header {
   font-weight: bold;
   color: #06ccbd;
   letter-spacing: 1px;
+  cursor: pointer;
 }
 
 .redes {
@@ -54,6 +54,59 @@ header {
   cursor: pointer;
   box-shadow: 0 2px 8px #06ccbd30;
   transition: background .2s, box-shadow .2s;
+}
+
+#user-panel {
+  margin-left: 2em;
+  font-size: 1em;
+  color: #06ccbd;
+  display: flex;
+  align-items: center;
+  gap: 1em;
+}
+
+.login-btn {
+  background: #06ccbd;
+  color: #2a0a49;
+  border: none;
+  border-radius: 8px;
+  padding: 0.5em 1.1em;
+  font-weight: 600;
+  cursor: pointer;
+  margin-right: 0.5em;
+  transition: background .2s, color .2s;
+}
+
+.login-btn:hover {
+  background: #2a0a49;
+  color: #06ccbd;
+  border: 2px solid #06ccbd;
+}
+
+.avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 2px solid #06ccbd;
+  margin-right: 0.6em;
+  background: #fff;
+  object-fit: cover;
+}
+
+.logout-btn {
+  background: #e11d48;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 0.3em 0.9em;
+  font-weight: 600;
+  cursor: pointer;
+  margin-left: 0.5em;
+  transition: background .2s;
+}
+
+.logout-btn:hover {
+  background: #b91c1c;
 }
 
 #main-content {
@@ -189,15 +242,19 @@ header {
   margin-bottom:1em;
 }
 
-#modal {
-  display:none;
-  position:fixed;
+#modal, #login-modal {
+  position: fixed;
   top:0; left:0;
   width:100vw; height:100vh;
-  background:rgba(42,10,73,0.85);
-  align-items:center;
-  justify-content:center;
-  z-index:100;
+  background: rgba(42,10,73,0.85);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+#modal[style*="display: flex"], #login-modal[style*="display: flex"] {
+  display: flex !important;
 }
 
 #modal-img {
@@ -220,9 +277,66 @@ header {
   z-index:101;
 }
 
+#modal-info {
+  color: #2a0a49;
+  background: #fff;
+  font-size: 1.1em;
+  padding: 1em 2em;
+  border-radius: 10px;
+  margin-top: 1em;
+  text-align: center;
+}
+
+.login-modal-content {
+  background:#fff;
+  color:#2a0a49;
+  padding:2em 3em;
+  border-radius:20px;
+  box-shadow:0 2px 16px #06ccbd50;
+  text-align:center;
+  min-width:240px;
+}
+
+#notificacion {
+  position:fixed;
+  top:30px; left:50%;
+  transform:translateX(-50%);
+  background:#06ccbd;
+  color:#2a0a49;
+  font-weight:700;
+  padding:12px 30px;
+  border-radius:10px;
+  box-shadow:0 2px 12px #0004;
+  z-index:2000;
+  display:none;
+  font-size:1.2em;
+}
+
+footer {
+  margin-top: 2em;
+}
+
+.footer-content {
+  text-align:center;
+  color:#06ccbd;
+  background:#2a0a49;
+  padding:1em;
+  font-size:1em;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:1em;
+}
+
+.footer-content a {
+  color:#06ccbd;
+  text-decoration:underline;
+}
+
 @media (max-width: 700px) {
   #main-content { padding: 1em; max-width: 98vw;}
   .album-grid, .sobre-grid { grid-template-columns: repeat(auto-fit,minmax(80px,1fr)); }
   .cromo img { width:70px; height:100px;}
-  #modal-img { max-width:98vw; max-height:72vh;}
+  #modal-img, .login-modal-content { max-width:98vw; max-height:72vh;}
+  .login-modal-content { padding:1em;}
 }
