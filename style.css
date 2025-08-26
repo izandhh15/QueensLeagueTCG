@@ -1,32 +1,24 @@
-/* Reset básico */
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
 body {
   font-family: 'Segoe UI', Arial, sans-serif;
-  background: #f9fafc;
-  color: #23223a;
-  min-height: 100vh;
+  background: #2a0a49;
+  color: #fff;
+  margin: 0;
 }
 
-/* Header */
 header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1.2em 3vw;
-  background: #fff;
-  border-bottom: 2px solid #e0e7ff;
-  box-shadow: 0 2px 8px #e0e7ff40;
+  padding: 1em 2em;
+  background: #2a0a49;
+  border-bottom: 2px solid #06ccbd;
+  box-shadow: 0 2px 8px #06ccbd40;
 }
 
 .logo {
   font-size: 2rem;
   font-weight: bold;
-  color: #7c3aed;
+  color: #06ccbd;
   letter-spacing: 1px;
 }
 
@@ -38,137 +30,199 @@ header {
 
 .redes a {
   text-decoration: none;
-  color: #4b5563;
+  color: #06ccbd;
   font-weight: 500;
-  transition: color .2s;
+  transition: color .2s, background .2s;
   font-size: 1.07em;
   padding: 0.2em 0.5em;
   border-radius: 6px;
 }
 
 .redes a:hover {
-  color: #fff;
-  background: #7c3aed;
+  color: #2a0a49;
+  background: #06ccbd;
 }
 
-/* Menú principal */
-nav {
-  margin: 2em auto 0 auto;
-  display: flex;
-  justify-content: center;
-  gap: 2em;
-}
-
-nav button {
-  background: #7c3aed;
-  color: #fff;
-  border: none;
-  padding: .9em 2em;
+#monedas-panel {
+  font-size: 1.2em;
+  font-weight: bold;
+  color: #2a0a49;
+  background: #06ccbd;
+  padding: 0.4em 1.2em;
   border-radius: 8px;
-  font-size: 1.1em;
-  font-weight: 600;
+  margin-left: 2em;
   cursor: pointer;
-  box-shadow: 0 2px 8px #a78bfa30;
+  box-shadow: 0 2px 8px #06ccbd30;
   transition: background .2s, box-shadow .2s;
 }
 
-nav button:hover, nav button:focus {
-  background: #a78bfa;
-  box-shadow: 0 2px 16px #7c3aed40;
-  outline: none;
-}
-
-/* Caja principal */
 #main-content {
-  margin: 2em auto;
-  max-width: 900px;
-  min-height: 400px;
+  max-width: 1000px;
+  margin:2em auto;
+  padding:2em;
   background: #fff;
   border-radius: 12px;
-  box-shadow: 0 2px 10px #e0e7ff;
-  padding: 2em;
-  animation: fadein .5s;
+  box-shadow: 0 2px 10px #06ccbd;
+  min-height: 400px;
+  color: #2a0a49;
 }
 
-@keyframes fadein {
-  from { opacity: 0; transform: translateY(20px);}
-  to { opacity: 1; transform: translateY(0);}
+.menu-principal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.2em;
 }
 
-/* Filtro categoría en el álbum */
+.menu-principal button, .menu-principal input {
+  font-size: 1.05em;
+  border-radius: 8px;
+  border: none;
+  padding: .9em 2em;
+  margin-top: 0.2em;
+  box-shadow: 0 2px 8px #06ccbd30;
+}
+
+.menu-principal button {
+  background: #06ccbd;
+  color: #2a0a49;
+  font-weight: 600;
+  cursor: pointer;
+  border: 2px solid #2a0a49;
+  transition: background .2s, color .2s;
+}
+
+.menu-principal button:hover {
+  background: #2a0a49;
+  color: #06ccbd;
+  border: 2px solid #06ccbd;
+}
+
+.menu-principal input {
+  border: 2px solid #06ccbd;
+  background: #e5e7eb;
+  color: #2a0a49;
+}
+
 .filtro-categoria {
   margin-bottom: 1em;
-  display: flex;
-  gap: 1em;
-  align-items: center;
+  padding: 0.4em 1em;
+  border-radius: 8px;
   font-size: 1.1em;
+  border:2px solid #06ccbd;
+  background: #fff;
+  color: #2a0a49;
 }
 
-.filtro-categoria select {
-  padding: .4em 1em;
-  border-radius: 6px;
-  border: 1px solid #7c3aed90;
-  background: #f9fafc;
-  font-size: 1em;
-  color: #23223a;
+.album-grid, .sobre-grid {
+  display:grid;
+  grid-template-columns: repeat(auto-fit,minmax(120px,1fr));
+  gap:1em;
+  margin-top:1em;
 }
 
-/* Lista del álbum */
-#album-list ul {
-  columns: 2;
-  gap: 3em;
-  list-style: none;
+.cromo {
+  position:relative;
+  background: #e5e7eb;
+  border-radius:10px;
+  box-shadow:0 1px 4px #06ccbd20;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  padding:0.3em 0.1em;
 }
 
-#album-list li {
-  background: #f4f3ff;
-  margin-bottom: 0.6em;
-  border-radius: 6px;
-  padding: 0.5em 0.8em;
-  box-shadow: 0 1px 4px #7c3aed20;
-  font-size: 1.07em;
-  transition: background .2s;
+.cromo img {
+  width:100px;
+  height:140px;
+  object-fit:cover;
+  border-radius:8px;
+  cursor:pointer;
+  transition: box-shadow .2s, border .2s;
+  border: 3px solid #06ccbd;
+  background: #fff;
 }
 
-#album-list li:hover {
-  background: #e9e5fb;
+.cromo img:hover {
+  box-shadow: 0 0 16px #06ccbd;
+  border: 3px solid #2a0a49;
 }
 
-#album-list b {
-  color: #7c3aed;
-  font-weight: bold;
+.duplicadas {
+  position:absolute; top:4px; right:10px;
+  background:#06ccbd;
+  color:#2a0a49;
+  font-weight:700;
+  padding:3px 9px;
+  border-radius:50px;
+  font-size:1em;
+  border:2px solid #2a0a49;
+  z-index:2;
+  box-shadow: 0 1px 6px #06ccbd50;
 }
 
-#album-list span {
-  font-size: 0.93em;
-  font-weight: bold;
+.btn-vender {
+  position:absolute; bottom:6px; right:10px;
+  background:#06ccbd;
+  color:#2a0a49;
+  font-weight:600;
+  border:none;
+  border-radius:6px;
+  padding:3px 15px;
+  cursor:pointer;
+  font-size:0.9em;
+  border:1px solid #2a0a49;
+  box-shadow: 0 1px 6px #06ccbd20;
+  transition: background .2s, color .2s;
 }
 
-/* Responsive design */
+.btn-vender:hover {
+  background:#2a0a49;
+  color:#06ccbd;
+  border: 1px solid #06ccbd;
+}
+
+.progreso-album {
+  text-align:center;
+  font-weight:600;
+  color:#06ccbd;
+  margin-bottom:1em;
+}
+
+#modal {
+  display:none;
+  position:fixed;
+  top:0; left:0;
+  width:100vw; height:100vh;
+  background:rgba(20,20,60,0.8);
+  align-items:center;
+  justify-content:center;
+  z-index:100;
+}
+
+#modal-img {
+  max-width:90vw; max-height:80vh;
+  border:6px solid #fff;
+  border-radius:18px;
+  box-shadow: 0 0 32px #06ccbd88;
+  background:#fff;
+  transition: box-shadow .2s;
+}
+
+#modal-close {
+  position:absolute;
+  top:32px; right:48px;
+  font-size:2.5em;
+  color:#fff;
+  background:none;
+  border:none;
+  cursor:pointer;
+  z-index:101;
+}
+
 @media (max-width: 700px) {
-  #main-content {
-    padding: 1em;
-    max-width: 98vw;
-  }
-  nav {
-    flex-direction: column;
-    gap: 0.7em;
-    align-items: center;
-  }
-  header {
-    flex-direction: column;
-    gap: 1em;
-    padding: 1em 2vw;
-  }
-  .logo {
-    font-size: 1.3rem;
-  }
-  #album-list ul {
-    columns: 1;
-  }
-}
-
-/* Bonus y sobres */
-button:active {
-  transform: scale(0.98);
+  #main-content { padding: 1em; max-width: 98vw;}
+  .album-grid, .sobre-grid { grid-template-columns: repeat(auto-fit,minmax(80px,1fr)); }
+  .cromo img { width:70px; height:100px;}
+  #modal-img { max-width:98vw; max-height:72vh;}
 }
