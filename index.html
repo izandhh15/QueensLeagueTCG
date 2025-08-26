@@ -5,104 +5,12 @@
   <title>Queens League Oysho - Álbum Virtual</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="styles.css">
-  <style>
-    body { font-family: 'Segoe UI', Arial, sans-serif; background:#f9fafc; margin:0; }
-    header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1em 2em;
-      background: #fff;
-      border-bottom: 2px solid #d1d5db;
-      box-shadow: 0 2px 8px #e0e7ff40;
-    }
-    .logo { font-size: 2rem; font-weight: bold; color: #7c3aed; letter-spacing: 1px; }
-    .redes {
-      display: flex;
-      gap: 1.3em;
-      align-items: center;
-    }
-    .redes a {
-      text-decoration: none;
-      color: #4b5563;
-      font-weight: 500;
-      transition: color .2s;
-      font-size: 1.07em;
-      padding: 0.2em 0.5em;
-      border-radius: 6px;
-    }
-    .redes a:hover { color: #fff; background: #7c3aed; }
-    #monedas-panel {
-      font-size: 1.2em;
-      font-weight: bold;
-      color: #7c3aed;
-      background: #f4f3ff;
-      padding: 0.4em 1.2em;
-      border-radius: 8px;
-      margin-left: 2em;
-      cursor: pointer;
-      box-shadow: 0 2px 8px #a78bfa30;
-      transition: background .2s, box-shadow .2s;
-    }
-    #main-content { max-width: 1000px; margin:2em auto; padding:2em; background: #fff; border-radius: 12px; box-shadow: 0 2px 10px #e0e7ff; min-height: 400px; }
-    .menu-principal { display: flex; flex-direction: column; align-items: center; gap: 1.2em; }
-    .menu-principal button, .menu-principal input {
-      font-size: 1.05em;
-      border-radius: 8px;
-      border: none;
-      padding: .9em 2em;
-      margin-top: 0.2em;
-      box-shadow: 0 2px 8px #a78bfa30;
-    }
-    .menu-principal button { background: #7c3aed; color: #fff; font-weight: 600; cursor: pointer; }
-    .menu-principal button:hover { background: #a78bfa; }
-    .menu-principal input { border: 2px solid #7c3aed; background: #f4f3ff; color: #23223a; }
-    .filtro-categoria { margin-bottom: 1em; padding: 0.4em 1em; border-radius: 8px; font-size: 1.1em; border:2px solid #7c3aed; }
-    .album-grid, .sobre-grid { display:grid; grid-template-columns: repeat(auto-fit,minmax(120px,1fr)); gap:1em; margin-top:1em; }
-    .cromo { position:relative; background: #f4f3ff; border-radius:10px; box-shadow:0 1px 4px #7c3aed20; display:flex; flex-direction:column; align-items:center; padding:0.3em 0.1em;}
-    .cromo img { width:100px; height:140px; object-fit:cover; border-radius:8px; cursor:pointer; transition: box-shadow .2s; }
-    .cromo img:hover { box-shadow: 0 0 16px #7c3aed; }
-    .duplicadas {
-      position:absolute; top:4px; right:10px;
-      background:#fff; color:#7c3aed; font-weight:700;
-      padding:3px 9px; border-radius:50px; font-size:1em;
-      border:2px solid #7c3aed;
-      z-index:2;
-      box-shadow: 0 1px 6px #7c3aed50;
-    }
-    .btn-vender {
-      position:absolute; bottom:6px; right:10px;
-      background:#e5e7eb; color:#7c3aed; font-weight:600;
-      border:none; border-radius:6px; padding:3px 15px; cursor:pointer; font-size:0.9em;
-      border:1px solid #7c3aed;
-      box-shadow: 0 1px 6px #7c3aed20;
-      transition: background .2s;
-    }
-    .btn-vender:hover { background:#7c3aed; color:#fff;}
-    .progreso-album { text-align:center; font-weight:600; color:#7c3aed; margin-bottom:1em;}
-    #modal {
-      display:none; position:fixed; top:0; left:0; width:100vw; height:100vh;
-      background:rgba(20,20,60,0.8); align-items:center; justify-content:center; z-index:100;
-    }
-    #modal-img {
-      max-width:90vw; max-height:80vh; border:6px solid #fff; border-radius:18px;
-      box-shadow: 0 0 32px #7c3aed88; background:#fff;
-      transition: box-shadow .2s;
-    }
-    #modal-close {
-      position:absolute; top:32px; right:48px; font-size:2.5em; color:#fff; background:none; border:none; cursor:pointer; z-index:101;
-    }
-    @media (max-width: 700px) {
-      #main-content { padding: 1em; max-width: 98vw;}
-      .album-grid, .sobre-grid { grid-template-columns: repeat(auto-fit,minmax(80px,1fr)); }
-      .cromo img { width:70px; height:100px;}
-      #modal-img { max-width:98vw; max-height:72vh;}
-    }
-  </style>
+  <!-- Ícono opcional -->
+  <link rel="icon" href="https://queensleague.pro/favicon.ico">
 </head>
 <body>
   <header>
-    <div class="logo">Álbum Queens League Oysho</div>
+    <div class="logo" onclick="location.reload()">Álbum Queens League Oysho</div>
     <div class="redes">
       <a href="https://queensleague.pro" target="_blank">Web</a>
       <a href="https://x.com/QueensLeague" target="_blank">X</a>
@@ -110,12 +18,81 @@
       <a href="https://tiktok.com/@QueensLeague" target="_blank">TikTok</a>
     </div>
     <div id="monedas-panel">Monedas: 2000</div>
+    <div id="user-panel"></div>
   </header>
-  <div id="main-content"></div>
-  <div id="modal">
-    <button id="modal-close">&times;</button>
-    <img id="modal-img" src="" alt="Cromo ampliado">
+  
+  <div id="main-content">
+    <!-- Aquí va el menú principal y el contenido dinámico -->
   </div>
+  
+  <!-- Modal para imágenes ampliadas -->
+  <div id="modal">
+    <button id="modal-close" title="Cerrar">&times;</button>
+    <img id="modal-img" src="" alt="Cromo ampliado">
+    <div id="modal-info"></div>
+  </div>
+  
+  <!-- Modal login (opcional si quieres login popup) -->
+  <div id="login-modal" style="display:none;">
+    <div class="login-modal-content">
+      <h2>Iniciar sesión</h2>
+      <button class="login-btn" onclick="loginDiscord()">Discord</button>
+      <button class="login-btn" onclick="loginGoogle()">Google</button>
+      <button class="login-btn" onclick="closeLoginModal()">Cancelar</button>
+    </div>
+  </div>
+  
+  <!-- Notificaciones (ejemplo para avisos de monedas, logros, etc) -->
+  <div id="notificacion" style="display:none;"></div>
+  
+  <!-- Footer opcional -->
+  <footer>
+    <div class="footer-content">
+      <span>Queens League Oysho &copy; 2025 · Proyecto virtual</span>
+      <span>|</span>
+      <a href="https://github.com/izandhh15" target="_blank">Github izandhh15</a>
+    </div>
+  </footer>
+  
+  <!-- Scripts -->
   <script src="files/app.js"></script>
+  <script>
+    // Para que el panel de usuario se actualice al cargar
+    if (window.renderUserPanel) window.renderUserPanel();
+    // Puedes añadir funciones de inicialización aquí si las necesitas
+  </script>
+  
+  <!-- Estilos inline para modales por si acaso -->
+  <style>
+    #modal, #login-modal {
+      position: fixed; top:0; left:0; width:100vw; height:100vh;
+      background: rgba(42,10,73,0.85); display: none;
+      align-items: center; justify-content: center; z-index: 1000;
+    }
+    #modal[style*="display: flex"], #login-modal[style*="display: flex"] {
+      display: flex !important;
+    }
+    #modal-img { max-width: 90vw; max-height: 80vh; border-radius: 18px; }
+    #modal-close { position:absolute; top:32px; right:48px; font-size:2.5em; background:none; border:none; color:#06ccbd; cursor:pointer; }
+    #notificacion {
+      position:fixed; top:30px; left:50%; transform:translateX(-50%);
+      background:#06ccbd; color:#2a0a49; font-weight:700; padding:12px 30px; border-radius:10px; box-shadow:0 2px 12px #0004; z-index:2000;
+      display:none; font-size:1.2em;
+    }
+    .footer-content {
+      text-align:center; color:#06ccbd; background:#2a0a49; padding:1em; font-size:1em; margin-top:2em;
+      display:flex; justify-content:center; align-items:center; gap:1em;
+    }
+    .footer-content a { color:#06ccbd; text-decoration:underline; }
+    .login-modal-content {
+      background:#fff; color:#2a0a49; padding:2em 3em; border-radius:20px; box-shadow:0 2px 16px #06ccbd50; text-align:center;
+      min-width:240px;
+    }
+    @media (max-width: 700px) {
+      #modal-img, .login-modal-content { max-width:98vw; max-height:72vh;}
+      .login-modal-content { padding:1em;}
+    }
+  </style>
+  
 </body>
 </html>
