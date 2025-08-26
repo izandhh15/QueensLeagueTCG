@@ -10,8 +10,12 @@ document.addEventListener("DOMContentLoaded", () => {
   ];
 
   // --- CARTAS ---
-  // (Pon aquí tu array CARDS completo con id, nombre, tipo, imagen, etc.)
-  const CARDS = [/* ...tu array de cartas, igual que antes... */];
+  // Añade aquí tu array CARDS completo
+  const CARDS = [
+    // Ejemplo - añade todas tus cartas reales aquí
+    { id: 1, nombre: "Escudo 1K", tipo: "escudo", imagen: "https://i.ibb.co/CpJ3c7B8/01-Escudo1-K.png" },
+    // ... (añade el resto de tus cartas aquí, con el formato correcto)
+  ];
 
   // --- CÓDIGOS DE CREADORES ---
   // Lista fácil de editar: cada línea es "Codigo;monedas"
@@ -116,7 +120,7 @@ BeaPerez;10000
     modalImg.src = card.imagen;
     modalImg.alt = card.nombre;
     modalImg.style.border = "6px solid #fff";
-    modalImg.style.boxShadow = "0 0 32px #7c3aed88";
+    modalImg.style.boxShadow = "0 0 32px #06ccbd88";
 
     // Info adicional en modal si duplicadas
     if (album[card.id] && album[card.id] > 1) {
