@@ -136,8 +136,12 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // Botones principales
-  document.getElementById("btn-album").addEventListener("click", () => mostrarAlbum());
+  document.getElementById("btn-album").addEventListener("click", () => mostrarAlbum("todos"));
   document.getElementById("btn-open").addEventListener("click", abrirSobre);
+  document.getElementById("btn-daily").addEventListener("click", reclamarDiario);
+  document.getElementById("btn-twitch").addEventListener("click", reclamarTwitch);
+  document.getElementById("btn-twitter").addEventListener("click", reclamarTwitter);
+
    // Abrir sobre
   function abrirSobre() {
     if(monedas < 1000) {
