@@ -1,198 +1,4 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Queens League Oysho - Álbum Virtual</title>
-  <meta name="description" content="Álbum virtual de Queens League Oysho — sobres, cromos y bonos" />
-  <link rel="icon" href="https://queensleague.pro/favicon.ico" />
-  <style>
-    :root{
-      --bg: #2a0a49;
-      --accent: #06ccbd;
-      --accent-text: #2a0a49;
-      --card-bg: #e5e7eb;
-      --white: #ffffff;
-      --danger: #e11d48;
-      --shadow-accent: rgba(6,204,189,0.18);
-      --max-width: 1100px;
-      --radius: 12px;
-      --transition: 200ms ease;
-      --header-height: 72px;
-      --pack-cost: 1000;
-    }
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body {
-      margin: 0;
-      font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-      background: var(--bg);
-      color: var(--white);
-      -webkit-font-smoothing:antialiased;
-      -moz-osx-font-smoothing:grayscale;
-      line-height:1.4;
-    }
-
-    /* HEADER */
-    header {
-      display: grid;
-      grid-template-columns: 1fr auto 1fr;
-      align-items: center;
-      gap: 1rem;
-      padding: 0 1.25rem;
-      background: var(--bg);
-      border-bottom: 2px solid var(--accent);
-      box-shadow: 0 3px 12px var(--shadow-accent);
-      position: sticky;
-      top: 0;
-      z-index: 50;
-      height: var(--header-height);
-    }
-    .header-left { justify-self: start; display:flex; align-items:center; gap:0.8rem; }
-    .header-center { justify-self: center; display:flex; align-items:center; }
-    .header-right { justify-self: end; display:flex; align-items:center; gap:0.75rem; }
-
-    .logo {
-      font-size: 1.25rem;
-      font-weight: 700;
-      color: var(--accent);
-      letter-spacing: 0.4px;
-      cursor: pointer;
-    }
-
-    .redes { display:flex; gap:0.6rem; align-items:center; }
-    .redes a { color: var(--accent); text-decoration:none; padding: 0.2rem 0.45rem; border-radius:8px; font-weight:600; font-size:0.92rem; }
-    .redes a:hover { background: var(--accent); color: var(--accent-text); }
-
-    .main-menu { display:flex; gap:0.5rem; align-items:center; }
-    .main-menu button { background: transparent; color: var(--white); border: 2px solid rgba(255,255,255,0.06); padding: .45rem .75rem; border-radius: 8px; cursor: pointer; font-weight:700; font-size:0.92rem; }
-    .main-menu button:hover { background: var(--accent); color: var(--accent-text); }
-
-    #monedas-panel { background: var(--accent); color: var(--accent-text); padding: .32rem .75rem; border-radius: 10px; font-weight:700; box-shadow: 0 6px 20px var(--shadow-accent); white-space: nowrap; }
-
-    /* MAIN */
-    #main-content{ max-width: var(--max-width); margin: 1rem auto; padding: 1rem; background: var(--white); color: var(--accent-text); border-radius: var(--radius); box-shadow: 0 10px 30px rgba(6,204,189,0.06); min-height: 0; overflow: visible; }
-
-    .menu-principal { display:flex; flex-direction:column; gap:0.9rem; align-items:center; padding: 0.25rem; }
-    .actions { display:flex; gap:0.6rem; flex-wrap:wrap; justify-content:center; }
-    .login-btn { background: var(--accent); color: var(--accent-text); border: none; padding: .6rem .9rem; border-radius: 8px; cursor: pointer; font-weight:700; }
-
-    /* Filters area */
-    .filters { display:flex; gap:0.5rem; flex-wrap:wrap; align-items:center; margin-bottom: .6rem; }
-    .filter-btn { background:transparent; border:2px solid rgba(0,0,0,0.06); padding:.45rem .7rem; border-radius:10px; cursor:pointer; font-weight:700; }
-    .filter-btn.active { background:var(--accent); color:var(--accent-text); }
-
-    .album-grid, .packs-grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap:1rem; margin-top:1rem; }
-
-    .cromo { background: var(--card-bg); border-radius: 10px; padding: .5rem; display:flex; flex-direction:column; align-items:center; justify-content:flex-start; position:relative; box-shadow: 0 6px 16px rgba(6,204,189,0.06); min-height: 140px; }
-
-    .cromo img { width:100px; height:140px; object-fit:cover; border-radius:8px; border: 3px solid var(--accent); background: var(--white); cursor:pointer; transition: transform var(--transition); }
-    .cromo img:focus { outline: 3px solid rgba(6,204,189,0.18); }
-
-    /* Pack style uses REVERSO as design */
-    .pack { position:relative; height:160px; border-radius:12px; overflow:hidden; cursor:pointer; border:3px solid rgba(6,204,189,0.08); box-shadow: 0 10px 28px rgba(6,204,189,0.06); display:flex; align-items:center; justify-content:center; }
-    .pack img { width:100%; height:100%; object-fit:cover; display:block; }
-    .pack .pack-badge { position:absolute; right:8px; bottom:8px; background:var(--accent); color:var(--accent-text); padding:6px 8px; border-radius:8px; font-weight:800; }
-    .pack.opened { opacity:.55; filter:grayscale(30%); cursor:default; transform:scale(.98); }
-
-    .duplicadas { position:absolute; top:8px; right:10px; background: var(--accent); color: var(--accent-text); padding:6px 10px; border-radius:999px; font-weight:800; }
-
-    .btn-vender { position:absolute; bottom:8px; right:8px; background: var(--accent); color: var(--accent-text); border: none; padding:6px 10px; border-radius:8px; font-weight:700; cursor:pointer; }
-
-    .progreso-album { text-align:center; font-weight:800; color: var(--accent); margin-bottom: .6rem; }
-
-    /* Modales */
-    #modal, #modal-cards, #modal-creator-code { position: fixed; inset: 0; display: none; align-items: center; justify-content: center; background: rgba(42,10,73,0.78); z-index: 1200; padding: 1rem; pointer-events: none; }
-    #modal[style*="display: flex"], #modal-cards[style*="display: flex"], #modal-creator-code[style*="display: flex"] { display:flex !important; pointer-events:auto; }
-    .modal-box { width: min(92vw, 920px); background: var(--white); border-radius: 12px; padding: 18px; text-align: center; color: var(--accent-text); box-shadow: 0 18px 48px rgba(6,204,189,0.12); position: relative; }
-    .modal-info-top { font-weight:800; color: var(--accent); margin-bottom: 12px; text-align:center; }
-    .modal-img-wrap img { max-width: 92%; height: auto; border-radius: 10px; border: 6px solid var(--white); box-shadow: 0 18px 48px rgba(6,204,189,0.18); background: var(--white); }
-    .modal-close { position: absolute; top: 10px; right: 12px; font-size: 1.6rem; color: var(--accent); background: transparent; border: none; cursor: pointer; }
-
-    #notificacion { position: fixed; top: 28px; left: 50%; transform: translateX(-50%); background: var(--accent); color: var(--accent-text); padding: 10px 20px; border-radius: 12px; font-weight:800; z-index: 2000; display:none; }
-
-    footer { margin-top: 1rem; }
-    .footer-content { display:flex; justify-content:center; gap: 0.6rem; align-items:center; padding: 0.9rem 1rem; color: var(--accent); background: var(--bg); border-top: 1px solid rgba(6,204,189,0.06); border-radius: 6px; }
-
-    @media (max-width:900px) { .cromo img { width:86px; height:120px; } .pack { height:140px } }
-    @media (max-width:420px) { header { grid-template-columns: 1fr auto; height:auto; padding:10px } .header-center { display:none } }
-  </style>
-</head>
-<body>
-  <header>
-    <div class="header-left">
-      <div class="logo" id="logo">
-        <img src="https://i.ibb.co/gLStSbFz/000-LOGO.png" alt="Queens League Oysho Logo" style="height:42px;">
-      </div>
-
-      <nav class="redes" aria-label="Redes">
-        <a href="https://queensleague.pro" target="_blank" rel="noopener">Web</a>
-        <a href="https://x.com/QueensLeague" target="_blank" rel="noopener">X</a>
-        <a href="https://instagram.com/QueensLeague" target="_blank" rel="noopener">Instagram</a>
-      </nav>
-    </div>
-
-    <div class="header-center">
-      <nav class="main-menu" id="main-menu" aria-label="Menu principal">
-        <button id="btn-sobres">Abrir Sobre</button>
-        <button id="btn-album">Ver Mi Álbum</button>
-        <button id="btn-daily">Bonus Diario</button>
-        <button id="btn-twitter">Bonus X</button>
-        <button id="btn-twitch">Bonus Twitch</button>
-        <button id="btn-creators">Creadores</button>
-      </nav>
-    </div>
-
-    <div class="header-right">
-      <div id="monedas-panel" role="status" aria-live="polite">Monedas: 0</div>
-    </div>
-  </header>
-
-  <main id="main-content" role="main" tabindex="-1"></main>
-
-  <!-- Card modal -->
-  <div id="modal" aria-hidden="true" role="dialog">
-    <div class="modal-box" role="document">
-      <button class="modal-close" id="modal-close" aria-label="Cerrar">&times;</button>
-      <div class="modal-info-top" id="modal-info-top"></div>
-      <div class="modal-img-wrap"><img id="modal-img" src="" alt="Cromo ampliado"></div>
-    </div>
-  </div>
-
-  <!-- Pack cards modal -->
-  <div id="modal-cards" aria-hidden="true" role="dialog">
-    <div class="modal-box" id="modal-cards-box">
-      <button class="modal-close" id="modal-cards-close" aria-label="Cerrar">&times;</button>
-      <div id="modal-cards-info" class="modal-info-top"></div>
-      <div id="modal-cards-grid" class="album-grid"></div>
-    </div>
-  </div>
-
-  <!-- Creator Code Modal (arreglado) -->
-  <div id="modal-creator-code" aria-hidden="true" role="dialog">
-    <div class="modal-box">
-      <button class="modal-close" id="modal-creator-code-close" aria-label="Cerrar">&times;</button>
-      <div class="modal-info-top">Introduce tu código de creador</div>
-      <input type="text" id="creator-code-input" placeholder="Introduce un código de creador Queens" style="width: 80%; padding: 10px; margin-bottom: 15px; border-radius: 8px; border: 1px solid #ccc; text-align: center;">
-      <button id="redeem-creator-code" class="login-btn">Canjear Código</button>
-    </div>
-  </div>
-
-  <div id="notificacion" role="status" aria-live="polite"></div>
-
-  <footer>
-    <div class="footer-content" style="flex-direction: column; gap: 0.4rem; text-align: center;">
-      <span>Hecho con &#x1F497; por IzanDHH</span>
-      <span style="font-size: 0.85em; color: rgba(255,255,255,0.7);">
-        DISCLAIMER &#x26A0;: Los derechos de imagen pertenecen a Kosmos Holding (Queens League) y cualquier reclamación de la retirada de imagen que se solicite se realizará asi.
-      </span>
-      <span style="font-size: 0.85em; color: rgba(255,255,255,0.7);">
-        Esta web esta hecha para el fandom de la Queens League Oysho Spain & Americas
-      </span>
-    </div>
-  </footer>
-
-  <script>
+<script>
     document.addEventListener("DOMContentLoaded", () => {
       // ---- Cards list (user-provided) ----
       const CARDS = [
@@ -370,20 +176,19 @@
       }
 
       function generatePack() {
-  const result = [];
-  const usedIds = new Set();
+        const result = [];
+        const usedIds = new Set();
 
-  while (result.length < PACK_SLOTS) {
-    const card = pickRandomCardFromPool();
-    if (!usedIds.has(card.id)) {
-      usedIds.add(card.id);
-      result.push(card);
-    }
-  }
+        while (result.length < PACK_SLOTS) {
+          const card = pickRandomCardFromPool();
+          if (!usedIds.has(card.id)) {
+            usedIds.add(card.id);
+            result.push(card);
+          }
+        }
 
-  return result;
-}
-
+        return result;
+      }
 
       // Canje de código (corregido)
       function openCreatorCodeModal() {
@@ -546,24 +351,23 @@
         modalCards.style.display = "flex";
       }
 
-            const TYPES_ORDER = ["Todas","escudo","escudoqlame","presidenta","presisqlame","supercampeonas"];
+      const TYPES_ORDER = ["Todas","escudo","escudoqlame","presidenta","presisqlame","supercampeonas"];
       function renderAlbumPage() {
         mainContent.innerHTML = `
           <h2 style="margin:0 0 .4rem 0;">Mi Álbum</h2>
           <div style="display:flex; gap:.6rem; align-items:center; margin-bottom:.6rem;">
             <p class="progreso-album" id="progreso" style="margin:0"></p>
             <div class="filters" id="filters" style="margin-left:auto;"></div>
-            <button id="btn-sell-all-duplicates-album" class="login-btn">Vender Duplicadas</button> <!-- ESTE ES EL BOTÓN QUE AÑADISTE EN EL HTML -->
+            <button id="btn-sell-all-duplicates-album" class="login-btn">Vender Duplicadas</button>
             <button id="back-menu-2" class="login-btn" style="background:transparent; color:var(--accent); border:2px solid var(--accent);">Volver</button>
           </div>
           <div class="album-grid" id="album-grid"></div>
           <p style="margin-top:12px; color:var(--accent); font-weight:700;">Pulsa cualquier cromo para verlo; puedes vender duplicadas (cada duplicada = 100 monedas, excepto "supercampeonas" que valen 250 monedas).</p>
         `;
         document.getElementById("back-menu-2")?.addEventListener("click", renderMenu);
-        document.getElementById("btn-sell-all-duplicates-album")?.addEventListener("click", sellAllDuplicates); // <--- ESTA ES LA LÍNEA QUE ACABAS DE AÑADIR
+        document.getElementById("btn-sell-all-duplicates-album")?.addEventListener("click", sellAllDuplicates);
         const filtroCont = document.getElementById("filters");
         filtroCont.innerHTML = "";
-        // ... el resto de la función renderAlbumPage() ...
 
         TYPES_ORDER.forEach(t => {
           const btn = document.createElement("button");
@@ -630,6 +434,37 @@
         renderAlbumPage();
       }
 
+      function sellAllDuplicates() {
+          let totalSold = 0;
+          let totalGained = 0;
+          let cardsWithDuplicates = {};
+
+          for (const cardId in album) {
+              const qty = album[cardId];
+              if (qty > 1) {
+                  const duplicates = qty - 1;
+                  const card = CARDS.find(c => String(c.id) === cardId);
+                  const perDuplicateValue = (card && card.tipo === "supercampeonas") ? 250 : 100;
+                  const gained = duplicates * perDuplicateValue;
+                  totalGained += gained;
+                  totalSold += duplicates;
+                  cardsWithDuplicates[cardId] = 1;
+              }
+          }
+
+          if (totalSold === 0) {
+              showNotificacion("No tienes ninguna carta duplicada para vender.");
+              return;
+          }
+
+          monedas += totalGained;
+          album = cardsWithDuplicates; // Reemplaza el álbum con el nuevo álbum sin duplicados
+          saveState();
+          updateMonedas();
+          showNotificacion(`Vendiste ${totalSold} cartas duplicadas y ganaste un total de ${totalGained} monedas.`);
+          renderAlbumPage(); // Vuelve a renderizar la página para mostrar los cambios
+      }
+
       // Bonuses
       function handleDailyBonus() {
         const last = parseInt(localStorage.getItem("bonus_daily_last") || "0");
@@ -671,5 +506,3 @@
       renderMenu();
     });
   </script>
-</body>
-</html>
