@@ -1,68 +1,153 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Album Queens</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <title>Queens League Oysho - Álbum de Cromos Virtual</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css"> <!-- Asumiendo que tienes un styles.css -->
+    <style>
+        body { font-family: 'Segoe UI', Arial, sans-serif; margin:0; background:#f9fafc; }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1em 2em;
+            background: #fff;
+            border-bottom: 2px solid #d1d5db;
+        }
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #7c3aed;
+        }
+        .redes {
+            display: flex;
+            gap: 1.3em;
+            align-items: center;
+        }
+        .redes a {
+            text-decoration: none;
+            color: #4b5563;
+            font-weight: 500;
+            transition: color .2s;
+        }
+        .redes a:hover {
+            color: #7c3aed;
+        }
+        nav {
+            margin: 2em auto 0 auto;
+            display: flex;
+            justify-content: center;
+            gap: 2em;
+        }
+        nav button {
+            background: #7c3aed;
+            color: #fff;
+            border: none;
+            padding: .9em 2em;
+            border-radius: 8px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background .2s;
+        }
+        nav button:hover {
+            background: #a78bfa;
+        }
+        #main-content {
+            margin: 2em auto;
+            max-width: 900px;
+            min-height: 400px;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px #e0e7ff;
+            padding: 2em;
+        }
+        .filtro-categoria {
+            margin-bottom: 1em;
+            display: flex;
+            gap: 1em;
+            align-items: center;
+        }
+        .filtro-categoria select {
+            padding: .4em 1em;
+            border-radius: 6px;
+        }
+    </style>
 </head>
 <body>
-  <!-- Welcome / Menu Principal -->
-  <div id="welcome-screen" class="screen">
-    <h1>Bienvenido al Album Queens</h1>
-    <div id="monedas-panel">Monedas: 2000</div>
-    <div class="btns">
-      <button id="btn-album">Ver Álbum</button>
-      <button id="btn-open">Abrir Sobre (1000 monedas)</button>
-      <button id="btn-daily">Reclamar Diario</button>
-      <button id="btn-twitch">Reclamar Twitch</button>
-      <button id="btn-twitter">Reclamar X</button>
+    <header>
+        <div class="logo">Álbum Queens League Oysho</div>
+        <div class="redes">
+            <a href="https://queensleague.pro" target="_blank">Web</a>
+            <a href="https://x.com/QueensLeague" target="_blank">X</a>
+            <a href="https://instagram.com/QueensLeague" target="_blank">Instagram</a>
+            <a href="https://tiktok.com/@QueensLeague" target="_blank">TikTok</a>
+        </div>
+    </header>
+    <nav>
+        <button onclick="mostrarAlbum()">Ver Álbum</button>
+        <button onclick="abrirSobre()">Abrir Sobre</button>
+        <button onclick="bonusDiario()">Bonus Diario</button>
+        <button onclick="bonusX()">Bonus X</button>
+        <button onclick="bonusTwitch()">Bonus Twitch</button>
+    </nav>
+    <div id="main-content">
+        <!-- Aquí se carga el contenido dinámico (álbum, sobres, bonus, etc.) -->
+        <h2>¡Bienvenido al Álbum Virtual de la Queens League Oysho!</h2>
+        <p>Explora tu colección de cromos, consigue nuevos sobres y gana bonos diarios y por seguir nuestras redes.</p>
     </div>
-    <div class="codigo-container">
-      <input type="text" id="codigo-input" placeholder="Introduce tu código">
-      <button id="btn-canjear">Canjear Código</button>
-    </div>
-    <p class="disclaimer">Disclaimer: Hecho con ❤️ por IzanDHH</p>
-  </div>
-
-  <!-- Album -->
-  <div id="album-view" class="screen" style="display:none;">
-    <h2>Álbum</h2>
-    <div class="filtros">
-      <button class="filtro-btn" data-categoria="todos">Todos</button>
-      <button class="filtro-btn" data-categoria="escudo">Escudos</button>
-      <button class="filtro-btn" data-categoria="escudoqlame">Escudos QLAME</button>
-      <button class="filtro-btn" data-categoria="presidenta">Presidentas/es</button>
-      <button class="filtro-btn" data-categoria="presisqlame">Presidentas/es QLAME</button>
-      <button class="filtro-btn" data-categoria="supercampeonas">Supercampeonas</button>
-    </div>
-    <p id="album-contador"></p>
-    <div id="escudos-grid" class="grid-container"></div>
-    <div id="escudosqlame" class="grid-container"></div>
-    <div id="presidentes-grid" class="grid-container"></div>
-    <div id="presisqlame" class="grid-container"></div>
-    <div id="super-grid" class="grid-container"></div>
-    <button id="btn-vender">Vender duplicadas (+100 monedas c/u)</button>
-  </div>
-
-  <!-- Sobre -->
-  <div id="pack-view" class="screen" style="display:none;">
-    <h2>Sobre</h2>
-    <div id="last-pack" class="grid-container"></div>
-  </div>
-
-  <!-- Modal -->
-  <div id="modal" class="modal" style="display:none;">
-    <span id="modal-close" class="modal-close">X</span>
-    <img id="modal-img" class="modal-img">
-  </div>
-
-  <!-- Disclaimer / Footer -->
-  <footer>
-    <p class="disclaimer">Hecho con ❤️ por IzanDHH</p>
-  </footer>
-
-  <!-- Script -->
-  <script src="app.js"></script>
+    <script src="files/app.js"></script>
+    <script>
+        // Suponiendo que en app.js tienes un array window.cards con las cartas y sus tipos
+        function mostrarAlbum() {
+            const container = document.getElementById('main-content');
+            let tipos = [...new Set(window.cards.map(c => c.type))];
+            let select = `<div class="filtro-categoria">
+                <label for="filtrar-tipo">Filtrar por categoría:</label>
+                <select id="filtrar-tipo" onchange="filtrarAlbum(this.value)">
+                    <option value="">Todas</option>
+                    ${tipos.map(t => `<option value="${t}">${t}</option>`).join('')}
+                </select>
+            </div>`;
+            let album = `<h2>Álbum de Cromos</h2>` + select + `<div id="album-list"></div>`;
+            container.innerHTML = album;
+            mostrarAlbumNumerado();
+        }
+        function mostrarAlbumNumerado(filtro='') {
+            let cards = window.cards;
+            if (filtro) cards = cards.filter(card => card.type === filtro);
+            let lista = `<ul style="columns:2;gap:3em;">`;
+            cards.forEach(card => {
+                lista += `<li><b>#${card.id}</b> - ${card.name} <span style="color:#7c3aed;">[${card.type}]</span></li>`;
+            });
+            lista += `</ul>`;
+            document.getElementById('album-list').innerHTML = lista;
+        }
+        function filtrarAlbum(tipo) {
+            mostrarAlbumNumerado(tipo);
+        }
+        function abrirSobre() {
+            document.getElementById('main-content').innerHTML = `<h2>Abrir Sobre</h2>
+            <p>¡Consigue nuevos cromos al abrir un sobre! (Función en desarrollo)</p>`;
+            // Aquí iría tu lógica JS para abrir sobres
+        }
+        function bonusDiario() {
+            document.getElementById('main-content').innerHTML = `<h2>Bonus Diario</h2>
+            <p>Recibe 2000 monedas cada 24 horas. <button onclick="reclamarBonusDiario()">Reclamar Bonus</button></p>`;
+            // Aquí iría tu lógica JS para el bonus diario
+        }
+        function bonusX() {
+            document.getElementById('main-content').innerHTML = `<h2>Bonus X (Twitter)</h2>
+            <p>¡Sigue <a href="https://x.com/izandhh" target="_blank">@izandhh</a> y recibe 10.000 monedas por cada follow! <button onclick="reclamarBonusX()">Reclamar Bonus</button></p>`;
+            // Aquí iría tu lógica JS para el bonus X
+        }
+        function bonusTwitch() {
+            document.getElementById('main-content').innerHTML = `<h2>Bonus Twitch</h2>
+            <p>¡Sigue <a href="https://twitch.tv/izandhh" target="_blank">izandhh</a> en Twitch y recibe 10.000 monedas por cada follow! <button onclick="reclamarBonusTwitch()">Reclamar Bonus</button></p>`;
+            // Aquí iría tu lógica JS para el bonus Twitch
+        }
+        // Los hooks de reclamarBonusDiario, reclamarBonusX y reclamarBonusTwitch deben ser implementados en tu JS (app.js)
+    </script>
 </body>
 </html>
-
