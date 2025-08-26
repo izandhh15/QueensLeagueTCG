@@ -133,6 +133,7 @@
       <nav class="main-menu" id="main-menu" aria-label="Menu principal">
         <button id="btn-sobres">Abrir Sobre</button>
         <button id="btn-album">Ver Mi Álbum</button>
+        <button id="btn-creator">Código de Creador</button>
         <button id="btn-daily">Bonus Diario</button>
         <button id="btn-twitter">Bonus X</button>
         <button id="btn-twitch">Bonus Twitch</button>
@@ -224,7 +225,7 @@
         { id:56,nombre:"Espe",tipo:"presisqlame",imagen:"https://i.ibb.co/MDN445S2/14-Amablitz.png"},
         { id:57,nombre:"Ara + Fer",tipo:"presisqlame",imagen:"https://i.ibb.co/MDN445S2/14-Amablitz.png"},
         { id:58,nombre:"Pame Verdirame + Crystal Molly",tipo:"presisqlame",imagen:"https://i.ibb.co/MDN445S2/14-Amablitz.png"},
-        { id:50,nombre:"Alana + BarcaGaner",tipo:"presisqlame",imagen:"https://i.ibb.co/MDN445S2/14-Amablitz.png"},
+        { id:59,nombre:"Alana + BarcaGaner",tipo:"presisqlame",imagen:"https://i.ibb.co/MDN445S2/14-Amablitz.png"},
         { id:60,nombre:"VickyPalami",tipo:"presisqlame",imagen:"https://i.ibb.co/MDN445S2/14-Amablitz.png"},
         { id:25,nombre:"Ainara Navas",tipo:"supercampeonas",imagen:"https://i.ibb.co/ZRzW9Lx8/25-SUPERCAMPEONAS-Ainara-Navas.png"},
         { id:26,nombre:"Bea Pérez",tipo:"supercampeonas",imagen:"https://i.ibb.co/PswsRSBC/26-SUPERCAMPEONAS-Beatriz-Perez.png"},
@@ -269,6 +270,19 @@
         console.log("Weighted pool ready:", weightedPool.length, "entries");
       })();
 
+      // --- CREATOR CODES: define codes and rewards here ---
+      // Format examples:
+      // { code: "IZANDHH", reward: { type: "coins", amount: 2000 }, description: "Bonus Izandhh: +2000 monedas" }
+      // { code: "FREEPACK", reward: { type: "pack", amount: 1 }, description: "1 sobre gratis" }
+      // { code: "GIFT25", reward: { type: "card", cardId: 25, amount: 1 }, description: "1 cromo 25" }
+      const CREATOR_CODES = [
+        { code: "IZANDHH", reward: { type: "coins", amount: 2000 }, description: "Bonus Izandhh: +2000 monedas" },
+        { code: "STREAMERA", reward: { type: "coins", amount: 1500 }, description: "Bonus Streamer A: +1500 monedas" },
+        { code: "FREEPACK", reward: { type: "pack", amount: 1 }, description: "Sobre gratis: 1 sobre gratis" },
+        { code: "GIFT25", reward: { type: "card", cardId: 25, amount: 1 }, description: "Regalo: 1 cromo Supercampeonas (ID 25)" }
+      ];
+      // ----------------------------------------------------------------
+
       // DOM refs
       const monedasPanel = document.getElementById("monedas-panel");
       const mainContent = document.getElementById("main-content");
@@ -284,33 +298,36 @@
 
       const btnSobres = document.getElementById("btn-sobres");
       const btnAlbum = document.getElementById("btn-album");
+      const btnCreator = document.getElementById("btn-creator");
       const btnDaily = document.getElementById("btn-daily");
       const btnTwitter = document.getElementById("btn-twitter");
       const btnTwitch = document.getElementById("btn-twitch");
 
-      // State: keep album and monedas persistent, but reset packs on each reload so user can open more on refresh
+      // State
       let monedas = parseInt(localStorage.getItem("monedas_queens")) || 2000;
       let album = JSON.parse(localStorage.getItem("album_queens")) || {};
       let claimedTwitter = JSON.parse(localStorage.getItem("bonus_twitter_claimed")) || false;
       let claimedTwitch = JSON.parse(localStorage.getItem("bonus_twitch_claimed")) || false;
+      let claimed_creator_codes = JSON.parse(localStorage.getItem("claimed_creator_codes")) || {}; // { "IZANDHH": true }
+      let freePacks = parseInt(localStorage.getItem("free_packs")) || 0;
 
-      // Important: remove persisted packs_opened so that on page refresh packs reload and can be opened again
+      // packsOpened is session-only so refreshing reloads packs
       localStorage.removeItem("packs_opened");
-      let packsOpened = {}; // not persisted across refresh intentionally
+      let packsOpened = {};
 
       let currentFilter = "Todas";
-      let showOnlyObtained = false;
 
       // Utilities
       function saveState() {
-        // persist only monedas, album, bonuses — NOT packsOpened so packs reset on refresh
         localStorage.setItem("monedas_queens", String(monedas));
         localStorage.setItem("album_queens", JSON.stringify(album));
         localStorage.setItem("bonus_twitter_claimed", JSON.stringify(claimedTwitter));
         localStorage.setItem("bonus_twitch_claimed", JSON.stringify(claimedTwitch));
+        localStorage.setItem("claimed_creator_codes", JSON.stringify(claimed_creator_codes));
+        localStorage.setItem("free_packs", String(freePacks));
       }
       function updateMonedas() {
-        monedasPanel.textContent = "Monedas: " + monedas;
+        monedasPanel.textContent = "Monedas: " + monedas + (freePacks ? ` · Sobres gratis: ${freePacks}` : "");
         saveState();
       }
       function showNotificacion(msg, timeout = 2400) {
@@ -333,85 +350,60 @@
         return weightedPool[idx];
       }
 
-      // Generate a pack of PACK_SLOTS cards (with replacement, cards can repeat)
+      // Generate a pack WITHOUT duplicates inside same pack (tries to respect weights)
       function generatePack() {
+        const chosenIds = new Set();
         const result = [];
-        for (let i = 0; i < PACK_SLOTS; i++) {
-          result.push(pickRandomCardFromPool());
+        let attempts = 0;
+        while (result.length < PACK_SLOTS && attempts < 2000) {
+          const card = pickRandomCardFromPool();
+          if (!chosenIds.has(card.id)) {
+            chosenIds.add(card.id);
+            result.push(card);
+          }
+          attempts++;
+        }
+        // If still not enough (unlikely), fill with remaining unique cards
+        if (result.length < PACK_SLOTS) {
+          const remaining = CARDS.filter(c => !chosenIds.has(c.id));
+          while (result.length < PACK_SLOTS && remaining.length) {
+            const i = Math.floor(Math.random() * remaining.length);
+            result.push(remaining.splice(i,1)[0]);
+          }
         }
         return result;
       }
 
-      // ---------- VIEWS ----------
+      // Creator code redeem
+      function redeemCreatorCode(inputCode) {
+        if (!inputCode) { showNotificacion("Introduce un código."); return; }
+        const code = inputCode.trim().toUpperCase();
+        const found = CREATOR_CODES.find(c => c.code.toUpperCase() === code);
+        if (!found) { showNotificacion("Código no válido."); return; }
+        if (claimed_creator_codes[code]) { showNotificacion("Código ya canjeado."); return; }
 
-      function renderMenu() {
-        mainContent.innerHTML = `
-          <div class="menu-principal">
-            <h2 style="margin:0 0 .3rem 0;">Bienvenido al Álbum Virtual</h2>
-            <p style="margin:0 0 .6rem 0; color:#444; text-align:center;">Pulsa "Abrir Sobre" para comprar+abrir sobres. Cada sobre cuesta <strong>${PACK_COST} monedas</strong>. Las cartas raras (supercampeonas) aparecen muy rara vez.</p>
-            <div class="actions">
-              <button id="menu-open-packs" class="login-btn">Abrir Sobre (ir a página de sobres)</button>
-              <button id="menu-view-album" class="login-btn">Ver Mi Álbum</button>
-              <button id="menu-daily" class="login-btn">Bonus Diario</button>
-            </div>
-          </div>
-        `;
-        document.getElementById("menu-open-packs")?.addEventListener("click", renderPacksPage);
-        document.getElementById("menu-view-album")?.addEventListener("click", renderAlbumPage);
-        document.getElementById("menu-daily")?.addEventListener("click", handleDailyBonus);
-      }
-
-      // Packs page
-      function renderPacksPage() {
-        mainContent.innerHTML = `
-          <h2 style="margin:0 0 .4rem 0;">Abrir Sobres</h2>
-          <p style="margin:0 0 .6rem 0;">Pulsa un sobre para comprarlo y abrirlo. Cada sobre cuesta <strong>${PACK_COST} monedas</strong>. Los sobres pueden darte cartas de cualquier tipo; las supercampeonas son muy raras.</p>
-          <div style="display:flex; gap:12px; justify-content:flex-end;">
-            <button id="open-all" class="login-btn">Abrir todos los sobres</button>
-            <button id="back-menu" class="login-btn" style="background:transparent; color:var(--accent); border:2px solid var(--accent);">Volver al menú</button>
-          </div>
-          <div class="packs-grid" id="packs-grid" style="margin-top:12px;"></div>
-        `;
-        const packsGrid = document.getElementById("packs-grid");
-        packsGrid.innerHTML = "";
-        for (let i = 1; i <= 5; i++) {
-          const div = document.createElement("div");
-          div.className = "pack";
-          div.dataset.index = String(i);
-          // reverso as pack design
-          const img = document.createElement("img");
-          img.src = REVERSO;
-          img.alt = `Sobre ${i}`;
-          div.appendChild(img);
-
-          const badge = document.createElement("div");
-          badge.className = "pack-badge";
-          badge.textContent = `${PACK_COST} Ⓜ`;
-          div.appendChild(badge);
-
-          const label = document.createElement("div");
-          label.style.position = "absolute";
-          label.style.left = "10px";
-          label.style.top = "10px";
-          label.style.color = "#fff";
-          label.style.fontWeight = "800";
-          label.style.background = "rgba(0,0,0,0.35)";
-          label.style.padding = "6px 8px";
-          label.style.borderRadius = "8px";
-          label.textContent = `Sobre ${i}`;
-          div.appendChild(label);
-
-          // packsOpened is reset on page load, so all packs show unopened after refresh
-          if (packsOpened[String(i)]) div.classList.add("opened");
-
-          div.addEventListener("click", () => handlePackClick(div));
-          packsGrid.appendChild(div);
+        const r = found.reward;
+        if (r.type === "coins") {
+          monedas += (r.amount || 0);
+          showNotificacion(found.description || `Has recibido ${r.amount} monedas`);
+        } else if (r.type === "card") {
+          const cid = r.cardId;
+          const amt = r.amount || 1;
+          album[cid] = (album[cid] || 0) + amt;
+          showNotificacion(found.description || `Has recibido ${amt} cartas ID ${cid}`);
+        } else if (r.type === "pack") {
+          freePacks += (r.amount || 1);
+          showNotificacion(found.description || `Has recibido ${r.amount || 1} sobre(s) gratis`);
+        } else {
+          showNotificacion("Recompensa desconocida.");
         }
 
-        document.getElementById("open-all")?.addEventListener("click", openAllPacks);
-        document.getElementById("back-menu")?.addEventListener("click", renderMenu);
+        claimed_creator_codes[code] = true;
+        saveState();
+        updateMonedas();
       }
 
+      // Packs: consume free pack if available, otherwise charge monedas
       function handlePackClick(packDiv) {
         const idx = String(packDiv?.dataset?.index || "");
         if (!packDiv || !idx) return;
@@ -419,22 +411,25 @@
           showNotificacion("Este sobre ya está abierto (durante esta sesión).");
           return;
         }
-        if (monedas < PACK_COST) {
+
+        let usedFree = false;
+        if (freePacks > 0) {
+          freePacks--;
+          usedFree = true;
+        } else if (monedas >= PACK_COST) {
+          monedas -= PACK_COST;
+        } else {
           showNotificacion(`Necesitas ${PACK_COST} monedas para abrir este sobre.`);
           return;
         }
-        // Deduct coins
-        monedas -= PACK_COST;
         updateMonedas();
 
-        // generate random content using weighted pool (cards can repeat)
         const newCards = generatePack();
-        // add to album (allow duplicates)
         newCards.forEach(c => album[c.id] = (album[c.id] || 0) + 1);
-        packsOpened[idx] = true; // not persisted: will reset on refresh
+        packsOpened[idx] = true;
         saveState();
         packDiv.classList.add("opened");
-        showPackCardsModal(`Has comprado y abierto el Sobre ${idx}. Contenido:`, newCards);
+        showPackCardsModal(`Has ${usedFree ? 'usado un sobre gratis y' : 'comprado'} abierto el Sobre ${idx}. Contenido:`, newCards);
       }
 
       function openAllPacks() {
@@ -445,16 +440,19 @@
         packDivs.forEach(div => {
           const idx = String(div.dataset.index);
           if (!packsOpened[idx]) {
-            if (monedas >= PACK_COST) {
+            if (freePacks > 0) {
+              freePacks--;
+            } else if (monedas >= PACK_COST) {
               monedas -= PACK_COST;
-              const pCards = generatePack();
-              pCards.forEach(c => { album[c.id] = (album[c.id] || 0) + 1; openedCards.push(c); });
-              packsOpened[idx] = true;
-              div.classList.add("opened");
-              countOpened++;
             } else {
               cannotOpen++;
+              return;
             }
+            const pCards = generatePack();
+            pCards.forEach(c => { album[c.id] = (album[c.id] || 0) + 1; openedCards.push(c); });
+            packsOpened[idx] = true;
+            div.classList.add("opened");
+            countOpened++;
           }
         });
         if (countOpened === 0) {
@@ -524,7 +522,6 @@
           img.alt = card.nombre;
           img.tabIndex = 0;
           img.addEventListener("click", () => openCardModal(card));
-          img.addEventListener("keyup", (e) => { if (e.key === "Enter") openCardModal(card); });
           div.appendChild(img);
 
           if (album[card.id] && album[card.id] > 1) {
@@ -538,7 +535,6 @@
         });
       }
 
-      // Card modal: info at top centered
       function openCardModal(card) {
         const copies = album[card.id] || 0;
         modalInfoTop.textContent = copies > 0 ? `${card.nombre} · Copias: ${copies}` : `${card.nombre} · Aún no obtenida`;
@@ -553,7 +549,6 @@
         if (qty <= 1) { showNotificacion("No tienes duplicadas para vender."); return; }
         const duplicates = qty - 1;
 
-        // find card to know its tipo
         const card = CARDS.find(c => c.id === cardId);
         const perDuplicateValue = (card && card.tipo === "supercampeonas") ? 250 : 100;
         const gained = duplicates * perDuplicateValue;
@@ -563,6 +558,28 @@
         saveState(); updateMonedas();
         showNotificacion(`Vendiste ${duplicates} duplicadas y ganaste ${gained} monedas`);
         renderAlbumPage();
+      }
+
+      // Creator code UI
+      function renderCreatorPage() {
+        mainContent.innerHTML = `
+          <h2 style="margin:0 0 .4rem 0;">Código de Creador</h2>
+          <p style="margin:0 0 .6rem 0;">Introduce el código que te da la creadora/streamer. Los códigos se canjean una sola vez por usuario.</p>
+          <div style="display:flex; gap:.6rem; align-items:center; margin-bottom:.8rem;">
+            <input id="creator-code-input" placeholder="Introduce código" style="padding:.6rem .8rem; border-radius:8px; border:1px solid #ddd; flex:1" />
+            <button id="redeem-code" class="login-btn">Canjear</button>
+            <button id="back-menu-3" class="login-btn" style="background:transparent; color:var(--accent); border:2px solid var(--accent);">Volver</button>
+          </div>
+          <div style="margin-top:.6rem; color:#555;">
+            <p style="margin:.2rem 0;"><strong>Nota:</strong> los códigos se definen en el archivo. Ejemplos: monedas, carta concreta o sobres gratis.</p>
+          </div>
+        `;
+        document.getElementById("redeem-code")?.addEventListener("click", () => {
+          const input = document.getElementById("creator-code-input");
+          const v = input && input.value ? input.value.trim() : "";
+          redeemCreatorCode(v);
+        });
+        document.getElementById("back-menu-3")?.addEventListener("click", renderMenu);
       }
 
       // Bonuses
@@ -592,9 +609,10 @@
         showNotificacion("Bonus por seguir en Twitch: +1500 monedas");
       }
 
-      // Header buttons wiring
+      // Header wiring
       btnSobres && btnSobres.addEventListener("click", renderPacksPage);
       btnAlbum && btnAlbum.addEventListener("click", renderAlbumPage);
+      btnCreator && btnCreator.addEventListener("click", renderCreatorPage);
       btnDaily && btnDaily.addEventListener("click", handleDailyBonus);
       btnTwitter && btnTwitter.addEventListener("click", handleTwitterBonus);
       btnTwitch && btnTwitch.addEventListener("click", handleTwitchBonus);
@@ -603,11 +621,12 @@
       updateMonedas();
       renderMenu();
 
-      console.log("App inicializada. Packs se recargan en cada refresh (packsOpened not persisted). Duplicadas supercampeonas valen 250 cada una.");
+      console.log("App actualizada: añadido apartado Código de Creador (canje, persistencia, sobres gratis).");
+      // expose for debug
       window.__CARDS = CARDS;
       window.__album = album;
-      window.__weightedPool = weightedPool;
-      window.__generatePack = generatePack;
+      window.__CREATOR_CODES = CREATOR_CODES;
+      window.__freePacks = freePacks;
     });
   </script>
 </body>
