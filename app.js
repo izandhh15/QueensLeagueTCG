@@ -110,10 +110,52 @@ let lastPack = [];
     modalImg.src = src;
   }
 
-  function mostrarAlbum(filtro="todos") {
-    albumView.style.display = "block";
-    welcome.style.display = "none";
-    packView.style.display = "none";
+  function mostrarAlbum(filtro="todos"){
+    welcome.style.display="none";
+    packView.style.display="none";
+    albumView.style.display="block";
+
+    // Limpiar grids
+    [escudosGrid, escudosQlame, presidentesGrid, presidentesQlame, superGrid].forEach(g => g.innerHTML="");
+
+    // Crear menú de filtros dentro del álbum
+    const filtroCont = document.getElementById("filtro-cont");
+    filtroCont.innerHTML = `
+        <button class="filtro-btn" data-categoria="todos">Todos</button>
+        <button class="filtro-btn" data-categoria="escudo">Escudos</button>
+        <button class="filtro-btn" data-categoria="escudoqlame">EscudosQlame</button>
+        <button class="filtro-btn" data-categoria="presidenta">Presidentas/es</button>
+        <button class="filtro-btn" data-categoria="presisqlame">PresisQlame</button>
+        <button class="filtro-btn" data-categoria="supercampeonas">Supercampeonas</button>
+    `;
+    document.querySelectorAll("#filtro-cont .filtro-btn").forEach(btn=>{
+        btn.addEventListener("click",()=>{
+            mostrarAlbum(btn.getAttribute("data-categoria"));
+        });
+    });
+
+    // Luego se muestran las cartas filtradas en sus grids
+    CARDS.forEach(c=>{
+        if(filtro!=="todos" && c.tipo!==filtro) return;
+        const div=document.createElement("div");
+        div.classList.add("cromo");
+        const img=document.createElement("img");
+        img.src = album[c.id]? c.imagen : REVERSO;
+        img.alt = c.nombre;
+        img.addEventListener("click",()=>showModal(c.imagen));
+        div.appendChild(img);
+        if(album[c.id]>1){
+            const span=document.createElement("span");
+            span.textContent="x"+album[c.id];
+            div.appendChild(span);
+        }
+        if(c.tipo==="escudo") escudosGrid.appendChild(div);
+        else if(c.tipo==="escudoqlame") escudosQlame.appendChild(div);
+        else if(c.tipo==="presidenta") presidentesGrid.appendChild(div);
+        else if(c.tipo==="presisqlame") presidentesQlame.appendChild(div);
+        else superGrid.appendChild(div);
+    });
+}
 
     // limpiar grids
     [escudosGrid, escudosQlame, presidentesGrid, presidentesQlame, superGrid].forEach(g=>g.innerHTML="");
