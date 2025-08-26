@@ -103,10 +103,17 @@ document.addEventListener("DOMContentLoaded", () => {
     modalImg.src = src;
   }
 
-  function mostrarAlbum(filtro="todos") {
-    albumView.style.display = "block";
-    packView.style.display = "none";
-    hideWelcome();
+function mostrarAlbum() {
+  document.getElementById("welcome-screen").style.display = "none";
+  document.getElementById("pack-view").style.display = "none";
+  document.getElementById("album-view").style.display = "block";
+}
+
+function abrirSobre() {
+  document.getElementById("welcome-screen").style.display = "none";
+  document.getElementById("album-view").style.display = "none";
+  document.getElementById("pack-view").style.display = "block";
+}
 
     [escudosGrid, escudosqlame, presidentesGrid, presisqlame, superGrid].forEach(g => g.innerHTML = "");
 
