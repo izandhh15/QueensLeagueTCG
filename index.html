@@ -4,9 +4,332 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Queens League Oysho - Álbum Virtual</title>
-  <link rel="stylesheet" href="styles.css" />
-  <link rel="icon" href="https://queensleague.pro/favicon.ico" />
   <meta name="description" content="Álbum virtual de Queens League Oysho — sobres, cromos y login con Discord/Google (simulado)" />
+  <link rel="icon" href="https://queensleague.pro/favicon.ico" />
+  <style>
+    :root{
+      --bg: #2a0a49;
+      --accent: #06ccbd;
+      --accent-text: #2a0a49;
+      --card-bg: #e5e7eb;
+      --white: #ffffff;
+      --danger: #e11d48;
+      --shadow-accent: rgba(6,204,189,0.18);
+      --glass: rgba(255,255,255,0.95);
+      --max-width: 1000px;
+      --radius: 12px;
+      --transition: 200ms ease;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background: var(--bg);
+      color: var(--white);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      line-height:1.4;
+    }
+    header {
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:1rem;
+      padding: 0.9rem 1.5rem;
+      background: var(--bg);
+      border-bottom: 2px solid var(--accent);
+      box-shadow: 0 3px 12px var(--shadow-accent);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+    .logo {
+      font-size: 1.45rem;
+      font-weight: 700;
+      color: var(--accent);
+      letter-spacing: 0.4px;
+      cursor: pointer;
+      user-select: none;
+    }
+    .redes {
+      display:flex;
+      gap:0.8rem;
+      align-items:center;
+      margin-left: 0.25rem;
+    }
+    .redes a {
+      color: var(--accent);
+      text-decoration:none;
+      padding: 0.25rem 0.5rem;
+      border-radius:8px;
+      font-weight:600;
+      transition: background var(--transition), color var(--transition), transform var(--transition);
+      font-size:0.98rem;
+    }
+    .redes a:hover,
+    .redes a:focus {
+      background: var(--accent);
+      color: var(--accent-text);
+      transform: translateY(-1px);
+      outline: none;
+    }
+    #monedas-panel {
+      background: var(--accent);
+      color: var(--accent-text);
+      padding: .35rem .9rem;
+      border-radius: 10px;
+      font-weight:700;
+      box-shadow: 0 6px 20px var(--shadow-accent);
+      cursor: pointer;
+      border: 2px solid var(--accent-text);
+      transition: transform var(--transition), box-shadow var(--transition);
+    }
+    #monedas-panel:active { transform: translateY(1px) }
+    #monedas-panel:focus { outline: 3px solid rgba(6,204,189,0.18); }
+    #user-panel {
+      display:flex;
+      align-items:center;
+      gap:0.6rem;
+      margin-left:0.5rem;
+      color: var(--accent);
+    }
+    .login-btn, .logout-btn {
+      background: var(--accent);
+      color: var(--accent-text);
+      border: none;
+      padding: .45rem .85rem;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight:700;
+      transition: background var(--transition), color var(--transition), box-shadow var(--transition);
+      box-shadow: 0 4px 14px rgba(6,204,189,0.14);
+    }
+    .login-btn:hover, .logout-btn:hover,
+    .login-btn:focus, .logout-btn:focus {
+      background: var(--accent-text);
+      color: var(--accent);
+      outline: none;
+      box-shadow: 0 6px 20px rgba(42,10,73,0.18);
+    }
+    .avatar {
+      width:36px;
+      height:36px;
+      border-radius:50%;
+      object-fit:cover;
+      border:2px solid var(--accent);
+      background: var(--white);
+    }
+    #main-content{
+      max-width: var(--max-width);
+      margin: 1.6rem auto;
+      padding: 1.6rem;
+      background: var(--white);
+      color: var(--accent-text);
+      border-radius: var(--radius);
+      box-shadow: 0 10px 30px rgba(6,204,189,0.06);
+      min-height: 480px;
+    }
+    .menu-principal {
+      display:flex;
+      flex-direction:column;
+      gap:0.9rem;
+      align-items:center;
+    }
+    .menu-principal button, .menu-principal input[type="text"] {
+      font-size:1.02rem;
+      padding: .85rem 1.25rem;
+      border-radius: 10px;
+      border: 2px solid transparent;
+      cursor:pointer;
+      transition: transform var(--transition), box-shadow var(--transition);
+    }
+    .menu-principal button {
+      background: var(--accent);
+      color: var(--accent-text);
+      font-weight:800;
+      border: 2px solid var(--accent-text);
+      box-shadow: 0 8px 20px rgba(6,204,189,0.12);
+    }
+    .menu-principal button:hover, .menu-principal button:focus {
+      background: var(--accent-text);
+      color: var(--accent);
+      transform: translateY(-3px);
+      outline: none;
+    }
+    .menu-principal input[type="text"] {
+      border: 2px solid var(--accent);
+      background: var(--card-bg);
+      color: var(--accent-text);
+      width: 240px;
+      text-align:center;
+    }
+    .filtro-categoria {
+      display:inline-block;
+      padding: .45rem .8rem;
+      border-radius:8px;
+      border:2px solid var(--accent);
+      background: var(--white);
+      color: var(--accent-text);
+      font-weight:700;
+    }
+    .album-grid, .sobre-grid {
+      display:grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap:1rem;
+      margin-top:1rem;
+    }
+    .cromo {
+      background: var(--card-bg);
+      border-radius: 10px;
+      padding: .5rem;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:flex-start;
+      position:relative;
+      box-shadow: 0 6px 16px rgba(6,204,189,0.06);
+      overflow:visible;
+      min-height: 160px;
+    }
+    .cromo img {
+      width:100px;
+      height:140px;
+      object-fit:cover;
+      border-radius:8px;
+      border: 3px solid var(--accent);
+      background: var(--white);
+      cursor:pointer;
+      transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+    }
+    .cromo img:hover, .cromo img:focus {
+      transform: translateY(-6px);
+      box-shadow: 0 12px 30px rgba(6,204,189,0.18);
+      border-color: var(--accent-text);
+      outline: none;
+    }
+    .duplicadas {
+      position:absolute;
+      top:8px;
+      right:10px;
+      background: var(--accent);
+      color: var(--accent-text);
+      padding:6px 10px;
+      border-radius:999px;
+      font-weight:800;
+      border:2px solid var(--accent-text);
+      box-shadow: 0 6px 18px rgba(6,204,189,0.12);
+    }
+    .btn-vender {
+      position:absolute;
+      bottom:8px;
+      right:8px;
+      background: var(--accent);
+      color: var(--accent-text);
+      border: none;
+      padding:6px 10px;
+      border-radius:8px;
+      font-weight:700;
+      cursor:pointer;
+      transition: background var(--transition), transform var(--transition);
+    }
+    .btn-vender:hover, .btn-vender:focus {
+      background: var(--accent-text);
+      color: var(--accent);
+      transform: translateY(-3px);
+      outline: none;
+    }
+    .progreso-album {
+      text-align:center;
+      font-weight:800;
+      color: var(--accent);
+      margin-bottom: .6rem;
+    }
+    #modal, #login-modal {
+      position: fixed;
+      inset: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      background: rgba(42,10,73,0.78);
+      z-index: 1200;
+      padding: 1rem;
+    }
+    #modal[style*="display: flex"], #login-modal[style*="display: flex"] {
+      display: flex !important;
+    }
+    #modal-img {
+      max-width: 92vw;
+      max-height: 80vh;
+      border-radius: 14px;
+      border: 6px solid var(--white);
+      box-shadow: 0 18px 48px rgba(6,204,189,0.18);
+      background: var(--white);
+      display:block;
+    }
+    #modal-close {
+      position: absolute;
+      top: 20px;
+      right: 28px;
+      font-size: 2.2rem;
+      color: var(--accent);
+      background:none;
+      border: none;
+      cursor: pointer;
+    }
+    #modal-info {
+      margin-top: .9rem;
+      background: var(--white);
+      color: var(--accent-text);
+      padding: .8rem 1.2rem;
+      border-radius: 10px;
+    }
+    #notificacion {
+      position: fixed;
+      top: 28px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--accent);
+      color: var(--accent-text);
+      padding: 10px 20px;
+      border-radius: 12px;
+      font-weight:800;
+      box-shadow: 0 10px 30px rgba(6,204,189,0.12);
+      z-index: 2000;
+      display:none;
+    }
+    footer {
+      margin-top: 1.6rem;
+    }
+    .footer-content {
+      display:flex;
+      justify-content:center;
+      gap: 0.6rem;
+      align-items:center;
+      padding: 0.9rem 1rem;
+      color: var(--accent);
+      background: var(--bg);
+      border-top: 1px solid rgba(6,204,189,0.06);
+      border-radius: 6px;
+    }
+    :focus { outline-offset: 3px; }
+    button:focus, a:focus, input:focus { box-shadow: 0 0 0 4px rgba(6,204,189,0.12); }
+    @media (max-width: 900px) {
+      header { padding: 0.8rem 1rem; }
+      .logo { font-size:1.2rem; }
+      #main-content { margin: 1rem; padding: 1rem; }
+      .album-grid, .sobre-grid { grid-template-columns: repeat(auto-fit, minmax(90px, 1fr)); gap:0.7rem; }
+      .cromo { min-height: 140px; }
+      .cromo img { width: 86px; height:120px; }
+      #modal-img { max-height: 72vh; }
+    }
+    @media (max-width: 420px) {
+      .redes { display:none; }
+      #user-panel { font-size:0.95rem; gap:0.4rem; }
+      .avatar { width:30px; height:30px; }
+      .menu-principal input[type="text"] { width: 180px; }
+    }
+  </style>
 </head>
 <body>
   <header>
@@ -26,22 +349,20 @@
   </header>
 
   <main id="main-content" role="main" tabindex="-1">
-    <!-- Contenido dinámico renderizado por files/app.js -->
+    <!-- Contenido dinámico -->
   </main>
 
-  <!-- Modal para ver cromo ampliado -->
   <div id="modal" aria-hidden="true" role="dialog" aria-modal="true">
     <button id="modal-close" aria-label="Cerrar modal">&times;</button>
     <img id="modal-img" src="" alt="Cromo ampliado" />
     <div id="modal-info" aria-live="polite"></div>
   </div>
 
-  <!-- Modal de login (opcional) -->
   <div id="login-modal" style="display:none;" role="dialog" aria-modal="true">
-    <div class="login-modal-content">
-      <h2>Iniciar sesión</h2>
-      <p>Usa Discord o Google para entrar (simulado en frontend)</p>
-      <div style="display:flex; gap:0.6rem; justify-content:center; margin-top:0.7rem;">
+    <div class="login-modal-content" style="background:var(--white); color:var(--accent-text); padding:1.2rem; border-radius:12px; text-align:center;">
+      <h2 style="margin:0 0 .4rem 0;">Iniciar sesión</h2>
+      <p style="margin:0 0 .8rem 0;">Usa Discord o Google para entrar (simulado en frontend)</p>
+      <div style="display:flex; gap:0.6rem; justify-content:center; margin-top:0.2rem;">
         <button class="login-btn" id="login-discord">Discord</button>
         <button class="login-btn" id="login-google">Google</button>
       </div>
@@ -51,7 +372,6 @@
     </div>
   </div>
 
-  <!-- Notificación flotante -->
   <div id="notificacion" style="display:none" role="status" aria-live="assertive"></div>
 
   <footer>
@@ -62,12 +382,185 @@
     </div>
   </footer>
 
-  <!-- Script principal (al final para asegurar que el DOM existe) -->
-  <script src="files/app.js"></script>
-  <noscript>
-    <div style="padding:1rem; background:#ffefc2; color:#2a0a49; text-align:center;">
-      Esta aplicación necesita JavaScript para funcionar. Activa JavaScript y recarga la página.
-    </div>
-  </noscript>
-</body>
-</html>
+  <script>
+    // App completa en un solo archivo
+    document.addEventListener("DOMContentLoaded", () => {
+      // ----- Config -----
+      const REVERSO = "https://i.ibb.co/F443KZqx/00-REVERSO.png";
+      const CARD_CATEGORIES = [
+        { name: "Todas", filter: c => true },
+        { name: "Escudos", filter: c => c.tipo === "escudo" },
+        { name: "Presidentas/es", filter: c => c.tipo === "presidenta" },
+        { name: "Supercampeonas", filter: c => c.tipo === "supercampeonas" }
+      ];
+
+      // Ejemplo de cartas (edítalas con tus imágenes reales)
+      const CARDS = [
+        { id: 1, nombre: "Escudo A", tipo: "escudo", imagen: "https://i.ibb.co/CpJ3c7B8/01-Escudo1-K.png" },
+        { id: 2, nombre: "Escudo B", tipo: "escudo", imagen: "https://i.ibb.co/9y8p38r/02-Escudo2-K.png" },
+        { id: 3, nombre: "Aroney Gonzalez", tipo: "presidenta", imagen: "https://i.ibb.co/6XG0kXc/sample-presidenta.png" },
+        { id: 4, nombre: "Mar Serracanta", tipo: "presidenta", imagen: "https://i.ibb.co/3W9L0sF/sample-supercampeona.png" },
+        { id: 5, nombre: "Super QL 1", tipo: "supercampeonas", imagen: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=600&auto=format&fit=crop&sat=-100" },
+        { id: 6, nombre: "Super QL 2", tipo: "supercampeonas", imagen: "https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=600&auto=format&fit=crop&sat=-100" },
+        { id: 7, nombre: "Escudo C", tipo: "escudo", imagen: "https://i.ibb.co/2n5F8qF/sample-escudo3.png" },
+        { id: 8, nombre: "Jugador X", tipo: "presidenta", imagen: "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=600&auto=format&fit=crop&sat=-100" }
+      ];
+
+      const CODIGOS_CREADORES = [
+        { codigo: "aroneygonzalez", monedas: 10000 },
+        { codigo: "marserracanta", monedas: 10000 },
+        { codigo: "bertavelasco", monedas: 10000 },
+        { codigo: "ainaranavas", monedas: 10000 },
+        { codigo: "beaperez", monedas: 10000 }
+      ];
+
+      // ----- DOM refs -----
+      const monedasPanel = document.getElementById("monedas-panel");
+      const mainContent = document.getElementById("main-content");
+      const modal = document.getElementById("modal");
+      const modalImg = document.getElementById("modal-img");
+      const modalClose = document.getElementById("modal-close");
+      const modalInfo = document.getElementById("modal-info");
+      const userPanel = document.getElementById("user-panel");
+      const notificacion = document.getElementById("notificacion");
+      const loginModal = document.getElementById("login-modal");
+      const loginDiscordBtn = document.getElementById("login-discord");
+      const loginGoogleBtn = document.getElementById("login-google");
+      const loginCloseBtn = document.getElementById("login-close");
+      const logo = document.getElementById("logo");
+
+      if (!monedasPanel || !mainContent || !userPanel) {
+        console.error("Elementos críticos no encontrados en DOM.");
+        if (notificacion) {
+          notificacion.textContent = "Error: elementos de la página no encontrados. Revisa el HTML.";
+          notificacion.style.display = "block";
+        }
+        return;
+      }
+
+      // ----- Estado (localStorage) -----
+      let monedas = parseInt(localStorage.getItem("monedas_queens")) || 2000;
+      let album = JSON.parse(localStorage.getItem("album_queens")) || {};
+      let codigosUsados = JSON.parse(localStorage.getItem("codigos_usados_queens")) || [];
+
+      // ----- Usuario simulado -----
+      function getUser() {
+        try { return JSON.parse(localStorage.getItem("album_user")) || null; } catch(e) { return null; }
+      }
+      function setUser(user) {
+        localStorage.setItem("album_user", JSON.stringify(user));
+        renderUserPanel();
+        renderMenu();
+      }
+      function logoutUser() {
+        localStorage.removeItem("album_user");
+        renderUserPanel();
+        renderMenu();
+      }
+      function loginDiscord() {
+        const user = {
+          name: "DiscordUser",
+          avatar: "https://cdn-icons-png.flaticon.com/512/5968/5968756.png",
+          provider: "Discord"
+        };
+        setUser(user);
+        if (loginModal) loginModal.style.display = "none";
+        showNotificacion("Conectado como " + user.name);
+      }
+      function loginGoogle() {
+        const user = {
+          name: "GoogleUser",
+          avatar: "https://cdn-icons-png.flaticon.com/512/281/281764.png",
+          provider: "Google"
+        };
+        setUser(user);
+        if (loginModal) loginModal.style.display = "none";
+        showNotificacion("Conectado como " + user.name);
+      }
+
+      // ----- Utilidades -----
+      function saveState() {
+        localStorage.setItem("monedas_queens", monedas);
+        localStorage.setItem("album_queens", JSON.stringify(album));
+      }
+      function showNotificacion(msg, timeout = 2000) {
+        if (!notificacion) { console.log("NOTIF:", msg); return; }
+        notificacion.textContent = msg;
+        notificacion.style.display = "block";
+        setTimeout(() => { notificacion.style.display = "none"; }, timeout);
+      }
+      function updateMonedas() {
+        monedasPanel.textContent = "Monedas: " + monedas;
+        saveState();
+      }
+
+      // ----- Modal -----
+      if (modalClose) modalClose.addEventListener("click", () => { modal.style.display = "none"; });
+      if (modal) modal.addEventListener("click", e => { if (e.target === modal) modal.style.display = "none"; });
+
+      // ----- Album rendering -----
+      function mostrarAlbum(filtroName = "Todas") {
+        if (!getUser()) {
+          showNotificacion("Inicia sesión para ver tu álbum");
+          return;
+        }
+        mainContent.innerHTML = "";
+        const select = document.createElement("select");
+        select.className = "filtro-categoria";
+        CARD_CATEGORIES.forEach(cat => {
+          const opt = document.createElement("option");
+          opt.value = cat.name; opt.textContent = cat.name;
+          if (cat.name === filtroName) opt.selected = true;
+          select.appendChild(opt);
+        });
+        select.addEventListener("change", () => mostrarAlbum(select.value));
+        mainContent.appendChild(select);
+
+        const filteredCards = CARDS.filter(CARD_CATEGORIES.find(c => c.name === filtroName).filter);
+        const obtenidas = filteredCards.filter(c => album[c.id]).length;
+        const progreso = document.createElement("p");
+        progreso.className = "progreso-album";
+        progreso.textContent = `Cartas obtenidas: ${obtenidas} / ${filteredCards.length}`;
+        mainContent.appendChild(progreso);
+
+        const grid = document.createElement("div"); grid.className = "album-grid";
+        filteredCards.sort((a,b) => a.id - b.id).forEach(card => {
+          const div = document.createElement("div"); div.className = "cromo";
+          const img = document.createElement("img");
+          img.alt = card.nombre;
+          img.src = album[card.id] ? card.imagen : REVERSO;
+          img.tabIndex = 0;
+          img.addEventListener("click", () => ampliarCromo(card));
+          img.addEventListener("keyup", (e) => { if (e.key === "Enter") ampliarCromo(card); });
+          div.appendChild(img);
+
+          if (album[card.id] && album[card.id] > 1) {
+            const dup = document.createElement("span"); dup.className = "duplicadas";
+            dup.textContent = album[card.id];
+            div.appendChild(dup);
+            const btnVen = document.createElement("button"); btnVen.className = "btn-vender";
+            btnVen.textContent = "Vender";
+            btnVen.addEventListener("click", (ev) => { ev.stopPropagation(); venderDuplicadas(card.id); });
+            div.appendChild(btnVen);
+          }
+          grid.appendChild(div);
+        });
+        mainContent.appendChild(grid);
+        updateMonedas();
+      }
+
+      function ampliarCromo(card) {
+        if (!modal || !modalImg || !modalInfo) return;
+        modal.style.display = "flex";
+        modalImg.src = card.imagen;
+        modalImg.alt = card.nombre;
+        modalInfo.textContent = album[card.id] ? `Tienes ${album[card.id]} copias.` : "";
+      }
+
+      function venderDuplicadas(cardId) {
+        if (!album[cardId] || album[cardId] <= 1) {
+          showNotificacion("No tienes duplicadas para vender.");
+          return;
+        }
+        const vendidas = album[cardId] - 1;
+        const gan
