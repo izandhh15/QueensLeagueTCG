@@ -1,4 +1,4 @@
-/* Estilos globales */
+/* Reset y estilo global */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -16,31 +16,13 @@ body {
   padding: 20px;
 }
 
-/* Título */
+/* Título principal */
 h1 {
   color: #06ccbd;
-  margin-bottom: 15px;
   text-align: center;
   font-size: 2.2rem;
+  margin-bottom: 15px;
   text-shadow: 1px 1px 2px #000;
-}
-
-/* Botones principales */
-button {
-  background-color: #06ccbd;
-  color: #2a0a49;
-  border: none;
-  border-radius: 10px;
-  padding: 10px 16px;
-  cursor: pointer;
-  margin: 5px;
-  font-weight: bold;
-  transition: all 0.2s ease-in-out;
-}
-
-button:hover {
-  transform: scale(1.05);
-  opacity: 0.9;
 }
 
 /* Panel de monedas */
@@ -50,6 +32,24 @@ button:hover {
   font-weight: bold;
   color: #06ccbd;
   text-align: center;
+}
+
+/* Botones generales */
+button {
+  background-color: #06ccbd;
+  color: #2a0a49;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 16px;
+  margin: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+button:hover {
+  transform: scale(1.05);
+  opacity: 0.9;
 }
 
 /* Contenedor de códigos */
@@ -69,7 +69,42 @@ button:hover {
   font-size: 16px;
 }
 
-/* Grids de cartas */
+/* Filtros por categoría */
+#filtros {
+  display: flex;
+  gap: 10px;
+  margin: 15px 0;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.filtro-btn {
+  background-color: #06ccbd;
+  color: #2a0a49;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.filtro-btn:hover {
+  opacity: 0.9;
+  transform: scale(1.05);
+}
+
+/* Mini-títulos de secciones */
+.section-title {
+  color: #06ccbd;
+  font-size: 1.5rem;
+  text-align: left;
+  margin: 20px 0 10px 0;
+  border-bottom: 2px solid #06ccbd;
+  padding-bottom: 5px;
+}
+
+/* Grid de cartas */
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
@@ -78,6 +113,7 @@ button:hover {
   width: 90%;
 }
 
+/* Carta individual */
 .cromo {
   position: relative;
   cursor: pointer;
@@ -142,7 +178,7 @@ button:hover {
   transform: scale(1.2);
 }
 
-/* Vender duplicadas */
+/* Botón vender duplicadas */
 #btn-vender {
   display: block;
   margin: 10px auto;
@@ -165,7 +201,7 @@ button:hover {
   h1 {
     font-size: 1.8rem;
   }
-  
+
   #codigo-container {
     flex-direction: column;
   }
