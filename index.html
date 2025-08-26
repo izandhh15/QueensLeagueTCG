@@ -256,8 +256,6 @@
       };
 
       // Build a weighted pool of individual cards (pool contains references to card objects).
-      // Each card is added to the pool `weight` times (weight derived from its tipo).
-      // This allows selecting random cards across all types while keeping rarities.
       let weightedPool = [];
       (function buildWeightedPool(){
         weightedPool = [];
@@ -265,13 +263,12 @@
           const w = Math.max(1, Math.round(TYPE_WEIGHTS[card.tipo] || 10));
           for (let i = 0; i < w; i++) weightedPool.push(card);
         });
-        // small shuffle to reduce any deterministic ordering bias
+        // shuffle pool
         for (let i = weightedPool.length - 1; i > 0; i--) {
           const j = Math.floor(Math.random() * (i + 1));
           [weightedPool[i], weightedPool[j]] = [weightedPool[j], weightedPool[i]];
         }
-        // debug
-        console.log("Weighted pool built:", weightedPool.length, "entries");
+        console.log("Weighted pool ready:", weightedPool.length, "entries");
       })();
 
       // DOM refs
@@ -293,22 +290,27 @@
       const btnTwitter = document.getElementById("btn-twitter");
       const btnTwitch = document.getElementById("btn-twitch");
 
-      // State
+      // State: keep album and monedas persistent, but reset packs on each reload so user can open more on refresh
       let monedas = parseInt(localStorage.getItem("monedas_queens")) || 2000;
-      let album = JSON.parse(localStorage.getItem("album_queens")) || {}; // album[id] = qty
+      let album = JSON.parse(localStorage.getItem("album_queens")) || {};
       let claimedTwitter = JSON.parse(localStorage.getItem("bonus_twitter_claimed")) || false;
       let claimedTwitch = JSON.parse(localStorage.getItem("bonus_twitch_claimed")) || false;
-      let packsOpened = JSON.parse(localStorage.getItem("packs_opened")) || {}; // { "1": true, ... }
+
+      // Important: remove persisted packs_opened so that on page refresh packs reload and can be opened again
+      // This ensures packsOpened starts empty every page load.
+      localStorage.removeItem("packs_opened");
+      let packsOpened = {}; // not persisted across refresh intentionally
+
       let currentFilter = "Todas";
       let showOnlyObtained = false;
 
       // Utilities
       function saveState() {
+        // persist only monedas, album, bonuses — NOT packsOpened so packs reset on refresh
         localStorage.setItem("monedas_queens", String(monedas));
         localStorage.setItem("album_queens", JSON.stringify(album));
         localStorage.setItem("bonus_twitter_claimed", JSON.stringify(claimedTwitter));
         localStorage.setItem("bonus_twitch_claimed", JSON.stringify(claimedTwitch));
-        localStorage.setItem("packs_opened", JSON.stringify(packsOpened));
       }
       function updateMonedas() {
         monedasPanel.textContent = "Monedas: " + monedas;
@@ -327,22 +329,18 @@
       if (modalCardsClose) modalCardsClose.addEventListener("click", () => modalCards.style.display = "none");
       if (modalCards) modalCards.addEventListener("click", (e) => { if (e.target === modalCards) modalCards.style.display = "none"; });
 
-      // Random pick from weightedPool (with replacement) — allows duplicates but variety
+      // Random pick from weightedPool (with replacement)
       function pickRandomCardFromPool() {
-        if (!weightedPool.length) {
-          // fallback uniform
-          return CARDS[Math.floor(Math.random() * CARDS.length)];
-        }
+        if (!weightedPool.length) return CARDS[Math.floor(Math.random() * CARDS.length)];
         const idx = Math.floor(Math.random() * weightedPool.length);
         return weightedPool[idx];
       }
 
-      // Generate a pack of PACK_SLOTS cards (each chosen from the weightedPool with replacement)
+      // Generate a pack of PACK_SLOTS cards (with replacement, cards can repeat)
       function generatePack() {
         const result = [];
         for (let i = 0; i < PACK_SLOTS; i++) {
-          const card = pickRandomCardFromPool();
-          result.push(card);
+          result.push(pickRandomCardFromPool());
         }
         return result;
       }
@@ -366,11 +364,11 @@
         document.getElementById("menu-daily")?.addEventListener("click", handleDailyBonus);
       }
 
-      // Packs page: show 5 packs (design = REVERSO), click to buy/open (cost deducted)
+      // Packs page
       function renderPacksPage() {
         mainContent.innerHTML = `
           <h2 style="margin:0 0 .4rem 0;">Abrir Sobres</h2>
-          <p style="margin:0 0 .6rem 0;">Pulsa un sobre para comprarlo y abrirlo. Cada sobre cuesta <strong>${PACK_COST} monedas</strong>. Los sobres pueden darte cartas de cualquiera de las categorías; las supercampeonas son muy raras.</p>
+          <p style="margin:0 0 .6rem 0;">Pulsa un sobre para comprarlo y abrirlo. Cada sobre cuesta <strong>${PACK_COST} monedas</strong>. Los sobres pueden darte cartas de cualquier tipo; las supercampeonas son muy raras.</p>
           <div style="display:flex; gap:12px; justify-content:flex-end;">
             <button id="open-all" class="login-btn">Abrir todos los sobres</button>
             <button id="back-menu" class="login-btn" style="background:transparent; color:var(--accent); border:2px solid var(--accent);">Volver al menú</button>
@@ -406,6 +404,7 @@
           label.textContent = `Sobre ${i}`;
           div.appendChild(label);
 
+          // packsOpened is reset on page load, so all packs show unopened after refresh
           if (packsOpened[String(i)]) div.classList.add("opened");
 
           div.addEventListener("click", () => handlePackClick(div));
@@ -420,7 +419,7 @@
         const idx = String(packDiv?.dataset?.index || "");
         if (!packDiv || !idx) return;
         if (packsOpened[idx]) {
-          showNotificacion("Este sobre ya está abierto.");
+          showNotificacion("Este sobre ya está abierto (durante esta sesión).");
           return;
         }
         if (monedas < PACK_COST) {
@@ -435,7 +434,7 @@
         const newCards = generatePack();
         // add to album (allow duplicates)
         newCards.forEach(c => album[c.id] = (album[c.id] || 0) + 1);
-        packsOpened[idx] = true;
+        packsOpened[idx] = true; // not persisted: will reset on refresh
         saveState();
         packDiv.classList.add("opened");
         showPackCardsModal(`Has comprado y abierto el Sobre ${idx}. Contenido:`, newCards);
@@ -601,7 +600,7 @@
       updateMonedas();
       renderMenu();
 
-      console.log("App inicializada. Now packs pick from full card pool with weights. Weighted pool size:", weightedPool.length);
+      console.log("App inicializada. Packs se recargan en cada refresh (packsOpened no se persiste).");
       window.__CARDS = CARDS;
       window.__album = album;
       window.__weightedPool = weightedPool;
