@@ -550,9 +550,10 @@
       function renderAlbumPage() {
         mainContent.innerHTML = `
           <h2 style="margin:0 0 .4rem 0;">Mi Álbum</h2>
-          <div style="display:flex; gap:.6rem; align-items:center; margin-bottom:.6rem;">
+            <div style="display:flex; gap:.6rem; align-items:center; margin-bottom:.6rem;">
             <p class="progreso-album" id="progreso" style="margin:0"></p>
             <div class="filters" id="filters" style="margin-left:auto;"></div>
+            <button id="btn-sell-all-duplicates-album" class="login-btn">Vender Duplicadas</button> <!-- ESTA ES LA LÍNEA QUE HAS AÑADIDO -->
             <button id="back-menu-2" class="login-btn" style="background:transparent; color:var(--accent); border:2px solid var(--accent);">Volver</button>
           </div>
           <div class="album-grid" id="album-grid"></div>
