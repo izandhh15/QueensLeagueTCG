@@ -1,67 +1,90 @@
-/* Estilos generales */
-body, html {
+/* Reset básico */
+* {
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
   font-family: Arial, sans-serif;
-  background-color: #2a0a49;
-  color: #fff;
 }
 
+/* Fondo general y body */
+body {
+  background-color: #2a0a49;
+  color: #fff;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Pantallas */
+.screen {
+  width: 90%;
+  max-width: 1200px;
+  margin: 20px auto;
+  text-align: center;
+}
+
+/* Panel de monedas */
+#monedas-panel {
+  font-size: 1.2rem;
+  margin-bottom: 15px;
+  color: #06ccbd;
+  font-weight: bold;
+}
+
+/* Botones */
 button {
-  cursor: pointer;
+  background-color: #06ccbd;
+  color: #2a0a49;
   border: none;
   border-radius: 8px;
   padding: 10px 15px;
+  margin: 5px;
+  cursor: pointer;
   font-weight: bold;
-  transition: transform 0.1s, background-color 0.2s;
+  transition: all 0.2s ease;
 }
 
 button:hover {
-  transform: scale(1.05);
-  opacity: 0.9;
+  background-color: #04a299;
 }
 
-/* Botones principales */
-.main-btn, .filtro-btn, #btn-vender {
-  background-color: #06ccbd;
-  color: #2a0a49;
-}
-
-/* Panel de bienvenida */
-#welcome-screen {
-  text-align: center;
-  padding: 30px 10px;
-}
-
-#welcome-screen input {
-  padding: 8px 10px;
+/* Inputs */
+input[type="text"] {
+  padding: 8px;
   border-radius: 6px;
-  border: 1px solid #06ccbd;
-  margin-right: 5px;
+  border: none;
   width: 200px;
+  margin-right: 5px;
+}
+
+/* Contenedor de botones */
+.btns, .codigo-container, .filtros {
+  margin: 10px 0;
 }
 
 /* Grids de cartas */
-.grid {
-  display: flex;
-  flex-wrap: wrap;
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
   gap: 10px;
-  justify-content: center;
-  margin-bottom: 20px;
+  margin: 15px 0;
 }
 
+/* Cada carta */
 .cromo {
   position: relative;
-  width: 100px;
-  height: 140px;
   cursor: pointer;
 }
 
 .cromo img {
   width: 100%;
-  height: 100%;
   border-radius: 8px;
-  object-fit: cover;
+  transition: transform 0.2s ease;
+}
+
+.cromo img:hover {
+  transform: scale(1.05);
 }
 
 /* Contador de duplicadas */
@@ -74,70 +97,49 @@ button:hover {
   padding: 2px 5px;
   border-radius: 8px;
   font-size: 12px;
+  font-weight: bold;
 }
 
 /* Modal */
-#modal {
+.modal {
   position: fixed;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
-  background: rgba(0,0,0,0.7);
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.8);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 1000;
 }
 
-#modal img {
-  max-width: 80%;
-  max-height: 80%;
-  border: 5px solid #fff;
-  border-radius: 8px;
-}
-
-#modal-close {
+.modal-close {
   position: absolute;
   top: 20px;
-  right: 20px;
-  font-size: 30px;
-  font-weight: bold;
+  right: 30px;
   color: #fff;
+  font-size: 2rem;
   cursor: pointer;
 }
 
-/* Menú de filtros */
-#menu-filtros {
-  text-align: center;
-  margin-bottom: 20px;
+.modal-img {
+  max-width: 80%;
+  max-height: 80%;
+  border: 5px solid #06ccbd;
+  border-radius: 12px;
 }
 
-#menu-filtros button {
-  margin: 5px;
-}
-
-/* Footer */
-footer {
-  margin-top: 20px;
-  padding: 10px 0;
-  font-size: 14px;
+/* Footer / Disclaimer */
+footer, .disclaimer {
   color: #06ccbd;
   text-align: center;
+  margin-top: 20px;
+  font-size: 0.9rem;
 }
 
-/* Responsive */
-@media (max-width: 600px) {
-  .cromo {
-    width: 70px;
-    height: 100px;
-  }
-
-  #welcome-screen input {
-    width: 140px;
-  }
-
-  button {
-    padding: 8px 10px;
-  }
+/* Filtros */
+.filtros button {
+  padding: 8px 12px;
+  font-size: 0.9rem;
 }
