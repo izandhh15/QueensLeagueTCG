@@ -4,17 +4,18 @@
 // ==============================
 
 // --------- CONFIGURACIÓN Y DATOS ---------
-const REVERSO = "https://i.ibb.co/F443KZqx/00-REVERSO.png";
-const CARD_CATEGORIES = [
-  { name: "Escudos", filter: c => c.tipo === "escudo" },
-  { name: "Escudos QL America", filter: c => c.tipo === "escudoqlame" },
-  { name: "Presidentas/es", filter: c => c.tipo === "presidenta" },
-  { name: "Presidentas/es QL America", filter: c => c.tipo === "presisqlame" },
-  { name: "Supercampeonas", filter: c => c.tipo === "supercampeonas" }
-];
 
-// Ejemplo de cartas (añade el resto según tus necesidades)
-  const CARDS = [
+    const REVERSO = "https://i.ibb.co/F443KZqx/00-REVERSO.png";
+    const CARD_CATEGORIES = [
+      { name: "Escudos", filter: c => c.tipo === "escudo" },
+      { name: "Escudos QL America", filter: c => c.tipo === "escudoqlame" },
+      { name: "Presidentas/es", filter: c => c.tipo === "presidenta" },
+      { name: "Presidentas/es QL America", filter: c => c.tipo === "presisqlame" },
+      { name: "Supercampeonas", filter: c => c.tipo === "supercampeonas" }
+    ];
+
+    // Ejemplo de cartas (añade las tuyas)
+    const CARDS = [
     { id:1,nombre:"Escudo 1K",tipo:"escudo",imagen:"https://i.ibb.co/CpJ3c7B8/01-Escudo1-K.png"},
     { id:2,nombre:"Escudo Aniquiladoras FC",tipo:"escudo",imagen:"https://i.ibb.co/N2hVWpqv/02-Escudo-Aniquiladoras.png"},
     { id:3,nombre:"Escudo El Barrio",tipo:"escudo",imagen:"https://i.ibb.co/7JcZNXSQ/03-Escudo-Barrio.png"},
@@ -79,312 +80,287 @@ const CARD_CATEGORIES = [
     { id:36,nombre:"Paula Blas",tipo:"supercampeonas",imagen:"https://i.ibb.co/cKjf90R8/36-SUPERCAMPEONAS-Paula-Blas.png"}
 ];
 
-// Códigos creadores
-const CODIGOS_CREADORES = `
-AroneyGonzalez;10000
-MarSerracanta;10000
-BertaVelasco;10000
-AinaraNavas;10000
-BeaPerez;10000
-`.trim().split('\n').map(line => {
-  const [codigo, monedas] = line.split(';');
-  return { codigo: codigo.trim().toLowerCase(), monedas: parseInt(monedas.trim()) };
-});
+    const CODIGOS_CREADORES = `
+    AroneyGonzalez;10000
+    MarSerracanta;10000
+    BertaVelasco;10000
+    AinaraNavas;10000
+    BeaPerez;10000
+    `.trim().split('\n').map(line => {
+      const [codigo, monedas] = line.split(';');
+      return { codigo: codigo.trim().toLowerCase(), monedas: parseInt(monedas.trim()) };
+    });
 
-// --------- ELEMENTOS HTML ---------
-const monedasPanel = document.getElementById("monedas-panel");
-const mainContent = document.getElementById("main-content");
-const modal = document.getElementById("modal");
-const modalImg = document.getElementById("modal-img");
-const modalClose = document.getElementById("modal-close");
-const modalInfo = document.getElementById("modal-info");
-const userPanel = document.getElementById("user-panel");
-const notificacion = document.getElementById("notificacion");
+    // --------- ELEMENTOS HTML (asegurar existencia) ---------
+    const monedasPanel = document.getElementById("monedas-panel");
+    const mainContent = document.getElementById("main-content");
+    const modal = document.getElementById("modal");
+    const modalImg = document.getElementById("modal-img");
+    const modalClose = document.getElementById("modal-close");
+    const modalInfo = document.getElementById("modal-info");
+    const userPanel = document.getElementById("user-panel");
+    const notificacion = document.getElementById("notificacion");
 
-// --------- ESTADO (localStorage) ---------
-let monedas = parseInt(localStorage.getItem("monedas_queens")) || 2000;
-let album = JSON.parse(localStorage.getItem("album_queens")) || {};
-let codigosUsados = JSON.parse(localStorage.getItem("codigos_usados_queens")) || [];
-
-// --------- USUARIO / LOGIN ---------
-function getUser() {
-  return JSON.parse(localStorage.getItem("album_user")) || null;
-}
-function setUser(user) {
-  localStorage.setItem("album_user", JSON.stringify(user));
-  renderUserPanel();
-}
-function logoutUser() {
-  localStorage.removeItem("album_user");
-  renderUserPanel();
-  renderMenu();
-}
-// Simulación login Discord/Google
-function loginDiscord() {
-  const user = {
-    name: "DiscordUser",
-    avatar: "https://cdn-icons-png.flaticon.com/512/5968/5968756.png",
-    provider: "Discord"
-  };
-  setUser(user);
-  renderMenu();
-}
-function loginGoogle() {
-  const user = {
-    name: "GoogleUser",
-    avatar: "https://cdn-icons-png.flaticon.com/512/281/281764.png",
-    provider: "Google"
-  };
-  setUser(user);
-  renderMenu();
-}
-function renderUserPanel() {
-  const user = getUser();
-  userPanel.innerHTML = "";
-  if (user) {
-    userPanel.innerHTML = `
-      <img class="avatar" src="${user.avatar}" alt="${user.name}">
-      <span>${user.name} (${user.provider})</span>
-      <button class="logout-btn" onclick="logoutUser()">Salir</button>
-    `;
-  } else {
-    userPanel.innerHTML = `
-      <button class="login-btn" onclick="loginDiscord()">Discord</button>
-      <button class="login-btn" onclick="loginGoogle()">Google</button>
-    `;
-  }
-}
-
-// --------- UTILIDADES ---------
-function showNotificacion(msg, timeout = 2200) {
-  if (!notificacion) return;
-  notificacion.textContent = msg;
-  notificacion.style.display = "block";
-  setTimeout(() => { notificacion.style.display = "none"; }, timeout);
-}
-
-// --------- MODAL ---------
-modalClose.onclick = () => { modal.style.display = "none"; };
-modal.addEventListener("click", e => { if (e.target === modal) modal.style.display="none"; });
-
-// --------- MONEDAS ---------
-function updateMonedas() {
-  monedasPanel.textContent = "Monedas: " + monedas;
-  localStorage.setItem("monedas_queens", monedas);
-}
-
-// --------- ÁLBUM ---------
-function mostrarAlbum(filtro = null) {
-  if (!getUser()) {
-    showNotificacion("¡Inicia sesión para ver tu álbum!");
-    renderUserPanel();
-    return;
-  }
-  mainContent.innerHTML = "";
-  let cardsFiltradas = CARDS.slice().sort((a,b) => a.id - b.id);
-  if (filtro) cardsFiltradas = cardsFiltradas.filter(CARD_CATEGORIES.find(cat => cat.name === filtro).filter);
-
-  // Filtros
-  const select = document.createElement("select");
-  select.className = "filtro-categoria";
-  CARD_CATEGORIES.forEach(cat => {
-    const opt = document.createElement("option");
-    opt.value = cat.name; opt.textContent = cat.name;
-    if (filtro === cat.name) opt.selected = true;
-    select.appendChild(opt);
-  });
-  select.onchange = () => mostrarAlbum(select.value);
-  mainContent.appendChild(select);
-
-  // Progreso
-  const obtenidas = cardsFiltradas.filter(card => album[card.id]).length;
-  const total = cardsFiltradas.length;
-  const progreso = document.createElement("p");
-  progreso.textContent = `Cartas obtenidas: ${obtenidas} / ${total}`;
-  progreso.className = "progreso-album";
-  mainContent.appendChild(progreso);
-
-  // Grid de cartas
-  const grid = document.createElement("div");
-  grid.className = "album-grid";
-  cardsFiltradas.forEach(card => {
-    const div = document.createElement("div");
-    div.className = "cromo";
-    // Imagen
-    const img = document.createElement("img");
-    img.src = album[card.id] ? card.imagen : REVERSO;
-    img.alt = card.nombre;
-    img.onclick = () => ampliarCromo(card);
-    div.appendChild(img);
-
-    // Duplicadas
-    if (album[card.id] && album[card.id] > 1) {
-      const dup = document.createElement("span");
-      dup.className = "duplicadas";
-      dup.textContent = album[card.id];
-      div.appendChild(dup);
-
-      // Botón vender duplicadas
-      const btnVen = document.createElement("button");
-      btnVen.className = "btn-vender";
-      btnVen.textContent = "Vender";
-      btnVen.onclick = (e) => {
-        e.stopPropagation();
-        venderDuplicadas(card.id);
-      };
-      div.appendChild(btnVen);
-    }
-    grid.appendChild(div);
-  });
-  mainContent.appendChild(grid);
-  updateMonedas();
-}
-
-// --------- AMPLIAR CROMO ---------
-function ampliarCromo(card) {
-  modal.style.display = "flex";
-  modalImg.src = card.imagen;
-  modalImg.alt = card.nombre;
-  modalImg.style.border = "6px solid #fff";
-  modalImg.style.boxShadow = "0 0 32px #06ccbd88";
-  if (album[card.id] && album[card.id] > 1) {
-    modalInfo.textContent = `Tienes ${album[card.id]} copias.`;
-  } else {
-    modalInfo.textContent = "";
-  }
-}
-
-// --------- VENDER DUPLICADAS ---------
-function venderDuplicadas(cardId) {
-  if (album[cardId] && album[cardId] > 1) {
-    let vendidas = album[cardId] - 1;
-    monedas += vendidas * 100;
-    album[cardId] = 1;
-    localStorage.setItem("album_queens", JSON.stringify(album));
-    updateMonedas();
-    showNotificacion(`Vendiste ${vendidas} duplicadas y ganaste ${vendidas * 100} monedas`);
-    mostrarAlbum(document.querySelector(".filtro-categoria")?.value);
-  }
-}
-
-// --------- ABRIR SOBRE ---------
-function abrirSobre() {
-  if (!getUser()) {
-    showNotificacion("¡Inicia sesión para abrir sobres!");
-    renderUserPanel();
-    return;
-  }
-  if (monedas < 1000) {
-    showNotificacion("No tienes suficientes monedas.");
-    return;
-  }
-  monedas -= 1000; updateMonedas();
-  mainContent.innerHTML = "<h2>¡Sobre abierto!</h2><div class='sobre-grid'></div>";
-  const grid = mainContent.querySelector('.sobre-grid');
-  let nuevas = [];
-  for (let i = 0; i < 5; i++) {
-    const card = CARDS[Math.floor(Math.random() * CARDS.length)];
-    nuevas.push(card);
-    album[card.id] = (album[card.id]||0)+1;
-  }
-  localStorage.setItem("album_queens", JSON.stringify(album));
-  nuevas.forEach(card => {
-    const div = document.createElement("div");
-    div.className = "cromo";
-    const img = document.createElement("img");
-    img.src = card.imagen; img.alt = card.nombre;
-    img.onclick = () => ampliarCromo(card);
-    div.appendChild(img);
-    grid.appendChild(div);
-  });
-  updateMonedas();
-  showNotificacion("¡Has recibido 5 cartas nuevas!");
-}
-
-// --------- BONUS DIARIO ---------
-function bonusDiario() {
-  if (!getUser()) {
-    showNotificacion("Inicia sesión para tu bonus diario.");
-    renderUserPanel();
-    return;
-  }
-  const last = localStorage.getItem("last_daily"); const now=Date.now();
-  if(!last || now-last>24*60*60*1000){
-    monedas+=2000; updateMonedas();
-    localStorage.setItem("last_daily", now);
-    showNotificacion("Has reclamado 2000 monedas diarias 🎉");
-  } else {
-    showNotificacion("Ya reclamaste hoy ⏰");
-  }
-}
-
-// --------- CANJEAR CÓDIGO DE CREADOR ---------
-function canjearCodigo() {
-  if (!getUser()) {
-    showNotificacion("Inicia sesión para canjear códigos.");
-    renderUserPanel();
-    return;
-  }
-  const input = document.getElementById("input-codigo");
-  const val = input.value.trim().toLowerCase();
-  if (val) {
-    const codigoObj = CODIGOS_CREADORES.find(obj => obj.codigo === val);
-    if (codigoObj) {
-      if (!codigosUsados.includes(val)) {
-        monedas += codigoObj.monedas;
-        codigosUsados.push(val);
-        updateMonedas();
-        localStorage.setItem("codigos_usados_queens", JSON.stringify(codigosUsados));
-        showNotificacion(`¡Has recibido ${codigoObj.monedas} monedas por el código!`);
-      } else {
-        showNotificacion("Código ya usado.");
+    if (!monedasPanel || !mainContent || !userPanel) {
+      console.error("Elementos críticos no encontrados:", {
+        monedasPanel: !!monedasPanel,
+        mainContent: !!mainContent,
+        userPanel: !!userPanel
+      });
+      if (notificacion) {
+        notificacion.textContent = "Error: elementos de la página no encontrados. Revisa el HTML.";
+        notificacion.style.display = "block";
       }
-    } else {
-      showNotificacion("Código no válido.");
+      return;
     }
-    input.value = "";
+
+    // --------- ESTADO (localStorage) ---------
+    let monedas = parseInt(localStorage.getItem("monedas_queens")) || 2000;
+    let album = JSON.parse(localStorage.getItem("album_queens")) || {};
+    let codigosUsados = JSON.parse(localStorage.getItem("codigos_usados_queens")) || [];
+
+    // --------- USUARIO / LOGIN (simulado) ---------
+    function getUser() {
+      try { return JSON.parse(localStorage.getItem("album_user")) || null; } catch(e) { return null; }
+    }
+    function setUser(user) {
+      localStorage.setItem("album_user", JSON.stringify(user));
+      renderUserPanel();
+    }
+    function logoutUser() {
+      localStorage.removeItem("album_user");
+      renderUserPanel();
+      renderMenu();
+    }
+    function loginDiscord() {
+      const user = { name: "DiscordUser", avatar: "https://cdn-icons-png.flaticon.com/512/5968/5968756.png", provider: "Discord" };
+      setUser(user); renderMenu();
+    }
+    function loginGoogle() {
+      const user = { name: "GoogleUser", avatar: "https://cdn-icons-png.flaticon.com/512/281/281764.png", provider: "Google" };
+      setUser(user); renderMenu();
+    }
+
+    function renderUserPanel() {
+      const user = getUser();
+      userPanel.innerHTML = "";
+      if (user) {
+        userPanel.innerHTML = `
+          <img class="avatar" src="${user.avatar}" alt="${user.name}">
+          <span>${user.name} (${user.provider})</span>
+          <button class="logout-btn" id="logout-btn">Salir</button>
+        `;
+        const lb = document.getElementById("logout-btn");
+        if (lb) lb.addEventListener("click", logoutUser);
+      } else {
+        userPanel.innerHTML = `
+          <button class="login-btn" id="login-discord">Discord</button>
+          <button class="login-btn" id="login-google">Google</button>
+        `;
+        const ld = document.getElementById("login-discord");
+        const lg = document.getElementById("login-google");
+        if (ld) ld.addEventListener("click", loginDiscord);
+        if (lg) lg.addEventListener("click", loginGoogle);
+      }
+    }
+
+    // --------- UTILIDADES ---------
+    function showNotificacion(msg, timeout = 2200) {
+      if (!notificacion) {
+        console.log("NOTIFICACIÓN:", msg);
+        return;
+      }
+      notificacion.textContent = msg;
+      notificacion.style.display = "block";
+      setTimeout(() => { notificacion.style.display = "none"; }, timeout);
+    }
+
+    // --------- MODAL ---------
+    if (modalClose) modalClose.addEventListener("click", () => { if (modal) modal.style.display = "none"; });
+    if (modal) modal.addEventListener("click", e => { if (e.target === modal) modal.style.display = "none"; });
+
+    // --------- MONEDAS ---------
+    function updateMonedas() {
+      monedasPanel.textContent = "Monedas: " + monedas;
+      localStorage.setItem("monedas_queens", monedas);
+    }
+
+    // --------- ÁLBUM Y DEMÁS FUNCIONES (simplificadas) ---------
+    function mostrarAlbum(filtro = null) {
+      if (!getUser()) {
+        showNotificacion("¡Inicia sesión para ver tu álbum!");
+        renderUserPanel();
+        return;
+      }
+      mainContent.innerHTML = "";
+      let cardsFiltradas = CARDS.slice().sort((a,b) => a.id - b.id);
+      if (filtro) {
+        const cat = CARD_CATEGORIES.find(cat => cat.name === filtro);
+        if (cat) cardsFiltradas = cardsFiltradas.filter(cat.filter);
+      }
+
+      // select filtros
+      const select = document.createElement("select");
+      select.className = "filtro-categoria";
+      CARD_CATEGORIES.forEach(cat => {
+        const opt = document.createElement("option");
+        opt.value = cat.name; opt.textContent = cat.name;
+        select.appendChild(opt);
+      });
+      select.addEventListener("change", () => mostrarAlbum(select.value));
+      mainContent.appendChild(select);
+
+      // progreso
+      const obtenidas = cardsFiltradas.filter(card => album[card.id]).length;
+      const total = cardsFiltradas.length;
+      const progreso = document.createElement("p");
+      progreso.textContent = `Cartas obtenidas: ${obtenidas} / ${total}`;
+      progreso.className = "progreso-album";
+      mainContent.appendChild(progreso);
+
+      const grid = document.createElement("div"); grid.className = "album-grid";
+      cardsFiltradas.forEach(card => {
+        const div = document.createElement("div"); div.className = "cromo";
+        const img = document.createElement("img");
+        img.src = album[card.id] ? card.imagen : REVERSO;
+        img.alt = card.nombre;
+        img.addEventListener("click", () => ampliarCromo(card));
+        div.appendChild(img);
+
+        if (album[card.id] && album[card.id] > 1) {
+          const dup = document.createElement("span"); dup.className = "duplicadas"; dup.textContent = album[card.id];
+          div.appendChild(dup);
+          const btnVen = document.createElement("button"); btnVen.className = "btn-vender"; btnVen.textContent = "Vender";
+          btnVen.addEventListener("click", (e) => { e.stopPropagation(); venderDuplicadas(card.id); });
+          div.appendChild(btnVen);
+        }
+        grid.appendChild(div);
+      });
+      mainContent.appendChild(grid);
+      updateMonedas();
+    }
+
+    function ampliarCromo(card) {
+      if (!modal || !modalImg || !modalInfo) return;
+      modal.style.display = "flex";
+      modalImg.src = card.imagen;
+      modalImg.alt = card.nombre;
+      modalInfo.textContent = (album[card.id] && album[card.id] > 1) ? `Tienes ${album[card.id]} copias.` : "";
+    }
+
+    function venderDuplicadas(cardId) {
+      if (album[cardId] && album[cardId] > 1) {
+        let vendidas = album[cardId] - 1;
+        monedas += vendidas * 100;
+        album[cardId] = 1;
+        localStorage.setItem("album_queens", JSON.stringify(album));
+        updateMonedas();
+        showNotificacion(`Vendiste ${vendidas} duplicadas y ganaste ${vendidas * 100} monedas`);
+        mostrarAlbum(document.querySelector(".filtro-categoria")?.value);
+      }
+    }
+
+    function abrirSobre() {
+      if (!getUser()) { showNotificacion("Inicia sesión para abrir sobres."); return; }
+      if (monedas < 1000) { showNotificacion("No tienes suficientes monedas."); return; }
+      monedas -= 1000; updateMonedas();
+      mainContent.innerHTML = "<h2>¡Sobre abierto!</h2><div class='sobre-grid'></div>";
+      const grid = mainContent.querySelector('.sobre-grid');
+      let nuevas = [];
+      for (let i = 0; i < 5; i++) {
+        const card = CARDS[Math.floor(Math.random() * CARDS.length)];
+        nuevas.push(card);
+        album[card.id] = (album[card.id]||0)+1;
+      }
+      localStorage.setItem("album_queens", JSON.stringify(album));
+      nuevas.forEach(card => {
+        const div = document.createElement("div"); div.className = "cromo";
+        const img = document.createElement("img"); img.src = card.imagen; img.alt = card.nombre;
+        img.addEventListener("click", () => ampliarCromo(card));
+        div.appendChild(img); grid.appendChild(div);
+      });
+      showNotificacion("¡Has recibido 5 cartas nuevas!");
+    }
+
+    function bonusDiario() {
+      if (!getUser()) { showNotificacion("Inicia sesión para tu bonus diario."); return; }
+      const last = localStorage.getItem("last_daily"); const now=Date.now();
+      if(!last || now-last>24*60*60*1000){
+        monedas+=2000; updateMonedas(); localStorage.setItem("last_daily", now);
+        showNotificacion("Has reclamado 2000 monedas diarias 🎉");
+      } else showNotificacion("Ya reclamaste hoy ⏰");
+    }
+
+    function canjearCodigo() {
+      if (!getUser()) { showNotificacion("Inicia sesión para canjear códigos."); return; }
+      const input = document.getElementById("input-codigo");
+      if (!input) { showNotificacion("Campo de código no encontrado."); return; }
+      const val = input.value.trim().toLowerCase();
+      if (!val) return;
+      const codigoObj = CODIGOS_CREADORES.find(obj => obj.codigo === val);
+      if (codigoObj) {
+        if (!codigosUsados.includes(val)) {
+          monedas += codigoObj.monedas; codigosUsados.push(val); updateMonedas();
+          localStorage.setItem("codigos_usados_queens", JSON.stringify(codigosUsados));
+          showNotificacion(`¡Has recibido ${codigoObj.monedas} monedas!`);
+        } else showNotificacion("Código ya usado.");
+      } else showNotificacion("Código no válido.");
+      input.value = "";
+    }
+
+    function renderMenu() {
+      if (!getUser()) {
+        mainContent.innerHTML = `
+          <div class="menu-principal">
+            <h2>¡Bienvenido al Álbum Virtual!</h2>
+            <p>Para jugar, primero inicia sesión con Discord o Google.</p>
+            <button class="login-btn" id="menu-login-discord">Iniciar con Discord</button>
+            <button class="login-btn" id="menu-login-google">Iniciar con Google</button>
+          </div>
+        `;
+        document.getElementById("menu-login-discord")?.addEventListener("click", loginDiscord);
+        document.getElementById("menu-login-google")?.addEventListener("click", loginGoogle);
+        return;
+      }
+      mainContent.innerHTML = `
+        <div class="menu-principal">
+          <button id="btn-ver-album">Ver Álbum</button>
+          <button id="btn-abrir-sobre">Abrir Sobre (1000 monedas)</button>
+          <button id="btn-bonus-diario">Bonus Diario</button>
+          <input id="input-codigo" type="text" placeholder="Código de creador" style="margin-top:1em;">
+          <button id="btn-canjear">Canjear Código</button>
+        </div>
+      `;
+      document.getElementById("btn-ver-album")?.addEventListener("click", () => mostrarAlbum());
+      document.getElementById("btn-abrir-sobre")?.addEventListener("click", abrirSobre);
+      document.getElementById("btn-bonus-diario")?.addEventListener("click", bonusDiario);
+      document.getElementById("btn-canjear")?.addEventListener("click", canjearCodigo);
+      updateMonedas();
+    }
+
+    // Exponer funciones globalmente para compatibilidad si usas onclick en HTML
+    window.mostrarAlbum = mostrarAlbum;
+    window.abrirSobre = abrirSobre;
+    window.bonusDiario = bonusDiario;
+    window.canjearCodigo = canjearCodigo;
+    window.renderMenu = renderMenu;
+    window.loginDiscord = loginDiscord;
+    window.loginGoogle = loginGoogle;
+    window.logoutUser = logoutUser;
+    window.renderUserPanel = renderUserPanel;
+
+    // Inicializa
+    renderUserPanel();
+    renderMenu();
+    monedasPanel.addEventListener("click", renderMenu);
+
+    console.log("app.js inicializado correctamente.");
+  } catch (err) {
+    console.error("Error inicializando app.js:", err);
+    const not = document.getElementById("notificacion");
+    if (not) {
+      not.textContent = "Error en la app. Mira la consola.";
+      not.style.display = "block";
+    }
   }
-}
-
-// --------- MENÚ PRINCIPAL ---------
-function renderMenu() {
-  if (!getUser()) {
-    mainContent.innerHTML = `
-      <div class="menu-principal">
-        <h2>¡Bienvenido al Álbum Virtual!</h2>
-        <p>Para jugar, primero inicia sesión con Discord o Google.</p>
-        <button class="login-btn" onclick="loginDiscord()">Iniciar con Discord</button>
-        <button class="login-btn" onclick="loginGoogle()">Iniciar con Google</button>
-      </div>
-    `;
-    return;
-  }
-  mainContent.innerHTML = `
-    <div class="menu-principal">
-      <button onclick="mostrarAlbum()">Ver Álbum</button>
-      <button onclick="abrirSobre()">Abrir Sobre (1000 monedas)</button>
-      <button onclick="bonusDiario()">Bonus Diario</button>
-      <input id="input-codigo" type="text" placeholder="Código de creador" style="margin-top:1em;">
-      <button onclick="canjearCodigo()">Canjear Código</button>
-    </div>
-  `;
-  updateMonedas();
-}
-
-// --------- INICIALIZACIÓN ---------
-window.mostrarAlbum = mostrarAlbum;
-window.abrirSobre = abrirSobre;
-window.bonusDiario = bonusDiario;
-window.canjearCodigo = canjearCodigo;
-window.renderMenu = renderMenu;
-window.loginDiscord = loginDiscord;
-window.loginGoogle = loginGoogle;
-window.logoutUser = logoutUser;
-window.renderUserPanel = renderUserPanel;
-
-// Inicializa la app
-document.addEventListener("DOMContentLoaded", () => {
-  renderUserPanel();
-  renderMenu();
-  monedasPanel.onclick = renderMenu;
 });
