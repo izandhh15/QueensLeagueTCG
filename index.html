@@ -370,12 +370,20 @@
       }
 
       function generatePack() {
-        const result = [];
-        for (let i = 0; i < PACK_SLOTS; i++) {
-          result.push(pickRandomCardFromPool());
-        }
-        return result;
-      }
+  const result = [];
+  const usedIds = new Set();
+
+  while (result.length < PACK_SLOTS) {
+    const card = pickRandomCardFromPool();
+    if (!usedIds.has(card.id)) {
+      usedIds.add(card.id);
+      result.push(card);
+    }
+  }
+
+  return result;
+}
+
 
       // Canje de código (corregido)
       function openCreatorCodeModal() {
