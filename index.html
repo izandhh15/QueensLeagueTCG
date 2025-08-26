@@ -543,6 +543,15 @@
         modalCards.style.display = "flex";
       }
 
+      const FILTER_NAMES = {
+        "Todas": "Todas",
+        "escudo": "Escudos Queens League Spain",
+        "escudoqlame": "Escudos Queens League Américas",
+        "presidenta": "Presis Queens League Spain",
+        "presisqlame": "Presis Queens League América",
+        "supercampeonas": "SUPERCAMPEONAS PARÍS 2025"
+      };
+
       const TYPES_ORDER = ["Todas","escudo","escudoqlame","presidenta","presisqlame","supercampeonas"];
       function renderAlbumPage() {
         mainContent.innerHTML = `
@@ -565,7 +574,7 @@
         TYPES_ORDER.forEach(t => {
           const btn = document.createElement("button");
           btn.className = "filter-btn" + (currentFilter === t ? " active" : "");
-          btn.textContent = t === "Todas" ? "Todas" : t;
+          btn.textContent = FILTER_NAMES[t];
           btn.addEventListener("click", () => { currentFilter = t; renderAlbumPage(); });
           filtroCont.appendChild(btn);
         });
