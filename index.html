@@ -320,7 +320,11 @@
       let album = JSON.parse(localStorage.getItem("album_queens")) || {};
       let claimedTwitter = JSON.parse(localStorage.getItem("bonus_twitter_claimed")) || false;
       let claimedTwitch = JSON.parse(localStorage.getItem("bonus_twitch_claimed")) || false;
-      let claimedCreatorCodes = JSON.parse(localStorage.getItem("claimed_creator_codes")) || [];
+      let claimedCreatorCodes = JSON.parse(localStorage.getItem("claimed_creator_codes"));
+      // Asegurarse de que claimedCreatorCodes sea siempre un array
+      if (!Array.isArray(claimedCreatorCodes)) {
+        claimedCreatorCodes = [];
+      }
 
       localStorage.removeItem("packs_opened");
       let packsOpened = {};
