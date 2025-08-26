@@ -1,8 +1,9 @@
 document.addEventListener("DOMContentLoaded", () => {
   const REVERSO = "https://i.ibb.co/F443KZqx/00-REVERSO.png";
+
   const CARDS = [
-  // ESCUDOS QUEENS LEAGUE SPAIN
-   { id:1,nombre:"Escudo 1K",tipo:"escudo",imagen:"https://i.ibb.co/CpJ3c7B8/01-Escudo1-K.png"},
+    // ESCUDOS QUEENS LEAGUE SPAIN
+    { id:1,nombre:"Escudo 1K",tipo:"escudo",imagen:"https://i.ibb.co/CpJ3c7B8/01-Escudo1-K.png"},
     { id:2,nombre:"Escudo Aniquiladoras FC",tipo:"escudo",imagen:"https://i.ibb.co/N2hVWpqv/02-Escudo-Aniquiladoras.png"},
     { id:3,nombre:"Escudo El Barrio",tipo:"escudo",imagen:"https://i.ibb.co/7JcZNXSQ/03-Escudo-Barrio.png"},
     { id:4,nombre:"Escudo Jijantas FC",tipo:"escudo",imagen:"https://i.ibb.co/d4w5ppfS/04-Escudo-Jijantas.png"},
@@ -15,22 +16,22 @@ document.addEventListener("DOMContentLoaded", () => {
     { id:11,nombre:"Escudo Ultimate Móstoles",tipo:"escudo",imagen:"https://i.ibb.co/zVGgWPTf/11-Escudo-Ultimate-M-stoles.png"},
     { id:12,nombre:"Escudo Xbuyer Team",tipo:"escudo",imagen:"https://i.ibb.co/nM27z99j/12-Escudo-XBuyer-Team.png"},
 
-  // ESCUDOS QUEENS LEAGUE AMERICAS
-  { id:37, nombre:"Atlético Parceros", tipo:"escudo", imagen:"URL_ESCUDO_ATLETICO_PARCEROS" },
-  { id:38, nombre:"Club de Cuervos", tipo:"escudo", imagen:"URL_ESCUDO_CLUB_DE_CUERVOS" },
-  { id:39, nombre:"Galácticas del Caribe", tipo:"escudo", imagen:"URL_ESCUDO_GALACTICAS_DEL_CARIBE" },
-  { id:40, nombre:"Las Aliens FC", tipo:"escudo", imagen:"URL_ESCUDO_LAS_ALIENS" },
-  { id:41, nombre:"Las Chamas FC", tipo:"escudo", imagen:"URL_ESCUDO_LAS_CHAMAS" },
-  { id:42, nombre:"Las Santas FC", tipo:"escudo", imagen:"URL_ESCUDO_LAS_SANTAS" },
-  { id:43, nombre:"Muchachas FC", tipo:"escudo", imagen:"URL_ESCUDO_MUCHACHAS" },
-  { id:44, nombre:"Olimpo United", tipo:"escudo", imagen:"URL_ESCUDO_OLIMPO_UNITED" },
-  { id:45, nombre:"Peluche Caligari", tipo:"escudo", imagen:"URL_ESCUDO_PELUCHE_CALIGARI" },
-  { id:46, nombre:"Persas FC", tipo:"escudo", imagen:"URL_ESCUDO_PERSAS" },
-  { id:47, nombre:"Raniza FC", tipo:"escudo", imagen:"URL_ESCUDO_RANIZA" },
-  { id:48, nombre:"Real Titan FC", tipo:"escudo", imagen:"URL_ESCUDO_REAL_TITAN" },
+    // ESCUDOS QUEENS LEAGUE AMERICAS
+    { id:37, nombre:"Atlético Parceros", tipo:"escudo", imagen:"URL_ESCUDO_ATLETICO_PARCEROS" },
+    { id:38, nombre:"Club de Cuervos", tipo:"escudo", imagen:"URL_ESCUDO_CLUB_DE_CUERVOS" },
+    { id:39, nombre:"Galácticas del Caribe", tipo:"escudo", imagen:"URL_ESCUDO_GALACTICAS_DEL_CARIBE" },
+    { id:40, nombre:"Las Aliens FC", tipo:"escudo", imagen:"URL_ESCUDO_LAS_ALIENS" },
+    { id:41, nombre:"Las Chamas FC", tipo:"escudo", imagen:"URL_ESCUDO_LAS_CHAMAS" },
+    { id:42, nombre:"Las Santas FC", tipo:"escudo", imagen:"URL_ESCUDO_LAS_SANTAS" },
+    { id:43, nombre:"Muchachas FC", tipo:"escudo", imagen:"URL_ESCUDO_MUCHACHAS" },
+    { id:44, nombre:"Olimpo United", tipo:"escudo", imagen:"URL_ESCUDO_OLIMPO_UNITED" },
+    { id:45, nombre:"Peluche Caligari", tipo:"escudo", imagen:"URL_ESCUDO_PELUCHE_CALIGARI" },
+    { id:46, nombre:"Persas FC", tipo:"escudo", imagen:"URL_ESCUDO_PERSAS" },
+    { id:47, nombre:"Raniza FC", tipo:"escudo", imagen:"URL_ESCUDO_RANIZA" },
+    { id:48, nombre:"Real Titan FC", tipo:"escudo", imagen:"URL_ESCUDO_REAL_TITAN" },
 
-  // PRESIDENTAS/ES QUEENS LEAGUE SPAIN
-  { id:13,nombre:"Mayichi (1K)",tipo:"presidenta",imagen:"https://i.ibb.co/MDN445S2/14-Amablitz.png"},
+    // PRESIDENTAS/ES QUEENS LEAGUE SPAIN
+    { id:13,nombre:"Mayichi (1K)",tipo:"presidenta",imagen:"https://i.ibb.co/MDN445S2/14-Amablitz.png"},
     { id:14,nombre:"Ama Blitz (Aniquiladoras FC)",tipo:"presidenta",imagen:"https://i.ibb.co/0p9Js9tm/13-Mayichi.png"},
     { id:15,nombre:"Adri Contreras + Mercedes Roa (El Barrio)",tipo:"presidenta",imagen:"https://i.ibb.co/V01ZjqVb/15-Mercedes-Roa-Adri-Contreras.png"},
     { id:16,nombre:"Gerard Romero + Lis Cid (Jijantas FC)",tipo:"presidenta",imagen:"https://i.ibb.co/tTncqzTb/16-Gerard-Romero-Lis-Cid.png"},
@@ -43,21 +44,21 @@ document.addEventListener("DOMContentLoaded", () => {
     { id:23,nombre:"Noe9977 (Ultimate Móstoles)",tipo:"presidenta",imagen:"https://i.ibb.co/G4qQYCTY/23-Noe9977.png"},
     { id:24,nombre:"Javi Buyer + Eric Minibuyer (Xbuyer Team)",tipo:"presidenta",imagen:"https://i.ibb.co/KjRXYVtY/24-Hnos-Buyer.png"},
 
-  // PRESIDENTAS/ES QUEENS LEAGUE AMERICAS
-  { id:49, nombre:"La Parce (Atlético Parceros)", tipo:"presidenta", imagen:"URL_PRESI_LA_PARCE" },
-  { id:50, nombre:"Natalia MX + PipePunk (Club de Cuervos)", tipo:"presidenta", imagen:"URL_PRESI_NATALIA_PIPEPUNK" },
-  { id:51, nombre:"Isa Rockets + Los Futbolitos (Galácticas del Caribe)", tipo:"presidenta", imagen:"URL_PRESI_ISA_FUTBOLITOS" },
-  { id:52, nombre:"Pitaa1021 + Castro1021 (Las Aliens FC)", tipo:"presidenta", imagen:"URL_PRESI_PITAA_CASTRO" },
-  { id:53, nombre:"Deyna Castellanos + Sonia López (Las Chamas FC)", tipo:"presidenta", imagen:"URL_PRESI_DEYNA_SONIA" },
-  { id:54, nombre:"Lluna Clark (Las Santas FC)", tipo:"presidenta", imagen:"URL_PRESI_LLUNA" },
-  { id:55, nombre:"Jose de Cabo + Jero Freixas (Muchachas FC)", tipo:"presidenta", imagen:"URL_PRESI_JOSE_JERO" },
-  { id:56, nombre:"Espe (Olimpo United)", tipo:"presidenta", imagen:"URL_PRESI_ESPE" },
-  { id:57, nombre:"Ara + Fer (Peluche Caligari)", tipo:"presidenta", imagen:"URL_PRESI_ARA_FER" },
-  { id:58, nombre:"Pame Verdirame + Crystal Molly (Persas FC)", tipo:"presidenta", imagen:"URL_PRESI_PAME_CRYSTAL" },
-  { id:59, nombre:"Alana + BarcaGamer (Raniza FC)", tipo:"presidenta", imagen:"URL_PRESI_ALANA_BARGA" },
-  { id:60, nombre:"Vicky Palami (Real Titan FC)", tipo:"presidenta", imagen:"URL_PRESI_VICKY" },
+    // PRESIDENTAS/ES QUEENS LEAGUE AMERICAS
+    { id:49, nombre:"La Parce (Atlético Parceros)", tipo:"presidenta", imagen:"URL_PRESI_LA_PARCE" },
+    { id:50, nombre:"Natalia MX + PipePunk (Club de Cuervos)", tipo:"presidenta", imagen:"URL_PRESI_NATALIA_PIPEPUNK" },
+    { id:51, nombre:"Isa Rockets + Los Futbolitos (Galácticas del Caribe)", tipo:"presidenta", imagen:"URL_PRESI_ISA_FUTBOLITOS" },
+    { id:52, nombre:"Pitaa1021 + Castro1021 (Las Aliens FC)", tipo:"presidenta", imagen:"URL_PRESI_PITAA_CASTRO" },
+    { id:53, nombre:"Deyna Castellanos + Sonia López (Las Chamas FC)", tipo:"presidenta", imagen:"URL_PRESI_DEYNA_SONIA" },
+    { id:54, nombre:"Lluna Clark (Las Santas FC)", tipo:"presidenta", imagen:"URL_PRESI_LLUNA" },
+    { id:55, nombre:"Jose de Cabo + Jero Freixas (Muchachas FC)", tipo:"presidenta", imagen:"URL_PRESI_JOSE_JERO" },
+    { id:56, nombre:"Espe (Olimpo United)", tipo:"presidenta", imagen:"URL_PRESI_ESPE" },
+    { id:57, nombre:"Ara + Fer (Peluche Caligari)", tipo:"presidenta", imagen:"URL_PRESI_ARA_FER" },
+    { id:58, nombre:"Pame Verdirame + Crystal Molly (Persas FC)", tipo:"presidenta", imagen:"URL_PRESI_PAME_CRYSTAL" },
+    { id:59, nombre:"Alana + BarcaGamer (Raniza FC)", tipo:"presidenta", imagen:"URL_PRESI_ALANA_BARGA" },
+    { id:60, nombre:"Vicky Palami (Real Titan FC)", tipo:"presidenta", imagen:"URL_PRESI_VICKY" },
 
-   // SUPERCAMPEONAS
+    // SUPERCAMPEONAS
     { id:25,nombre:"Ainara Navas",tipo:"supercampeonas",imagen:"https://i.ibb.co/ZRzW9Lx8/25-SUPERCAMPEONAS-Ainara-Navas.png"},
     { id:26,nombre:"Bea Pérez",tipo:"supercampeonas",imagen:"https://i.ibb.co/PswsRSBC/26-SUPERCAMPEONAS-Beatriz-Perez.png"},
     { id:27,nombre:"Alba Ortiz",tipo:"supercampeonas",imagen:"https://i.ibb.co/qMhQgx0f/27-SUPERCAMPEONAS-Alba-Ortiz.png"},
@@ -70,8 +71,7 @@ document.addEventListener("DOMContentLoaded", () => {
     { id:34,nombre:"Patricia Mascaró",tipo:"supercampeonas",imagen:"https://i.ibb.co/C5g5jLZv/34-SUPERCAMPEONAS-Patricia-Mascar.png"},
     { id:35,nombre:"Berta Velasco",tipo:"supercampeonas",imagen:"https://i.ibb.co/vC7tvZD3/35-SUPERCAMPEONAS-Berta-Velasco.png"},
     { id:36,nombre:"Paula Blas",tipo:"supercampeonas",imagen:"https://i.ibb.co/cKjf90R8/36-SUPERCAMPEONAS-Paula-Blas.png"}
-];
-
+  ];
 
   let monedas = parseInt(localStorage.getItem("monedas_queens")) || 2000;
   let album = JSON.parse(localStorage.getItem("album_queens")) || {};
@@ -254,7 +254,6 @@ document.addEventListener("DOMContentLoaded", () => {
     "sronzero":10000,
     "ZonaRayo":10000,
     "Porcinismoo":10000,
-    "NarcisBoza":10000,
     "NikolRamos":10000,
     "ZonaMostoles":10000,
     "CZXR":10000
@@ -278,5 +277,4 @@ document.addEventListener("DOMContentLoaded", () => {
       input.value = "";
     } else alert("Código incorrecto ❌");
   });
-
 });
