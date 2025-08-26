@@ -194,7 +194,7 @@ header {
   position:fixed;
   top:0; left:0;
   width:100vw; height:100vh;
-  background:rgba(20,20,60,0.8);
+  background:rgba(42,10,73,0.85);
   align-items:center;
   justify-content:center;
   z-index:100;
@@ -213,7 +213,7 @@ header {
   position:absolute;
   top:32px; right:48px;
   font-size:2.5em;
-  color:#fff;
+  color:#06ccbd;
   background:none;
   border:none;
   cursor:pointer;
