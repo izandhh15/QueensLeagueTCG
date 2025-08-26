@@ -8,7 +8,7 @@
 body {
   font-family: 'Arial', sans-serif;
   background-color: #2a0a49;
-  color: #2a0a49;
+  color: #06ccbd;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -102,6 +102,7 @@ button:hover {
   margin: 20px 0 10px 0;
   border-bottom: 2px solid #06ccbd;
   padding-bottom: 5px;
+  width: 90%;
 }
 
 /* Grid de cartas */
