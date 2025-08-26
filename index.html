@@ -385,7 +385,7 @@
           showNotificacion("Este código ya ha sido canjeado.");
           return;
         }
-        if (Object.prototype.hasOwnProperty.call(CREATOR_CODES, code)) {
+        if (CREATOR_CODES.hasOwnProperty(code)) {
           const reward = CREATOR_CODES[code];
           monedas += reward;
           claimedCreatorCodes.push(code);
