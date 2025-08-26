@@ -71,17 +71,7 @@
     #monedas-panel { background: var(--accent); color: var(--accent-text); padding: .32rem .75rem; border-radius: 10px; font-weight:700; box-shadow: 0 6px 20px var(--shadow-accent); white-space: nowrap; }
 
     /* MAIN */
-    #main-content{ 
-      max-width: var(--max-width); 
-      margin: 1rem auto; 
-      padding: 1rem; 
-      background: var(--white); 
-      color: var(--accent-text); 
-      border-radius: var(--radius); 
-      box-shadow: 0 10px 30px rgba(6,204,189,0.06); 
-      min-height: 0; 
-      overflow: visible; 
-    }
+    #main-content{ max-width: var(--max-width); margin: 1rem auto; padding: 1rem; background: var(--white); color: var(--accent-text); border-radius: var(--radius); box-shadow: 0 10px 30px rgba(6,204,189,0.06); min-height: 0; overflow: visible; }
 
     .menu-principal { display:flex; flex-direction:column; gap:0.9rem; align-items:center; padding: 0.25rem; }
     .actions { display:flex; gap:0.6rem; flex-wrap:wrap; justify-content:center; }
@@ -114,28 +104,10 @@
     /* Modales */
     #modal, #modal-cards, #modal-creator-code { position: fixed; inset: 0; display: none; align-items: center; justify-content: center; background: rgba(42,10,73,0.78); z-index: 1200; padding: 1rem; pointer-events: none; }
     #modal[style*="display: flex"], #modal-cards[style*="display: flex"], #modal-creator-code[style*="display: flex"] { display:flex !important; pointer-events:auto; }
-    .modal-box { 
-      width: min(92vw, 500px); 
-      background: transparent; 
-      border: 2px solid var(--white);
-      border-radius: 12px; 
-      padding: 18px; 
-      text-align: center; 
-      color: var(--white); 
-      box-shadow: 0 18px 48px rgba(6,204,189,0.12); 
-      position: relative; 
-    }
-    .modal-info-top { font-weight:800; color: var(--white); margin-bottom: 12px; text-align:center; }
-    .modal-img-wrap img { 
-      max-width: 90%; 
-      height: auto; 
-      max-height: 80vh; 
-      border-radius: 10px; 
-      border: 6px solid var(--white); 
-      box-shadow: 0 18px 48px rgba(6,204,189,0.18); 
-      background: var(--white); 
-    }
-    .modal-close { position: absolute; top: 10px; right: 12px; font-size: 1.6rem; color: var(--white); background: transparent; border: none; cursor: pointer; }
+    .modal-box { width: min(92vw, 920px); background: var(--white); border-radius: 12px; padding: 18px; text-align: center; color: var(--accent-text); box-shadow: 0 18px 48px rgba(6,204,189,0.12); position: relative; }
+    .modal-info-top { font-weight:800; color: var(--accent); margin-bottom: 12px; text-align:center; }
+    .modal-img-wrap img { max-width: 92%; height: auto; border-radius: 10px; border: 6px solid var(--white); box-shadow: 0 18px 48px rgba(6,204,189,0.18); background: var(--white); }
+    .modal-close { position: absolute; top: 10px; right: 12px; font-size: 1.6rem; color: var(--accent); background: transparent; border: none; cursor: pointer; }
 
     #notificacion { position: fixed; top: 28px; left: 50%; transform: translateX(-50%); background: var(--accent); color: var(--accent-text); padding: 10px 20px; border-radius: 12px; font-weight:800; z-index: 2000; display:none; }
 
@@ -444,7 +416,7 @@
         mainContent.innerHTML = `
           <div class="menu-principal">
             <h2 style="margin:0 0 .3rem 0;">Bienvenido al Álbum Virtual</h2>
-            <<p style="margin-top:12px; color:var(--accent); font-weight:700;">Puedes pulsar cualquier cromo para ver su numeración y nombre.</p> <p style="margin-top:12px; color:var(--accent); font-weight:700;">Puedes pulsar el botón vender duplicadas para vender tus cartas duplicadas por un valor del 10%, excepto de las cartas especiales que es de un 25%.</p>
+            <p style="margin:0 0 .6rem 0; color:#444; text-align:center;">Pulsa "Abrir Sobre" para comprar+abrir sobres. Cada sobre cuesta <strong>${PACK_COST} monedas</strong>. Las cartas raras (supercampeonas) aparecen muy rara vez.</p>
             <div class="actions">
               <button id="menu-open-packs" class="login-btn">Abrir Sobre (ir a página de sobres)</button>
               <button id="menu-view-album" class="login-btn">Ver Mi Álbum</button>
@@ -582,7 +554,8 @@
             <button id="back-menu-2" class="login-btn" style="background:transparent; color:var(--accent); border:2px solid var(--accent);">Volver</button>
           </div>
           <div class="album-grid" id="album-grid"></div>
-          <p style="margin-top:12px; color:var(--accent); font-weight:700;">Pulsa cualquier cromo para verlo; puedes vender duplicadas (cada duplicada = 100 monedas, excepto "supercampeonas" que valen 250 monedas).</p>
+          <p style="margin-top:12px; color:var(--accent); font-weight:700;">Puedes pulsar cualquier cromo para ver su numeración y nombre.</p>
+          <p style="margin-top:6px; color:var(--accent); font-weight:700;">Puedes pulsar el botón vender duplicadas para vender tus cartas duplicadas por un valor del 10%, excepto de las cartas especiales que es de un 25%.</p>
         `;
         document.getElementById("back-menu-2")?.addEventListener("click", renderMenu);
         document.getElementById("btn-sell-all-duplicates-album")?.addEventListener("click", sellAllDuplicates);
@@ -653,7 +626,7 @@
         showNotificacion(`Vendiste ${duplicates} duplicadas y ganaste ${gained} monedas`);
         renderAlbumPage();
       }
-
+      
       function sellAllDuplicates() {
         let totalSold = 0;
         let totalGained = 0;
