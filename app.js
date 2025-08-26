@@ -92,14 +92,40 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function hideWelcome() { welcome.style.display = "none"; }
 
-  function mostrarAlbum(categoriaFiltro="todos") {
-    hideWelcome();
-    albumView.style.display = "block";
-    packView.style.display = "none";
+  function mostrarAlbum(filtro="todos"){
+  document.getElementById("album-view").style.display="block";
+  document.getElementById("welcome-screen").style.display="none";
+  document.getElementById("pack-view").style.display="none";
 
-    escudosGrid.innerHTML = "";
-    presidentesGrid.innerHTML = "";
-    superGrid.innerHTML = "";
+  const escudos = document.getElementById("escudos-grid");
+  const escudosQlame = document.getElementById("escudosqlame");
+  const presidentes = document.getElementById("presidentes-grid");
+  const presidentesQlame = document.getElementById("presisqlame");
+  const superGrid = document.getElementById("super-grid");
+
+  [escudos, escudosQlame, presidentes, presidentesQlame, superGrid].forEach(g=>g.innerHTML="");
+
+  CARDS.forEach(c=>{
+    if(filtro!=="todos" && c.tipo!==filtro) return;
+    const cardDiv=document.createElement("div");
+    cardDiv.classList.add("cromo");
+    cardDiv.innerHTML=`<img src="${c.imagen}" alt="${c.nombre}">`;
+    cardDiv.addEventListener("click",()=>showModal(c.imagen));
+
+    if(album[c.id] && album[c.id]>1){
+      const span=document.createElement("span");
+      span.textContent="x"+album[c.id];
+      cardDiv.appendChild(span);
+    }
+
+    if(c.tipo==="escudo") escudos.appendChild(cardDiv);
+    else if(c.tipo==="escudoqlame") escudosQlame.appendChild(cardDiv);
+    else if(c.tipo==="presidenta") presidentes.appendChild(cardDiv);
+    else if(c.tipo==="presisqlame") presidentesQlame.appendChild(cardDiv);
+    else if(c.tipo==="supercampeonas") superGrid.appendChild(cardDiv);
+  });
+}
+
 
     const cartasOrdenadas = CARDS.slice().sort((a,b)=>a.id-b.id);
 
