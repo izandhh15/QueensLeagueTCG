@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Queens League Oysho - Álbum Virtual</title>
-  <meta name="description" content="Álbum virtual de Queens League Oysho — sobres, cromos y login con Discord/Google (simulado)" />
+  <meta name="description" content="Álbum virtual de Queens League Oysho — sobres, cromos y bonos" />
   <link rel="icon" href="https://queensleague.pro/favicon.ico" />
   <style>
     :root{
@@ -31,6 +31,7 @@
       -moz-osx-font-smoothing:grayscale;
       line-height:1.4;
     }
+
     header {
       display:flex;
       align-items:center;
@@ -44,6 +45,7 @@
       top: 0;
       z-index: 50;
     }
+
     .logo {
       font-size: 1.45rem;
       font-weight: 700;
@@ -52,12 +54,14 @@
       cursor: pointer;
       user-select: none;
     }
+
     .redes {
       display:flex;
       gap:0.8rem;
       align-items:center;
       margin-left: 0.25rem;
     }
+
     .redes a {
       color: var(--accent);
       text-decoration:none;
@@ -67,6 +71,7 @@
       transition: background var(--transition), color var(--transition), transform var(--transition);
       font-size:0.98rem;
     }
+
     .redes a:hover,
     .redes a:focus {
       background: var(--accent);
@@ -74,6 +79,7 @@
       transform: translateY(-1px);
       outline: none;
     }
+
     #monedas-panel {
       background: var(--accent);
       color: var(--accent-text);
@@ -85,8 +91,10 @@
       border: 2px solid var(--accent-text);
       transition: transform var(--transition), box-shadow var(--transition);
     }
+
     #monedas-panel:active { transform: translateY(1px) }
     #monedas-panel:focus { outline: 3px solid rgba(6,204,189,0.18); }
+
     #user-panel {
       display:flex;
       align-items:center;
@@ -94,32 +102,30 @@
       margin-left:0.5rem;
       color: var(--accent);
     }
-    .login-btn, .logout-btn {
-      background: var(--accent);
-      color: var(--accent-text);
-      border: none;
+
+    /* nav menu (always visible) */
+    .main-menu {
+      display:flex;
+      gap:0.6rem;
+      align-items:center;
+    }
+    .main-menu button {
+      background: transparent;
+      color: var(--white);
+      border: 2px solid rgba(255,255,255,0.06);
       padding: .45rem .85rem;
       border-radius: 8px;
       cursor: pointer;
       font-weight:700;
-      transition: background var(--transition), color var(--transition), box-shadow var(--transition);
-      box-shadow: 0 4px 14px rgba(6,204,189,0.14);
+      transition: background var(--transition), color var(--transition), transform var(--transition);
     }
-    .login-btn:hover, .logout-btn:hover,
-    .login-btn:focus, .logout-btn:focus {
-      background: var(--accent-text);
-      color: var(--accent);
+    .main-menu button:hover, .main-menu button:focus {
+      background: var(--accent);
+      color: var(--accent-text);
+      transform: translateY(-2px);
       outline: none;
-      box-shadow: 0 6px 20px rgba(42,10,73,0.18);
     }
-    .avatar {
-      width:36px;
-      height:36px;
-      border-radius:50%;
-      object-fit:cover;
-      border:2px solid var(--accent);
-      background: var(--white);
-    }
+
     #main-content{
       max-width: var(--max-width);
       margin: 1.6rem auto;
@@ -130,40 +136,21 @@
       box-shadow: 0 10px 30px rgba(6,204,189,0.06);
       min-height: 480px;
     }
+
     .menu-principal {
       display:flex;
       flex-direction:column;
       gap:0.9rem;
       align-items:center;
     }
-    .menu-principal button, .menu-principal input[type="text"] {
-      font-size:1.02rem;
-      padding: .85rem 1.25rem;
-      border-radius: 10px;
-      border: 2px solid transparent;
-      cursor:pointer;
-      transition: transform var(--transition), box-shadow var(--transition);
+
+    .menu-principal .actions {
+      display:flex;
+      gap:0.6rem;
+      flex-wrap:wrap;
+      justify-content:center;
     }
-    .menu-principal button {
-      background: var(--accent);
-      color: var(--accent-text);
-      font-weight:800;
-      border: 2px solid var(--accent-text);
-      box-shadow: 0 8px 20px rgba(6,204,189,0.12);
-    }
-    .menu-principal button:hover, .menu-principal button:focus {
-      background: var(--accent-text);
-      color: var(--accent);
-      transform: translateY(-3px);
-      outline: none;
-    }
-    .menu-principal input[type="text"] {
-      border: 2px solid var(--accent);
-      background: var(--card-bg);
-      color: var(--accent-text);
-      width: 240px;
-      text-align:center;
-    }
+
     .filtro-categoria {
       display:inline-block;
       padding: .45rem .8rem;
@@ -173,12 +160,14 @@
       color: var(--accent-text);
       font-weight:700;
     }
-    .album-grid, .sobre-grid {
+
+    .album-grid, .sobre-grid, .packs-grid {
       display:grid;
       grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
       gap:1rem;
       margin-top:1rem;
     }
+
     .cromo {
       background: var(--card-bg);
       border-radius: 10px;
@@ -192,6 +181,7 @@
       overflow:visible;
       min-height: 160px;
     }
+
     .cromo img {
       width:100px;
       height:140px;
@@ -202,12 +192,22 @@
       cursor:pointer;
       transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
     }
-    .cromo img:hover, .cromo img:focus {
-      transform: translateY(-6px);
-      box-shadow: 0 12px 30px rgba(6,204,189,0.18);
-      border-color: var(--accent-text);
-      outline: none;
+
+    .pack {
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      height:160px;
+      border-radius:12px;
+      background: linear-gradient(180deg,#350a54,#2a0a49);
+      color:var(--accent);
+      font-weight:800;
+      cursor:pointer;
+      border: 3px solid rgba(6,204,189,0.08);
+      box-shadow: 0 10px 28px rgba(6,204,189,0.06);
     }
+    .pack.opened { opacity: 0.6; transform: scale(.98); cursor: default; }
+
     .duplicadas {
       position:absolute;
       top:8px;
@@ -220,6 +220,7 @@
       border:2px solid var(--accent-text);
       box-shadow: 0 6px 18px rgba(6,204,189,0.12);
     }
+
     .btn-vender {
       position:absolute;
       bottom:8px;
@@ -233,19 +234,15 @@
       cursor:pointer;
       transition: background var(--transition), transform var(--transition);
     }
-    .btn-vender:hover, .btn-vender:focus {
-      background: var(--accent-text);
-      color: var(--accent);
-      transform: translateY(-3px);
-      outline: none;
-    }
+
     .progreso-album {
       text-align:center;
       font-weight:800;
       color: var(--accent);
       margin-bottom: .6rem;
     }
-    #modal, #login-modal {
+
+    #modal, #modal-cards {
       position: fixed;
       inset: 0;
       display: none;
@@ -255,10 +252,12 @@
       z-index: 1200;
       padding: 1rem;
     }
-    #modal[style*="display: flex"], #login-modal[style*="display: flex"] {
+
+    #modal[style*="display: flex"], #modal-cards[style*="display: flex"] {
       display: flex !important;
     }
-    #modal-img {
+
+    #modal img, #modal-cards img {
       max-width: 92vw;
       max-height: 80vh;
       border-radius: 14px;
@@ -267,7 +266,8 @@
       background: var(--white);
       display:block;
     }
-    #modal-close {
+
+    #modal-close, #modal-cards-close {
       position: absolute;
       top: 20px;
       right: 28px;
@@ -277,13 +277,15 @@
       border: none;
       cursor: pointer;
     }
-    #modal-info {
+
+    #modal-info, #modal-cards-info {
       margin-top: .9rem;
       background: var(--white);
       color: var(--accent-text);
       padding: .8rem 1.2rem;
       border-radius: 10px;
     }
+
     #notificacion {
       position: fixed;
       top: 28px;
@@ -298,9 +300,11 @@
       z-index: 2000;
       display:none;
     }
+
     footer {
       margin-top: 1.6rem;
     }
+
     .footer-content {
       display:flex;
       justify-content:center;
@@ -312,39 +316,48 @@
       border-top: 1px solid rgba(6,204,189,0.06);
       border-radius: 6px;
     }
+
     :focus { outline-offset: 3px; }
     button:focus, a:focus, input:focus { box-shadow: 0 0 0 4px rgba(6,204,189,0.12); }
+
     @media (max-width: 900px) {
       header { padding: 0.8rem 1rem; }
       .logo { font-size:1.2rem; }
       #main-content { margin: 1rem; padding: 1rem; }
-      .album-grid, .sobre-grid { grid-template-columns: repeat(auto-fit, minmax(90px, 1fr)); gap:0.7rem; }
+      .album-grid, .sobre-grid, .packs-grid { grid-template-columns: repeat(auto-fit, minmax(90px, 1fr)); gap:0.7rem; }
       .cromo { min-height: 140px; }
       .cromo img { width: 86px; height:120px; }
-      #modal-img { max-height: 72vh; }
     }
+
     @media (max-width: 420px) {
       .redes { display:none; }
       #user-panel { font-size:0.95rem; gap:0.4rem; }
       .avatar { width:30px; height:30px; }
-      .menu-principal input[type="text"] { width: 180px; }
     }
   </style>
 </head>
 <body>
   <header>
-    <div class="logo" title="Recargar" id="logo">Álbum Queens League Oysho</div>
+    <div style="display:flex; align-items:center; gap:1rem;">
+      <div class="logo" id="logo">Álbum Queens League Oysho</div>
 
-    <nav class="redes" aria-label="Redes">
-      <a href="https://queensleague.pro" target="_blank" rel="noopener">Web</a>
-      <a href="https://x.com/QueensLeague" target="_blank" rel="noopener">X</a>
-      <a href="https://instagram.com/QueensLeague" target="_blank" rel="noopener">Instagram</a>
-      <a href="https://tiktok.com/@QueensLeague" target="_blank" rel="noopener">TikTok</a>
-    </nav>
+      <nav class="redes" aria-label="Redes">
+        <a href="https://queensleague.pro" target="_blank" rel="noopener">Web</a>
+        <a href="https://x.com/QueensLeague" target="_blank" rel="noopener">X</a>
+        <a href="https://instagram.com/QueensLeague" target="_blank" rel="noopener">Instagram</a>
+        <a href="https://tiktok.com/@QueensLeague" target="_blank" rel="noopener">TikTok</a>
+      </nav>
+    </div>
 
     <div style="display:flex; align-items:center; gap:1rem;">
       <div id="monedas-panel" role="status" aria-live="polite">Monedas: 0</div>
-      <div id="user-panel" aria-live="polite"></div>
+      <div class="main-menu" id="main-menu">
+        <button id="btn-sobres">Abrir Sobre</button>
+        <button id="btn-album">Ver Mi Álbum</button>
+        <button id="btn-daily">Bonus Diario</button>
+        <button id="btn-twitter">Bonus X</button>
+        <button id="btn-twitch">Bonus Twitch</button>
+      </div>
     </div>
   </header>
 
@@ -352,23 +365,20 @@
     <!-- Contenido dinámico -->
   </main>
 
+  <!-- Modal para imagen grande -->
   <div id="modal" aria-hidden="true" role="dialog" aria-modal="true">
     <button id="modal-close" aria-label="Cerrar modal">&times;</button>
     <img id="modal-img" src="" alt="Cromo ampliado" />
     <div id="modal-info" aria-live="polite"></div>
   </div>
 
-  <div id="login-modal" style="display:none;" role="dialog" aria-modal="true">
-    <div class="login-modal-content" style="background:var(--white); color:var(--accent-text); padding:1.2rem; border-radius:12px; text-align:center;">
-      <h2 style="margin:0 0 .4rem 0;">Iniciar sesión</h2>
-      <p style="margin:0 0 .8rem 0;">Usa Discord o Google para entrar (simulado en frontend)</p>
-      <div style="display:flex; gap:0.6rem; justify-content:center; margin-top:0.2rem;">
-        <button class="login-btn" id="login-discord">Discord</button>
-        <button class="login-btn" id="login-google">Google</button>
-      </div>
-      <div style="margin-top:0.8rem;">
-        <button class="login-btn" id="login-close">Cerrar</button>
-      </div>
+  <!-- Modal para mostrar las cartas de un sobre -->
+  <div id="modal-cards" aria-hidden="true" role="dialog" aria-modal="true">
+    <button id="modal-cards-close" aria-label="Cerrar modal">&times;</button>
+    <div id="modal-cards-container" style="max-width:95vw; width:920px; background:var(--white); padding:1rem; border-radius:12px; text-align:center;">
+      <h3 style="margin-top:0; color:var(--accent);">Cartas del sobre</h3>
+      <div id="modal-cards-grid" class="album-grid" style="margin-top:1rem;"></div>
+      <div id="modal-cards-info" style="margin-top:1rem; color:var(--accent-text);"></div>
     </div>
   </div>
 
@@ -383,184 +393,320 @@
   </footer>
 
   <script>
-    // App completa en un solo archivo
     document.addEventListener("DOMContentLoaded", () => {
-      // ----- Config -----
+      // ---- Config & datos ----
       const REVERSO = "https://i.ibb.co/F443KZqx/00-REVERSO.png";
-      const CARD_CATEGORIES = [
-        { name: "Todas", filter: c => true },
-        { name: "Escudos", filter: c => c.tipo === "escudo" },
-        { name: "Presidentas/es", filter: c => c.tipo === "presidenta" },
-        { name: "Supercampeonas", filter: c => c.tipo === "supercampeonas" }
-      ];
 
-      // Ejemplo de cartas (edítalas con tus imágenes reales)
       const CARDS = [
         { id: 1, nombre: "Escudo A", tipo: "escudo", imagen: "https://i.ibb.co/CpJ3c7B8/01-Escudo1-K.png" },
         { id: 2, nombre: "Escudo B", tipo: "escudo", imagen: "https://i.ibb.co/9y8p38r/02-Escudo2-K.png" },
         { id: 3, nombre: "Aroney Gonzalez", tipo: "presidenta", imagen: "https://i.ibb.co/6XG0kXc/sample-presidenta.png" },
         { id: 4, nombre: "Mar Serracanta", tipo: "presidenta", imagen: "https://i.ibb.co/3W9L0sF/sample-supercampeona.png" },
         { id: 5, nombre: "Super QL 1", tipo: "supercampeonas", imagen: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=600&auto=format&fit=crop&sat=-100" },
-        { id: 6, nombre: "Super QL 2", tipo: "supercampeonas", imagen: "https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=600&auto=format&fit=crop&sat=-100" },
-        { id: 7, nombre: "Escudo C", tipo: "escudo", imagen: "https://i.ibb.co/2n5F8qF/sample-escudo3.png" },
-        { id: 8, nombre: "Jugador X", tipo: "presidenta", imagen: "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=600&auto=format&fit=crop&sat=-100" }
+        { id: 6, nombre: "Super QL 2", tipo: "supercampeonas", imagen: "https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=600&auto=format&fit=crop&sat=-100" }
       ];
 
-      const CODIGOS_CREADORES = [
-        { codigo: "aroneygonzalez", monedas: 10000 },
-        { codigo: "marserracanta", monedas: 10000 },
-        { codigo: "bertavelasco", monedas: 10000 },
-        { codigo: "ainaranavas", monedas: 10000 },
-        { codigo: "beaperez", monedas: 10000 }
-      ];
+      // Cada sobre dará siempre estas 5 cartas (siempre lo mismo)
+      const PACK_CONTENT = [1,2,3,4,5];
 
-      // ----- DOM refs -----
+      // DOM refs
       const monedasPanel = document.getElementById("monedas-panel");
       const mainContent = document.getElementById("main-content");
+      const notificacion = document.getElementById("notificacion");
       const modal = document.getElementById("modal");
       const modalImg = document.getElementById("modal-img");
       const modalClose = document.getElementById("modal-close");
       const modalInfo = document.getElementById("modal-info");
-      const userPanel = document.getElementById("user-panel");
-      const notificacion = document.getElementById("notificacion");
-      const loginModal = document.getElementById("login-modal");
-      const loginDiscordBtn = document.getElementById("login-discord");
-      const loginGoogleBtn = document.getElementById("login-google");
-      const loginCloseBtn = document.getElementById("login-close");
-      const logo = document.getElementById("logo");
+      const modalCards = document.getElementById("modal-cards");
+      const modalCardsClose = document.getElementById("modal-cards-close");
+      const modalCardsGrid = document.getElementById("modal-cards-grid");
+      const modalCardsInfo = document.getElementById("modal-cards-info");
 
-      if (!monedasPanel || !mainContent || !userPanel) {
-        console.error("Elementos críticos no encontrados en DOM.");
-        if (notificacion) {
-          notificacion.textContent = "Error: elementos de la página no encontrados. Revisa el HTML.";
-          notificacion.style.display = "block";
-        }
-        return;
-      }
+      // botones menu
+      const btnSobres = document.getElementById("btn-sobres");
+      const btnAlbum = document.getElementById("btn-album");
+      const btnDaily = document.getElementById("btn-daily");
+      const btnTwitter = document.getElementById("btn-twitter");
+      const btnTwitch = document.getElementById("btn-twitch");
 
-      // ----- Estado (localStorage) -----
+      // Estado en localStorage
       let monedas = parseInt(localStorage.getItem("monedas_queens")) || 2000;
-      let album = JSON.parse(localStorage.getItem("album_queens")) || {};
-      let codigosUsados = JSON.parse(localStorage.getItem("codigos_usados_queens")) || [];
+      let album = JSON.parse(localStorage.getItem("album_queens")) || {}; // album[id] = cantidad
+      let claimedDaily = JSON.parse(localStorage.getItem("bonus_daily_claimed")) || false;
+      let claimedTwitter = JSON.parse(localStorage.getItem("bonus_twitter_claimed")) || false;
+      let claimedTwitch = JSON.parse(localStorage.getItem("bonus_twitch_claimed")) || false;
 
-      // ----- Usuario simulado -----
-      function getUser() {
-        try { return JSON.parse(localStorage.getItem("album_user")) || null; } catch(e) { return null; }
-      }
-      function setUser(user) {
-        localStorage.setItem("album_user", JSON.stringify(user));
-        renderUserPanel();
-        renderMenu();
-      }
-      function logoutUser() {
-        localStorage.removeItem("album_user");
-        renderUserPanel();
-        renderMenu();
-      }
-      function loginDiscord() {
-        const user = {
-          name: "DiscordUser",
-          avatar: "https://cdn-icons-png.flaticon.com/512/5968/5968756.png",
-          provider: "Discord"
-        };
-        setUser(user);
-        if (loginModal) loginModal.style.display = "none";
-        showNotificacion("Conectado como " + user.name);
-      }
-      function loginGoogle() {
-        const user = {
-          name: "GoogleUser",
-          avatar: "https://cdn-icons-png.flaticon.com/512/281/281764.png",
-          provider: "Google"
-        };
-        setUser(user);
-        if (loginModal) loginModal.style.display = "none";
-        showNotificacion("Conectado como " + user.name);
-      }
-
-      // ----- Utilidades -----
+      // ---- Utilidades ----
       function saveState() {
         localStorage.setItem("monedas_queens", monedas);
         localStorage.setItem("album_queens", JSON.stringify(album));
+        localStorage.setItem("bonus_daily_claimed", JSON.stringify(claimedDaily));
+        localStorage.setItem("bonus_twitter_claimed", JSON.stringify(claimedTwitter));
+        localStorage.setItem("bonus_twitch_claimed", JSON.stringify(claimedTwitch));
       }
-      function showNotificacion(msg, timeout = 2000) {
-        if (!notificacion) { console.log("NOTIF:", msg); return; }
+
+      function showNotificacion(msg, timeout = 2500) {
+        if (!notificacion) return;
         notificacion.textContent = msg;
         notificacion.style.display = "block";
         setTimeout(() => { notificacion.style.display = "none"; }, timeout);
       }
+
       function updateMonedas() {
         monedasPanel.textContent = "Monedas: " + monedas;
         saveState();
       }
 
-      // ----- Modal -----
-      if (modalClose) modalClose.addEventListener("click", () => { modal.style.display = "none"; });
-      if (modal) modal.addEventListener("click", e => { if (e.target === modal) modal.style.display = "none"; });
+      // modal image
+      modalClose && modalClose.addEventListener("click", () => modal.style.display = "none");
+      modal && modal.addEventListener("click", e => { if (e.target === modal) modal.style.display = "none"; });
 
-      // ----- Album rendering -----
-      function mostrarAlbum(filtroName = "Todas") {
-        if (!getUser()) {
-          showNotificacion("Inicia sesión para ver tu álbum");
+      // modal cards
+      modalCardsClose && modalCardsClose.addEventListener("click", () => modalCards.style.display = "none");
+      modalCards && modalCards.addEventListener("click", e => { if (e.target === modalCards) modalCards.style.display = "none"; });
+
+      // ---- Views ----
+
+      // MENU PRINCIPAL (siempre se muestra al iniciar)
+      function renderMenu() {
+        mainContent.innerHTML = `
+          <div class="menu-principal">
+            <h2>Bienvenido al Álbum Virtual</h2>
+            <p>Usa el menú superior o los botones de abajo para navegar.</p>
+            <div class="actions">
+              <button id="menu-open-packs" class="login-btn">Abrir Sobre (ir a página de sobres)</button>
+              <button id="menu-view-album" class="login-btn">Ver Mi Álbum</button>
+              <button id="menu-daily" class="login-btn">Bonus Diario</button>
+              <button id="menu-twitter" class="login-btn">Bonus por seguir en X</button>
+              <button id="menu-twitch" class="login-btn">Bonus por seguir en Twitch</button>
+            </div>
+            <p style="margin-top:0.9rem; color:var(--accent); font-weight:700;">Consejo: en "Abrir Sobre" verás 5 sobres. Cada sobre siempre contiene las mismas 5 cartas.</p>
+          </div>
+        `;
+        document.getElementById("menu-open-packs")?.addEventListener("click", () => renderPacksPage());
+        document.getElementById("menu-view-album")?.addEventListener("click", () => renderAlbumPage());
+        document.getElementById("menu-daily")?.addEventListener("click", () => handleDailyBonus());
+        document.getElementById("menu-twitter")?.addEventListener("click", () => handleTwitterBonus());
+        document.getElementById("menu-twitch")?.addEventListener("click", () => handleTwitchBonus());
+      }
+
+      // Página de sobres: muestra 5 sobres para abrir (todos contienen lo mismo)
+      function renderPacksPage() {
+        mainContent.innerHTML = `
+          <h2>Abrir Sobres</h2>
+          <p>Hay 5 sobres disponibles. Cada sobre contiene siempre las mismas 5 cartas.</p>
+          <div style="display:flex; gap:12px; margin-top:12px; justify-content:flex-end;">
+            <button id="open-all" class="login-btn">Abrir todos los sobres</button>
+            <button id="back-menu" class="login-btn" style="background:transparent; color:var(--accent); border-color:var(--accent);">Volver al menú</button>
+          </div>
+          <div class="packs-grid" id="packs-grid" style="margin-top:14px;"></div>
+        `;
+
+        const packsGrid = document.getElementById("packs-grid");
+        // create 5 unpacked packs
+        for (let i = 1; i <= 5; i++) {
+          const div = document.createElement("div");
+          div.className = "pack";
+          div.dataset.index = i;
+          div.innerHTML = `<div style="text-align:center;">
+                             <div style="font-size:1.1rem">Sobre ${i}</div>
+                             <div style="font-size:0.9rem; margin-top:6px; color:#fff8">Toca siempre lo mismo</div>
+                           </div>`;
+          div.addEventListener("click", () => openSinglePack(div));
+          packsGrid.appendChild(div);
+        }
+
+        document.getElementById("open-all")?.addEventListener("click", () => openAllPacks());
+        document.getElementById("back-menu")?.addEventListener("click", () => renderMenu());
+      }
+
+      // Abrir un sobre individual: muestra las cartas (si ya abierto, no reabrir)
+      function openSinglePack(packDiv) {
+        if (!packDiv || packDiv.classList.contains("opened")) {
+          showNotificacion("Este sobre ya está abierto.");
           return;
         }
-        mainContent.innerHTML = "";
-        const select = document.createElement("select");
-        select.className = "filtro-categoria";
-        CARD_CATEGORIES.forEach(cat => {
-          const opt = document.createElement("option");
-          opt.value = cat.name; opt.textContent = cat.name;
-          if (cat.name === filtroName) opt.selected = true;
-          select.appendChild(opt);
+        // marcar como abierto
+        packDiv.classList.add("opened");
+        // añadir las cartas del PACK_CONTENT al álbum
+        PACK_CONTENT.forEach(id => {
+          album[id] = (album[id] || 0) + 1;
         });
-        select.addEventListener("change", () => mostrarAlbum(select.value));
-        mainContent.appendChild(select);
+        saveState();
+        // mostrar modal con las cartas del sobre
+        showPackCardsModal("Has abierto el sobre y recibiste:");
+      }
 
-        const filteredCards = CARDS.filter(CARD_CATEGORIES.find(c => c.name === filtroName).filter);
-        const obtenidas = filteredCards.filter(c => album[c.id]).length;
-        const progreso = document.createElement("p");
-        progreso.className = "progreso-album";
-        progreso.textContent = `Cartas obtenidas: ${obtenidas} / ${filteredCards.length}`;
-        mainContent.appendChild(progreso);
-
-        const grid = document.createElement("div"); grid.className = "album-grid";
-        filteredCards.sort((a,b) => a.id - b.id).forEach(card => {
-          const div = document.createElement("div"); div.className = "cromo";
-          const img = document.createElement("img");
-          img.alt = card.nombre;
-          img.src = album[card.id] ? card.imagen : REVERSO;
-          img.tabIndex = 0;
-          img.addEventListener("click", () => ampliarCromo(card));
-          img.addEventListener("keyup", (e) => { if (e.key === "Enter") ampliarCromo(card); });
-          div.appendChild(img);
-
-          if (album[card.id] && album[card.id] > 1) {
-            const dup = document.createElement("span"); dup.className = "duplicadas";
-            dup.textContent = album[card.id];
-            div.appendChild(dup);
-            const btnVen = document.createElement("button"); btnVen.className = "btn-vender";
-            btnVen.textContent = "Vender";
-            btnVen.addEventListener("click", (ev) => { ev.stopPropagation(); venderDuplicadas(card.id); });
-            div.appendChild(btnVen);
+      // Abrir todos los sobres a la vez
+      function openAllPacks() {
+        const packDivs = document.querySelectorAll(".packs-grid .pack");
+        // marcar todos abiertos y añadir contenido por cada sobre
+        let countOpened = 0;
+        packDivs.forEach(div => {
+          if (!div.classList.contains("opened")) {
+            div.classList.add("opened");
+            // el sobre da las mismas 5 cartas
+            PACK_CONTENT.forEach(id => { album[id] = (album[id] || 0) + 1; });
+            countOpened++;
           }
-          grid.appendChild(div);
         });
-        mainContent.appendChild(grid);
-        updateMonedas();
+        if (countOpened === 0) {
+          showNotificacion("Ya abriste todos los sobres.");
+          return;
+        }
+        saveState();
+        showPackCardsModal(`Has abierto ${countOpened} sobres. Cada sobre trae las mismas cartas:`);
       }
 
-      function ampliarCromo(card) {
-        if (!modal || !modalImg || !modalInfo) return;
-        modal.style.display = "flex";
-        modalImg.src = card.imagen;
-        modalImg.alt = card.nombre;
-        modalInfo.textContent = album[card.id] ? `Tienes ${album[card.id]} copias.` : "";
+      // Modal que muestra las cartas entregadas por el sobre (muestra visual)
+      function showPackCardsModal(titleText) {
+        modalCardsGrid.innerHTML = "";
+        modalCardsInfo.textContent = titleText;
+        // mostrar las cartas que contiene el pack (sin orden random — siempre PACK_CONTENT)
+        PACK_CONTENT.forEach(id => {
+          const card = CARDS.find(c => c.id === id);
+          const div = document.createElement("div");
+          div.className = "cromo";
+          div.innerHTML = `<img src="${card ? card.imagen : REVERSO}" alt="${card ? card.nombre : 'Cromo'}">`;
+          modalCardsGrid.appendChild(div);
+        });
+        modalCards.style.display = "flex";
       }
 
-      function venderDuplicadas(cardId) {
-        if (!album[cardId] || album[cardId] <= 1) {
+      // Página del álbum personal
+      function renderAlbumPage() {
+        mainContent.innerHTML = `
+          <h2>Mi Álbum</h2>
+          <p>Tu colección personal de cromos. Haz clic en un cromo para verlo en grande.</p>
+          <p class="progreso-album" id="progreso"></p>
+          <div class="album-grid" id="album-grid"></div>
+          <p style="margin-top:12px; color:var(--accent); font-weight:700;">Puedes vender duplicadas (cada duplicada = 100 monedas)</p>
+        `;
+
+        const albumGrid = document.getElementById("album-grid");
+        const total = CARDS.length;
+        const obtained = CARDS.filter(c => album[c.id]).length;
+        document.getElementById("progreso").textContent = `Cartas obtenidas: ${obtained} / ${total}`;
+
+        CARDS.sort((a,b) => a.id - b.id).forEach(card => {
+          const div = document.createElement("div");
+          div.className = "cromo";
+          const img = document.createElement("img");
+          img.src = album[card.id] ? card.imagen : REVERSO;
+          img.alt = card.nombre;
+          img.addEventListener("click", () => {
+            if (album[card.id]) {
+              modal.style.display = "flex";
+              modalImg.src = card.imagen;
+              modalInfo.textContent = `Nombre: ${card.nombre} · Copias: ${album[card.id]}`;
+            } else {
+              showNotificacion("Aún no tienes este cromo.");
+            }
+          });
+          div.appendChild(img);
+          if (album[card.id] && album[card.id] > 1) {
+            const dup = document.createElement("span"); dup.className = "duplicadas"; dup.textContent = album[card.id];
+            div.appendChild(dup);
+            const btn = document.createElement("button"); btn.className = "btn-vender"; btn.textContent = "Vender";
+            btn.addEventListener("click", (e) => {
+              e.stopPropagation();
+              sellDuplicates(card.id);
+            });
+            div.appendChild(btn);
+          }
+          albumGrid.appendChild(div);
+        });
+      }
+
+      // Vender duplicadas de una carta (deja 1 copia si había >=1)
+      function sellDuplicates(cardId) {
+        const qty = album[cardId] || 0;
+        if (qty <= 1) {
           showNotificacion("No tienes duplicadas para vender.");
           return;
         }
-        const vendidas = album[cardId] - 1;
-        const gan
+        const duplicates = qty - 1;
+        const gained = duplicates * 100;
+        monedas += gained;
+        album[cardId] = 1;
+        saveState();
+        updateMonedas();
+        showNotificacion(`Vendiste ${duplicates} duplicadas y ganaste ${gained} monedas`);
+        renderAlbumPage();
+      }
+
+      // ---- Bonuses ----
+
+      // Bonus diario (se puede reclamar una vez cada 24h)
+      function handleDailyBonus() {
+        const last = parseInt(localStorage.getItem("bonus_daily_last") || "0");
+        const now = Date.now();
+        const oneDay = 24 * 60 * 60 * 1000;
+        if (!last || now - last > oneDay) {
+          monedas += 2000;
+          localStorage.setItem("bonus_daily_last", String(now));
+          claimedDaily = true;
+          saveState();
+          updateMonedas();
+          showNotificacion("Bonus diario reclamado: +2000 monedas 🎉");
+        } else {
+          showNotificacion("Ya reclamaste el bonus diario en las últimas 24h.");
+        }
+      }
+
+      // Bonus por seguir en X (Twitter) — abre la página y, si no reclamado, da monedas
+      function handleTwitterBonus() {
+        const url = "https://x.com/izandhh";
+        // abrir en nueva pestaña
+        window.open(url, "_blank", "noopener");
+        if (claimedTwitter) {
+          showNotificacion("Bonus por X ya reclamado.");
+          return;
+        }
+        // marcar como reclamado y dar monedas
+        claimedTwitter = true;
+        monedas += 1500;
+        saveState();
+        updateMonedas();
+        showNotificacion("Bonus por seguir en X reclamado: +1500 monedas");
+      }
+
+      // Bonus por seguir en Twitch
+      function handleTwitchBonus() {
+        const url = "https://twitch.tv/izandhh";
+        window.open(url, "_blank", "noopener");
+        if (claimedTwitch) {
+          showNotificacion("Bonus por Twitch ya reclamado.");
+          return;
+        }
+        claimedTwitch = true;
+        monedas += 1500;
+        saveState();
+        updateMonedas();
+        showNotificacion("Bonus por seguir en Twitch reclamado: +1500 monedas");
+      }
+
+      // ---- Menu header buttons wired to views ----
+      btnSobres && btnSobres.addEventListener("click", () => renderPacksPage());
+      btnAlbum && btnAlbum.addEventListener("click", () => renderAlbumPage());
+      btnDaily && btnDaily.addEventListener("click", () => handleDailyBonus());
+      btnTwitter && btnTwitter.addEventListener("click", () => handleTwitterBonus());
+      btnTwitch && btnTwitch.addEventListener("click", () => handleTwitchBonus());
+
+      // Inicializar vista: mostrar menú y actualizar monedas
+      updateMonedas();
+      renderMenu();
+
+      // Exponer funciones en window para debugging si hace falta
+      window.renderMenu = renderMenu;
+      window.renderPacksPage = renderPacksPage;
+      window.renderAlbumPage = renderAlbumPage;
+      window.handleDailyBonus = handleDailyBonus;
+      window.handleTwitterBonus = handleTwitterBonus;
+      window.handleTwitchBonus = handleTwitchBonus;
+
+      console.log("App sin login inicializada: menú funcional y vistas listas.");
+    });
+  </script>
+</body>
+</html>
