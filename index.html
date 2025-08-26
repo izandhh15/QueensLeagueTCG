@@ -297,7 +297,6 @@
       let claimedTwitch = JSON.parse(localStorage.getItem("bonus_twitch_claimed")) || false;
 
       // Important: remove persisted packs_opened so that on page refresh packs reload and can be opened again
-      // This ensures packsOpened starts empty every page load.
       localStorage.removeItem("packs_opened");
       let packsOpened = {}; // not persisted across refresh intentionally
 
@@ -493,7 +492,7 @@
             <button id="back-menu-2" class="login-btn" style="background:transparent; color:var(--accent); border:2px solid var(--accent);">Volver</button>
           </div>
           <div class="album-grid" id="album-grid"></div>
-          <p style="margin-top:12px; color:var(--accent); font-weight:700;">Pulsa cualquier cromo para verlo; puedes vender duplicadas (cada duplicada = 100 monedas).</p>
+          <p style="margin-top:12px; color:var(--accent); font-weight:700;">Pulsa cualquier cromo para verlo; puedes vender duplicadas (cada duplicada = 100 monedas, excepto "supercampeonas" que valen 250 monedas).</p>
         `;
         document.getElementById("back-menu-2")?.addEventListener("click", renderMenu);
         const filtroCont = document.getElementById("filters");
@@ -550,11 +549,17 @@
         modal.style.display = "flex";
       }
 
+      // SELL DUPLICATES: special value for supercampeonas (250 each), normal 100 for others
       function sellDuplicates(cardId) {
         const qty = album[cardId] || 0;
         if (qty <= 1) { showNotificacion("No tienes duplicadas para vender."); return; }
         const duplicates = qty - 1;
-        const gained = duplicates * 100;
+
+        // find card to know its tipo
+        const card = CARDS.find(c => c.id === cardId);
+        const perDuplicateValue = (card && card.tipo === "supercampeonas") ? 250 : 100;
+        const gained = duplicates * perDuplicateValue;
+
         monedas += gained;
         album[cardId] = 1;
         saveState(); updateMonedas();
@@ -600,7 +605,7 @@
       updateMonedas();
       renderMenu();
 
-      console.log("App inicializada. Packs se recargan en cada refresh (packsOpened no se persiste).");
+      console.log("App inicializada. Packs se recargan en cada refresh (packsOpened not persisted). Duplicadas supercampeonas valen 250 cada una.");
       window.__CARDS = CARDS;
       window.__album = album;
       window.__weightedPool = weightedPool;
