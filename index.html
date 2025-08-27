@@ -4,27 +4,54 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lanzamiento</title>
-</head>
-<body>
+    <style>
+        body {
+            background-color: #06ccbd; /* Fondo lila */
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Centra horizontalmente todo el contenido */
+            justify-content: center; /* Centra verticalmente si no hay mucho contenido */
+            min-height: 100vh; /* Ocupa al menos el 100% de la altura de la ventana */
+            margin: 0;
+            font-family: Arial, sans-serif; /* Fuente por defecto */
+            color: white; /* Color de texto para que contraste con el fondo */
+            text-align: center; /* Centra el texto dentro de sus contenedores */
+        }
 
-    <img src="https://i.ibb.co/cS626KXD/000-LOGO.png" alt="Logo de la empresa">
-    <p>Lanzamiento: 27/08 a las 22:30h ESP</p>
-    
-    <footer>
-        <div class="footer-content" style="flex-direction: column; gap: 0.4rem; text-align: center;">
-          <span>Hecho con &#x1F497; por IzanDHH</span>
-          <span style="font-size: 0.85em; color: rgba(255,255,255,0.7);">
-            DISCLAIMER &#x26A0;: Los derechos de imagen pertenecen a Kosmos Holding (Queens League) y cualquier reclamación de la retirada de imagen que se solicite se realizará asi.
-          </span>
-          <span style="font-size: 0.85em; color: rgba(255,255,255,0.7);">
-            Esta web esta hecha para el fandom de la Queens League Oysho Spain & Americas
-          </span>
-          <span class="login-btn" style="margin-top: 10px; max-width: 250px; cursor: default;">Redes del proyecto</span>
-          <a href="https://x.com/QL_Cards" target="_blank" rel="noopener" style="margin-top: 5px;">
-            <img src="https://i.ibb.co/nqMPfypC/X-Twitter.png" alt="X (Twitter) Logo" style="height: 28px; width: auto;">
-          </a>
-        </div>
-    </footer>
+        img {
+            max-width: 80%; /* Hace el logo responsivo */
+            height: auto;
+            margin-bottom: 20px; /* Espacio debajo del logo */
+        }
 
-</body>
-</html>
+        p {
+            font-size: 1.5em; /* Tamaño de fuente para el texto de lanzamiento */
+            margin-bottom: 30px;
+        }
+
+        footer {
+            width: 100%; /* Ocupa todo el ancho */
+            padding: 20px 0;
+            background-color: rgba(0, 0, 0, 0.2); /* Un fondo ligeramente oscuro para el footer */
+            margin-top: auto; /* Empuja el footer hacia abajo */
+        }
+
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+            text-align: center;
+        }
+
+        .footer-content span {
+            font-size: 0.9em;
+        }
+
+        .footer-content span[style*="font-size: 0.85em"] { /* Para los disclaimers */
+            font-size: 0.85em;
+            color: rgba(255,255,255,0.8);
+        }
+
+        .login-btn {
+            margin-top:
+                </html>
