@@ -8,7 +8,7 @@
   <link rel="icon" href="https://queensleague.pro/favicon.ico" />
   <style>
     :root{
-      --bg: #2a0a49;
+      --bg: #2a0a49; /* Fondo lila */
       --accent: #06ccbd;
       --accent-text: #2a0a49;
       --card-bg: #e5e7eb;
@@ -20,9 +20,10 @@
       --transition: 200ms ease;
       --header-height: 72px;
       --pack-cost: 1000;
+      --cromo-dark-bg: #4b2b6c; /* Fondo oscuro para cromos */
     }
     *{box-sizing:border-box}
-    html,body{height:100%}
+    html,body{height:100%}.
     body {
       margin: 0;
       font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
@@ -71,7 +72,25 @@
     #monedas-panel { background: var(--accent); color: var(--accent-text); padding: .32rem .75rem; border-radius: 10px; font-weight:700; box-shadow: 0 6px 20px var(--shadow-accent); white-space: nowrap; }
 
     /* MAIN */
-    #main-content{ max-width: var(--max-width); margin: 1rem auto; padding: 1rem; background: var(--white); color: var(--accent-text); border-radius: var(--radius); box-shadow: 0 10px 30px rgba(6,204,189,0.06); min-height: 0; overflow: visible; }
+    #main-content{ 
+      max-width: var(--max-width); 
+      margin: 1rem auto; 
+      padding: 1rem; 
+      background: transparent; /* Fondo transparente */
+      color: var(--white); /* Color del texto blanco */
+      border-radius: var(--radius); 
+      box-shadow: none; /* Sin sombra */
+      min-height: 0; 
+      overflow: visible; 
+    }
+    
+    #main-content h2 {
+      color: var(--accent);
+      text-align: center;
+    }
+    #main-content p {
+      color: var(--white);
+    }
 
     .menu-principal { display:flex; flex-direction:column; gap:0.9rem; align-items:center; padding: 0.25rem; }
     .actions { display:flex; gap:0.6rem; flex-wrap:wrap; justify-content:center; }
@@ -79,13 +98,12 @@
 
     /* Filters area */
     .filters { display:flex; gap:0.5rem; flex-wrap:wrap; align-items:center; margin-bottom: .6rem; }
-    .filter-btn { background:transparent; border:2px solid rgba(0,0,0,0.06); padding:.45rem .7rem; border-radius:10px; cursor:pointer; font-weight:700; }
+    .filter-btn { background:transparent; border:2px solid rgba(255,255,255,0.06); padding:.45rem .7rem; border-radius:10px; cursor:pointer; font-weight:700; color: var(--white); }
     .filter-btn.active { background:var(--accent); color:var(--accent-text); }
 
     .album-grid, .packs-grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap:1rem; margin-top:1rem; }
 
-    .cromo { background: var(--card-bg); border-radius: 10px; padding: .5rem; display:flex; flex-direction:column; align-items:center; justify-content:flex-start; position:relative; box-shadow: 0 6px 16px rgba(6,204,189,0.06); min-height: 140px; }
-
+    .cromo { background: var(--cromo-dark-bg); border-radius: 10px; padding: .5rem; display:flex; flex-direction:column; align-items:center; justify-content:flex-start; position:relative; box-shadow: 0 6px 16px rgba(6,204,189,0.06); min-height: 140px; }
     .cromo img { width:100px; height:140px; object-fit:cover; border-radius:8px; border: 3px solid var(--accent); background: var(--white); cursor:pointer; transition: transform var(--transition); }
     .cromo img:focus { outline: 3px solid rgba(6,204,189,0.18); }
 
@@ -112,13 +130,124 @@
     #notificacion { position: fixed; top: 28px; left: 50%; transform: translateX(-50%); background: var(--accent); color: var(--accent-text); padding: 10px 20px; border-radius: 12px; font-weight:800; z-index: 2000; display:none; }
 
     footer { margin-top: 1rem; }
-    .footer-content { display:flex; justify-content:center; gap: 0.6rem; align-items:center; padding: 0.9rem 1rem; color: var(--accent); background: var(--bg); border-top: 1px solid rgba(6,204,189,0.06); border-radius: 6px; }
+    .footer-content { display:flex; justify-content:center; gap: 0.6rem; align-items:center; padding: 0.9rem 1rem; color: var(--accent); background: transparent; border-top: 1px solid rgba(6,204,189,0.06); border-radius: 6px; }
 
-    @media (max-width:900px) { .cromo img { width:86px; height:120px; } .pack { height:140px } }
-    @media (max-width:420px) { header { grid-template-columns: 1fr auto; height:auto; padding:10px } .header-center { display:none } }
+    /* MEDIA QUERIES para responsividad */
+    @media (max-width:900px) {
+      .cromo img { width:86px; height:120px; }
+      .pack { height:140px }
+    }
+    @media (max-width:768px) {
+      header {
+        grid-template-columns: 1fr 1fr; /* Simplifica el header para pantallas medianas */
+        height: auto;
+        padding: 10px;
+        gap: 0.8rem;
+      }
+      .header-center {
+        display: none; /* Oculta el menú principal en el header en pantallas medianas y pequeñas */
+      }
+      .header-left {
+        gap: 0.5rem;
+      }
+      .header-right {
+        justify-self: end;
+      }
+      .logo {
+        font-size: 1.1rem;
+      }
+      .redes a, .main-menu button {
+        font-size: 0.85rem;
+        padding: 0.35rem 0.6rem;
+      }
+      #monedas-panel {
+        font-size: 0.9rem;
+        padding: 0.25rem 0.6rem;
+      }
+      #main-content {
+        padding: 0.8rem;
+        margin: 0.8rem auto;
+      }
+      .album-grid, .packs-grid {
+        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); /* Más pequeñas para móviles */
+        gap: 0.8rem;
+      }
+      .cromo {
+        min-height: 120px;
+        padding: 0.4rem;
+      }
+      .cromo img {
+        width: 80px;
+        height: 110px;
+      }
+      .pack {
+        height: 120px;
+      }
+      .pack .pack-badge, .duplicadas, .btn-vender {
+        font-size: 0.8em;
+        padding: 4px 6px;
+      }
+      .filters {
+        justify-content: center; /* Centra los filtros en móviles */
+        gap: 0.4rem;
+        margin-bottom: 0.8rem;
+      }
+      .filter-btn {
+        padding: 0.35rem 0.5rem;
+        font-size: 0.85rem;
+      }
+      .modal-box {
+        width: 95vw;
+        padding: 15px;
+      }
+      .modal-img-wrap img {
+        max-width: 95%;
+      }
+    }
+    @media (max-width:480px) { /* Ajustes para teléfonos muy pequeños */
+      header {
+        grid-template-columns: 1fr; /* Pila elementos en una columna */
+        justify-items: center;
+        text-align: center;
+        padding: 8px;
+        gap: 0.6rem;
+      }
+      .header-left, .header-right {
+        justify-self: center; /* Centra los elementos */
+      }
+      .redes {
+        justify-content: center;
+      }
+      .logo img {
+        height: 36px;
+      }
+      .login-btn {
+        width: 100%; /* Botones de acción ocupan todo el ancho */
+        padding: 0.5rem 0.8rem;
+      }
+      .actions {
+        flex-direction: column; /* Apila los botones de acción */
+        width: 100%;
+      }
+      #main-content {
+        padding: 0.6rem;
+        margin: 0.6rem auto;
+      }
+      .album-grid, .packs-grid {
+        grid-template-columns: repeat(auto-fit, minmax(80px, 1fr)); /* Aún más pequeños para adaptarse */
+        gap: 0.6rem;
+      }
+      .cromo img {
+        width: 65px;
+        height: 90px;
+      }
+      .pack {
+        height: 100px;
+      }
+    }
   </style>
 </head>
-<body>
+<body style="background-color: #2a0a49 !important;">
   <header>
     <div class="header-left">
       <div class="logo" id="logo">
@@ -217,8 +346,8 @@
         { id:46,nombre:"Escudo Persas FC",tipo:"escudoqlame",imagen:"https://i.ibb.co/7BvQbZZ/46-Persas-FC.png"},
         { id:47,nombre:"Escudo Raniza FC",tipo:"escudoqlame",imagen:"https://i.ibb.co/9J05rkc/47-Raniza-FC.png"},
         { id:48,nombre:"Escudo Real Titán FC",tipo:"escudoqlame",imagen:"https://i.ibb.co/ymsDVfCs/48-Real-Titan-FC.png"},
-        { id:13,nombre:"Mayichi (1K)",tipo:"presidenta",imagen:"https://i.ibb.co/MDN445S2/14-Amablitz.png"},
-        { id:14,nombre:"Ama Blitz (Aniquiladoras FC)",tipo:"presidenta",imagen:"https://i.ibb.co/0p9Js9tm/13-Mayichi.png"},
+        { id:13,nombre:"Mayichi (1K)",tipo:"presidenta",imagen:"https://i.ibb.co/0p9Js9tm/13-Mayichi.png"},
+        { id:14,nombre:"Ama Blitz (Aniquiladoras FC)",tipo:"presidenta",imagen:"https://i.ibb.co/MDN445S2/14-Amablitz.png"},
         { id:15,nombre:"Adri Contreras + Mercedes Roa (El Barrio)",tipo:"presidenta",imagen:"https://i.ibb.co/V01ZjqVb/15-Mercedes-Roa-Adri-Contreras.png"},
         { id:16,nombre:"Gerard Romero + Lis Cid (Jijantas FC)",tipo:"presidenta",imagen:"https://i.ibb.co/tTncqzTb/16-Gerard-Romero-Lis-Cid.png"},
         { id:17,nombre:"Jo Valicenti (Kunitas)",tipo:"presidenta",imagen:"https://i.ibb.co/whpJcVz0/17-Jo-Valicenti.png"},
@@ -252,7 +381,31 @@
         { id:33,nombre:"Maria Pi",tipo:"supercampeonas",imagen:"https://i.ibb.co/7xWRkBtW/33-SUPERCAMPEONAS-Maria-Pi.png"},
         { id:34,nombre:"Patricia Mascaró",tipo:"supercampeonas",imagen:"https://i.ibb.co/C5g5jLZv/34-SUPERCAMPEONAS-Patricia-Mascar.png"},
         { id:35,nombre:"Berta Velasco",tipo:"supercampeonas",imagen:"https://i.ibb.co/vC7tvZD3/35-SUPERCAMPEONAS-Berta-Velasco.png"},
-        { id:36,nombre:"Paula Blas",tipo:"supercampeonas",imagen:"https://i.ibb.co/cKjf90R8/36-SUPERCAMPEONAS-Paula-Blas.png"}
+        { id:36,nombre:"Paula Blas",tipo:"supercampeonas",imagen:"https://i.ibb.co/cKjf90R8/36-SUPERCAMPEONAS-Paula-Blas.png"},
+        { id:61,nombre:"Mar Serracanta (1r Split)",tipo:"queensmoments",imagen:"https://i.ibb.co/Mx3CK053/61-Mar-Serracanta-Split1-MOMENTS.png"},
+        { id:62,nombre:"Alba Mellado (3r Split)",tipo:"queensmoments",imagen:"https://i.ibb.co/GQvZ47TP/62-Alba-Mellado-Split3-MOMENTS.png"},
+        { id:63,nombre:"Alex Giró (2n Split)",tipo:"queensmoments",imagen:"https://i.ibb.co/j9WX5DsG/63-Alex-Gir-Split2-MOMENTS.png"},
+        { id:69,nombre:"Elena Benítez (3r Split)",tipo:"queensmoments",imagen:"https://i.ibb.co/qY3rGshK/69-Elena-Ben-tez-Split3-MOMENTS.png"},
+        { id:70,nombre:"Sara Ronzero (Kingdom Cup)",tipo:"queensmoments",imagen:"https://i.ibb.co/wh3cnTzS/70-Sara-Ronzero-Kingdom-Cup-MOMENTS.png"},
+        { id:65,nombre:"Cinta Vilarroya (4o Split)",tipo:"queensmoments",imagen:"https://i.ibb.co/nJK19Hh/65-Cinta-Vilarroya-Split4-MOMENTS.png"},
+        { id:66,nombre:"Mapi Vilas (4o Split)",tipo:"queensmoments",imagen:"https://i.ibb.co/zhXSzJwP/66-Mapi-Vilas-Split4-MOMENTS.png"},
+        { id:67,nombre:"Clara Sanz (1r Split)",tipo:"queensmoments",imagen:"https://i.ibb.co/NdJmhPXx/67-Clara-Sanz-Split1-MOMENTS.png"},
+        { id:68,nombre:"Núria Llop (2o Split)",tipo:"queensmoments",imagen:"https://i.ibb.co/TqDWSymS/68-N-ria-Llop-Split2-MOMENTS.png"},
+        { id:71,nombre:"Maria Pi (Kingdom Cup)",tipo:"queensmoments",imagen:"https://i.ibb.co/7xWRkBtW/33-SUPERCAMPEONAS-Maria-Pi.png"},
+	{ id:72,nombre:"Sara Ismael (3r Split)",tipo:"flashback",imagen:"https://i.ibb.co/0pxBwRSY/72-Sara-Ismael-Split3-MOMENTS.png"},
+        { id:73,nombre:"Alicia Hernandez FLASHBACK",tipo:"flashback",imagen:"https://i.ibb.co/YnRyfYm/73-Alicia-Hernandez-FLASHBACK.png"},
+        { id:74,nombre:"Andrea Chini FLASHBACK",tipo:"flashback",imagen:"https://i.ibb.co/Z1fFhgNq/74-Andrea-Chini-FLASHBACK.png"},
+        { id:75,nombre:"Andrea Martínez FLASHBACK",tipo:"flashback",imagen:"https://i.ibb.co/rG8nX4WP/75-Andrea-Mart-nez-FLASHBACK.png"},
+        { id:76,nombre:"Anna Tan FLASHBACK",tipo:"flashback",imagen:"https://i.ibb.co/VWjbp9R4/76-Anna-Tan-FLASHBACK.png"},
+	{ id:77,nombre:"Ari Saez FLASHBACK",tipo:"flashback",imagen:"https://i.ibb.co/35zgNwHx/77-Ari-Saez-FLASHBACK.png"},
+        { id:78,nombre:"Aroney González FLASHBACK",tipo:"flashback",imagen:"https://i.ibb.co/HLcyWv2N/78-Aroney-Gonz-lez-FLASHBACK.png"},
+        { id:79,nombre:"Blanca Cros FLASHBACK",tipo:"flashback",imagen:"https://i.ibb.co/xSR6yVGt/79-Blanca-Cros-Flashback.png"},
+        { id:80,nombre:"Clara Carmona FLASHBACK",tipo:"flashback",imagen:"https://i.ibb.co/vCqVV2tQ/80-Clara-Carmona-Flashback.png"},
+        { id:81,nombre:"Lidia Rabassa (Aniquiladoras FC) FLASHBACK",tipo:"flashback",imagen:"https://i.ibb.co/gZ8fg6Jv/81-Lidia-Rabassa-Aniquiladoras-Flashback.png"},
+        { id:82,nombre:"Lidia Rabassa (Saiyans FC) FLASHBACK",tipo:"flashback",imagen:"https://i.ibb.co/qYH8ptbr/81-Lidia-Rabassa-Saiyans-Flashback.png"},
+        { id:83,nombre:"Mapi Vilas FLASHBACK",tipo:"flashback",imagen:"https://i.ibb.co/sdM4mMDK/83-Mapi-Vilas-Flashback.png"},
+	{ id:84,nombre:"Sara Ismael FLASHBACK",tipo:"flashback",imagen:"https://i.ibb.co/Cpfq9Fts/84-Sara-Isamel-Flashback.png"},
+	{ id:85,nombre:"Julia Tomás FLASHBACK",tipo:"flashback",imagen:"https://i.ibb.co/wNx2CVd4/85-Julia-Tom-s-Flashback.png"}
       ];
 
       const REVERSO = "https://i.ibb.co/F443KZqx/00-REVERSO.png";
@@ -272,10 +425,12 @@
       // Probabilidades por tipo
       const TYPE_WEIGHTS = {
         supercampeonas: 20,   // muy raro
-        presidenta: 20,
+        presidenta: 30,
         escudo: 40,
         escudoqlame: 40,
-        presisqlame: 20
+        presisqlame: 30,
+	      queensmoments: 15,
+	      flashback: 15
       };
 
       // Pool ponderado
@@ -416,7 +571,7 @@
         mainContent.innerHTML = `
           <div class="menu-principal">
             <h2 style="margin:0 0 .3rem 0;">Bienvenido al Álbum Virtual</h2>
-            <p style="margin:0 0 .6rem 0; color:#444; text-align:center;">Pulsa "Abrir Sobre" para comprar+abrir sobres. Cada sobre cuesta <strong>${PACK_COST} monedas</strong>. Las cartas raras (supercampeonas) aparecen muy rara vez.</p>
+            <p style="margin:0 0 .6rem 0; color:var(--white); text-align:center;">Pulsa "Abrir Sobre" para comprar+abrir sobres. Cada sobre cuesta <strong>${PACK_COST} monedas</strong>. Las cartas raras (supercampeonas) aparecen muy rara vez.</p>
             <div class="actions">
               <button id="menu-open-packs" class="login-btn">Abrir Sobre (ir a página de sobres)</button>
               <button id="menu-view-album" class="login-btn">Ver Mi Álbum</button>
@@ -525,190 +680,3 @@
           showNotificacion("No tienes suficientes monedas para abrir nuevos sobres.");
           return;
         }
-        saveState();
-        updateMonedas();
-        showPackCardsModal(`Has abierto ${countOpened} sobres.` + (cannotOpen ? ` No hubo monedas para ${cannotOpen} sobres.` : ''), openedCards);
-      }
-
-      function showPackCardsModal(titleText, cards) {
-        modalCardsGrid.innerHTML = "";
-        modalCardsInfo.textContent = titleText;
-        const toShow = Array.isArray(cards) && cards.length ? cards : [];
-        toShow.forEach(card => {
-          const div = document.createElement("div");
-          div.className = "cromo";
-          div.innerHTML = `<img src="${card ? card.imagen : REVERSO}" alt="${card ? card.nombre : 'Cromo'}" tabindex="0">`;
-          modalCardsGrid.appendChild(div);
-        });
-        modalCards.style.display = "flex";
-      }
-
-      const FILTER_NAMES = {
-        "Todas": "Todas",
-        "escudo": "Escudos Queens League Spain",
-        "escudoqlame": "Escudos Queens League Américas",
-        "presidenta": "Presis Queens League Spain",
-        "presisqlame": "Presis Queens League América",
-        "supercampeonas": "SUPERCAMPEONAS PARÍS 2025"
-      };
-
-      const TYPES_ORDER = ["Todas","escudo","escudoqlame","presidenta","presisqlame","supercampeonas"];
-      function renderAlbumPage() {
-        mainContent.innerHTML = `
-          <h2 style="margin:0 0 .4rem 0;">Mi Álbum</h2>
-          <div style="display:flex; gap:.6rem; align-items:center; margin-bottom:.6rem;">
-            <p class="progreso-album" id="progreso" style="margin:0"></p>
-            <div class="filters" id="filters" style="margin-left:auto;"></div>
-            <button id="btn-sell-all-duplicates-album" class="login-btn">Vender Duplicadas</button>
-            <button id="back-menu-2" class="login-btn" style="background:transparent; color:var(--accent); border:2px solid var(--accent);">Volver</button>
-          </div>
-          <div class="album-grid" id="album-grid"></div>
-          <p style="margin-top:12px; color:var(--accent); font-weight:700;">Puedes pulsar cualquier cromo para ver su numeración y nombre.</p>
-          <p style="margin-top:6px; color:var(--accent); font-weight:700;">Puedes pulsar el botón vender duplicadas para vender tus cartas duplicadas por un valor del 10%, excepto de las cartas especiales que es de un 25%.</p>
-        `;
-        document.getElementById("back-menu-2")?.addEventListener("click", renderMenu);
-        document.getElementById("btn-sell-all-duplicates-album")?.addEventListener("click", sellAllDuplicates);
-        const filtroCont = document.getElementById("filters");
-        filtroCont.innerHTML = "";
-        
-        TYPES_ORDER.forEach(t => {
-          const btn = document.createElement("button");
-          btn.className = "filter-btn" + (currentFilter === t ? " active" : "");
-          btn.textContent = FILTER_NAMES[t];
-          btn.addEventListener("click", () => { currentFilter = t; renderAlbumPage(); });
-          filtroCont.appendChild(btn);
-        });
-
-        const albumGrid = document.getElementById("album-grid");
-        const total = CARDS.length;
-        const obtained = CARDS.filter(c => album[c.id]).length;
-        document.getElementById("progreso").textContent = `Cartas obtenidas: ${obtained} / ${total}`;
-
-        let cardsToShow = CARDS.slice().sort((a,b) => a.id - b.id);
-        if (currentFilter !== "Todas") cardsToShow = cardsToShow.filter(c => c.tipo === currentFilter);
-
-        if (cardsToShow.length === 0) {
-          albumGrid.innerHTML = `<div style="padding:1rem; color:#666">No hay cartas en esta categoría.</div>`;
-          return;
-        }
-
-        cardsToShow.forEach(card => {
-          const div = document.createElement("div");
-          div.className = "cromo";
-          const img = document.createElement("img");
-          img.src = album[card.id] ? card.imagen : REVERSO;
-          img.alt = card.nombre;
-          img.tabIndex = 0;
-          img.addEventListener("click", () => openCardModal(card));
-          img.addEventListener("keyup", (e) => { if (e.key === "Enter") openCardModal(card); });
-          div.appendChild(img);
-
-          if (album[card.id] && album[card.id] > 1) {
-            const dup = document.createElement("span"); dup.className = "duplicadas"; dup.textContent = album[card.id];
-            div.appendChild(dup);
-            const btn = document.createElement("button"); btn.className = "btn-vender"; btn.textContent = "Vender";
-            btn.addEventListener("click", (e) => { e.stopPropagation(); sellDuplicates(card.id); });
-            div.appendChild(btn);
-          }
-          albumGrid.appendChild(div);
-        });
-      }
-
-      function openCardModal(card) {
-        const copies = album[card.id] || 0;
-        modalInfoTop.textContent = copies > 0 ? `${card.nombre} · Copias: ${copies}` : `${card.nombre} · Aún no obtenida`;
-        modalImg.src = card.imagen;
-        modalImg.alt = card.nombre;
-        modal.style.display = "flex";
-      }
-
-      function sellDuplicates(cardId) {
-        const qty = album[cardId] || 0;
-        if (qty <= 1) { showNotificacion("No tienes duplicadas para vender."); return; }
-        const duplicates = qty - 1;
-        const card = CARDS.find(c => c.id === cardId);
-        const perDuplicateValue = (card && card.tipo === "supercampeonas") ? 250 : 100;
-        const gained = duplicates * perDuplicateValue;
-        monedas += gained;
-        album[cardId] = 1;
-        saveState(); updateMonedas();
-        showNotificacion(`Vendiste ${duplicates} duplicadas y ganaste ${gained} monedas`);
-        renderAlbumPage();
-      }
-      
-      function sellAllDuplicates() {
-        let totalSold = 0;
-        let totalGained = 0;
-        let cardsWithDuplicates = {};
-
-        for (const cardId in album) {
-          const qty = album[cardId];
-          if (qty > 1) {
-            const duplicates = qty - 1;
-            const card = CARDS.find(c => String(c.id) === cardId);
-            const perDuplicateValue = (card && card.tipo === "supercampeonas") ? 250 : 100;
-            const gained = duplicates * perDuplicateValue;
-            totalGained += gained;
-            totalSold += duplicates;
-            cardsWithDuplicates[cardId] = 1;
-          } else {
-            cardsWithDuplicates[cardId] = qty;
-          }
-        }
-
-        if (totalSold === 0) {
-          showNotificacion("No tienes ninguna carta duplicada para vender.");
-          return;
-        }
-
-        monedas += totalGained;
-        album = cardsWithDuplicates;
-        saveState();
-        updateMonedas();
-        showNotificacion(`Vendiste ${totalSold} cartas duplicadas y ganaste un total de ${totalGained} monedas.`);
-        renderAlbumPage();
-      }
-
-      // Bonuses
-      function handleDailyBonus() {
-        const last = parseInt(localStorage.getItem("bonus_daily_last") || "0");
-        const now = Date.now();
-        const oneDay = 24 * 60 * 60 * 1000;
-        if (!last || now - last > oneDay) {
-          monedas += 2000;
-          localStorage.setItem("bonus_daily_last", String(now));
-          saveState(); updateMonedas();
-          showNotificacion("Bonus diario: +2000 monedas");
-        } else {
-          showNotificacion("Ya reclamaste el bonus diario en las últimas 24h.");
-        }
-      }
-      function handleTwitterBonus() {
-        window.open("https://x.com/izandhh", "_blank", "noopener");
-        if (claimedTwitter) { showNotificacion("Bonus X ya reclamado."); return; }
-        claimedTwitter = true; monedas += 1500; saveState(); updateMonedas();
-        showNotificacion("Bonus por seguir en X: +1500 monedas");
-      }
-      function handleTwitchBonus() {
-        window.open("https://twitch.tv/izandhh", "_blank", "noopener");
-        if (claimedTwitch) { showNotificacion("Bonus Twitch ya reclamado."); return; }
-        claimedTwitch = true; monedas += 1500; saveState(); updateMonedas();
-        showNotificacion("Bonus por seguir en Twitch: +1500 monedas");
-      }
-
-      // Header buttons
-      btnSobres && btnSobres.addEventListener("click", renderPacksPage);
-      btnAlbum && btnAlbum.addEventListener("click", renderAlbumPage);
-      btnDaily && btnDaily.addEventListener("click", handleDailyBonus);
-      btnTwitter && btnTwitter.addEventListener("click", handleTwitterBonus);
-      btnTwitch && btnTwitch.addEventListener("click", handleTwitchBonus);
-      btnCreators && btnCreators.addEventListener("click", openCreatorCodeModal);
-      redeemCreatorCodeBtn && redeemCreatorCodeBtn.addEventListener("click", handleRedeemCreatorCode);
-
-      // Init
-      updateMonedas();
-      renderMenu();
-    });
-  </script>
-</body>
-</html>
