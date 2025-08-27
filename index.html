@@ -680,3 +680,192 @@
           showNotificacion("No tienes suficientes monedas para abrir nuevos sobres.");
           return;
         }
+        saveState();
+        updateMonedas();
+        showPackCardsModal(`Has abierto ${countOpened} sobres.` + (cannotOpen ? ` No hubo monedas para ${cannotOpen} sobres.` : ''), openedCards);
+      }
+
+      function showPackCardsModal(titleText, cards) {
+        modalCardsGrid.innerHTML = "";
+        modalCardsInfo.textContent = titleText;
+        const toShow = Array.isArray(cards) && cards.length ? cards : [];
+        toShow.forEach(card => {
+          const div = document.createElement("div");
+          div.className = "cromo";
+          div.innerHTML = `<img src="${card ? card.imagen : REVERSO}" alt="${card ? card.nombre : 'Cromo'}" tabindex="0">`;
+          modalCardsGrid.appendChild(div);
+        });
+        modalCards.style.display = "flex";
+      }
+
+	 const FILTER_NAMES = {
+        "Todas": "Todas",
+        "escudo": "Escudos Queens League Spain",
+        "escudoqlame": "Escudos Queens League Américas",
+        "presidenta": "Presis Queens League Spain",
+        "presisqlame": "Presis Queens League América",
+        "supercampeonas": "SUPERCAMPEONAS PARÍS 2025",
+	      "queensmoments": "QUEENS MOMENTS",
+	      "flashback": "FLASHBACK"
+      };
+
+      const TYPES_ORDER = ["Todas","escudo","escudoqlame","presidenta","presisqlame","supercampeonas" , "queensmoments", "flashback"];
+      function renderAlbumPage() {
+        mainContent.innerHTML = `
+          <h2 style="margin:0 0 .4rem 0;">Mi Álbum</h2>
+          <div style="display:flex; gap:.6rem; align-items:center; margin-bottom:.6rem;">
+            <p class="progreso-album" id="progreso" style="margin:0"></p>
+            <div class="filters" id="filters" style="margin-left:auto;"></div>
+            <button id="btn-sell-all-duplicates-album" class="login-btn">Vender Duplicadas</button>
+            <button id="back-menu-2" class="login-btn" style="background:transparent; color:var(--accent); border:2px solid var(--accent);">Volver</button>
+          </div>
+          <div class="album-grid" id="album-grid"></div>
+          <p style="margin-top:12px; color:var(--accent); font-weight:700;">Puedes pulsar cualquier cromo para ver su numeración y nombre.</p>
+          <p style="margin-top:6px; color:var(--accent); font-weight:700;">Puedes pulsar el botón vender duplicadas para vender tus cartas duplicadas por un valor del 10%, excepto de las cartas especiales que es de un 25%.</p>
+        `;
+        document.getElementById("back-menu-2")?.addEventListener("click", renderMenu);
+        document.getElementById("btn-sell-all-duplicates-album")?.addEventListener("click", sellAllDuplicates);
+        const filtroCont = document.getElementById("filters");
+        filtroCont.innerHTML = "";
+        
+        TYPES_ORDER.forEach(t => {
+          const btn = document.createElement("button");
+          btn.className = "filter-btn" + (currentFilter === t ? " active" : "");
+          btn.textContent = FILTER_NAMES[t];
+          btn.addEventListener("click", () => { currentFilter = t; renderAlbumPage(); });
+          filtroCont.appendChild(btn);
+        });
+
+        const albumGrid = document.getElementById("album-grid");
+        const total = CARDS.length;
+        const obtained = CARDS.filter(c => album[c.id]).length;
+        document.getElementById("progreso").textContent = `Cartas obtenidas: ${obtained} / ${total}`;
+
+        let cardsToShow = CARDS.slice().sort((a,b) => a.id - b.id);
+        if (currentFilter !== "Todas") cardsToShow = cardsToShow.filter(c => c.tipo === currentFilter);
+
+        if (cardsToShow.length === 0) {
+          albumGrid.innerHTML = `<div style="padding:1rem; color:#666">No hay cartas en esta categoría.</div>`;
+          return;
+        }
+
+        cardsToShow.forEach(card => {
+          const div = document.createElement("div");
+          div.className = "cromo";
+          const img = document.createElement("img");
+          img.src = album[card.id] ? card.imagen : REVERSO;
+          img.alt = card.nombre;
+          img.tabIndex = 0;
+          img.addEventListener("click", () => openCardModal(card));
+          img.addEventListener("keyup", (e) => { if (e.key === "Enter") openCardModal(card); });
+          div.appendChild(img);
+
+          if (album[card.id] && album[card.id] > 1) {
+            const dup = document.createElement("span"); dup.className = "duplicadas"; dup.textContent = album[card.id];
+            div.appendChild(dup);
+            const btn = document.createElement("button"); btn.className = "btn-vender"; btn.textContent = "Vender";
+            btn.addEventListener("click", (e) => { e.stopPropagation(); sellDuplicates(card.id); });
+            div.appendChild(btn);
+          }
+          albumGrid.appendChild(div);
+        });
+      }
+
+      function openCardModal(card) {
+        const copies = album[card.id] || 0;
+        modalInfoTop.textContent = copies > 0 ? `${card.nombre} · Copias: ${copies}` : `${card.nombre} · Aún no obtenida`;
+        modalImg.src = card.imagen;
+        modalImg.alt = card.nombre;
+        modal.style.display = "flex";
+      }
+
+      function sellDuplicates(cardId) {
+        const qty = album[cardId] || 0;
+        if (qty <= 1) { showNotificacion("No tienes duplicadas para vender."); return; }
+        const duplicates = qty - 1;
+        const card = CARDS.find(c => c.id === cardId);
+        const perDuplicateValue = (card && card.tipo === "supercampeonas") ? 250 : 100;
+        const gained = duplicates * perDuplicateValue;
+        monedas += gained;
+        album[cardId] = 1;
+        saveState(); updateMonedas();
+        showNotificacion(`Vendiste ${duplicates} duplicadas y ganaste ${gained} monedas`);
+        renderAlbumPage();
+      }
+      
+      function sellAllDuplicates() {
+        let totalSold = 0;
+        let totalGained = 0;
+        let cardsWithDuplicates = {};
+
+        for (const cardId in album) {
+          const qty = album[cardId];
+          if (qty > 1) {
+            const duplicates = qty - 1;
+            const card = CARDS.find(c => String(c.id) === cardId);
+            const perDuplicateValue = (card && card.tipo === "supercampeonas") ? 250 : 100;
+            const gained = duplicates * perDuplicateValue;
+            totalGained += gained;
+            totalSold += duplicates;
+            cardsWithDuplicates[cardId] = 1;
+          } else {
+            cardsWithDuplicates[cardId] = qty;
+          }
+        }
+
+        if (totalSold === 0) {
+          showNotificacion("No tienes ninguna carta duplicada para vender.");
+          return;
+        }
+
+        monedas += totalGained;
+        album = cardsWithDuplicates;
+        saveState();
+        updateMonedas();
+        showNotificacion(`Vendiste ${totalSold} cartas duplicadas y ganaste un total de ${totalGained} monedas.`);
+        renderAlbumPage();
+      }
+
+      // Bonuses
+      function handleDailyBonus() {
+        const last = parseInt(localStorage.getItem("bonus_daily_last") || "0");
+        const now = Date.now();
+        const oneDay = 24 * 60 * 60 * 1000;
+        if (!last || now - last > oneDay) {
+          monedas += 2000;
+          localStorage.setItem("bonus_daily_last", String(now));
+          saveState(); updateMonedas();
+          showNotificacion("Bonus diario: +2000 monedas");
+        } else {
+          showNotificacion("Ya reclamaste el bonus diario en las últimas 24h.");
+        }
+      }
+      function handleTwitterBonus() {
+        window.open("https://x.com/izandhh", "_blank", "noopener");
+        if (claimedTwitter) { showNotificacion("Bonus X ya reclamado."); return; }
+        claimedTwitter = true; monedas += 1500; saveState(); updateMonedas();
+        showNotificacion("Bonus por seguir en X: +1500 monedas");
+      }
+      function handleTwitchBonus() {
+        window.open("https://twitch.tv/izandhh", "_blank", "noopener");
+        if (claimedTwitch) { showNotificacion("Bonus Twitch ya reclamado."); return; }
+        claimedTwitch = true; monedas += 1500; saveState(); updateMonedas();
+        showNotificacion("Bonus por seguir en Twitch: +1500 monedas");
+      }
+
+      // Header buttons
+      btnSobres && btnSobres.addEventListener("click", renderPacksPage);
+      btnAlbum && btnAlbum.addEventListener("click", renderAlbumPage);
+      btnDaily && btnDaily.addEventListener("click", handleDailyBonus);
+      btnTwitter && btnTwitter.addEventListener("click", handleTwitterBonus);
+      btnTwitch && btnTwitch.addEventListener("click", handleTwitchBonus);
+      btnCreators && btnCreators.addEventListener("click", openCreatorCodeModal);
+      redeemCreatorCodeBtn && redeemCreatorCodeBtn.addEventListener("click", handleRedeemCreatorCode);
+
+      // Init
+      updateMonedas();
+      renderMenu();
+    });
+  </script>
+</body>
+</html>
