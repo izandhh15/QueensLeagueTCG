@@ -37,7 +37,7 @@
     /* HEADER */
     header {
       display: grid;
-      grid-template-columns: 1fr auto 1fr;
+      grid-template-columns: auto 1fr auto; /* Ajustado para centrar monedas y mover redes */
       align-items: center;
       gap: 1rem;
       padding: 0 1.25rem;
@@ -50,8 +50,8 @@
       height: var(--header-height);
     }
     .header-left { justify-self: start; display:flex; align-items:center; gap:0.8rem; }
-    .header-center { justify-self: center; display:flex; align-items:center; }
-    .header-right { justify-self: end; display:flex; align-items:center; gap:0.75rem; }
+    .header-center { justify-self: center; display:flex; align-items:center; } /* Monedas aquí */
+    .header-right { justify-self: end; display:flex; align-items:center; gap:0.75rem; } /* Redes aquí */
 
     .logo {
       font-size: 1.25rem;
@@ -64,8 +64,10 @@
     .redes { display:flex; gap:0.6rem; align-items:center; }
     .redes a { color: var(--accent); text-decoration:none; padding: 0.2rem 0.45rem; border-radius:8px; font-weight:600; font-size:0.92rem; }
     .redes a:hover { background: var(--accent); color: var(--accent-text); }
+    .redes img { height: 28px; width: auto; } /* Tamaño de los logos de redes */
 
-    .main-menu { display:flex; gap:0.5rem; align-items:center; }
+
+    .main-menu { display:flex; flex-direction:column; gap:0.5rem; align-items:center; }
     .main-menu button { background: transparent; color: var(--white); border: 2px solid rgba(255,255,255,0.06); padding: .45rem .75rem; border-radius: 8px; cursor: pointer; font-weight:700; font-size:0.92rem; }
     .main-menu button:hover { background: var(--accent); color: var(--accent-text); }
 
@@ -253,27 +255,27 @@
       <div class="logo" id="logo">
         <img src="https://i.ibb.co/gLStSbFz/000-LOGO.png" alt="Queens League Oysho Logo" style="height:42px;">
       </div>
-
-      <nav class="redes" aria-label="Redes">
-        <a href="https://queensleague.pro" target="_blank" rel="noopener">Web</a>
-        <a href="https://x.com/QueensLeague" target="_blank" rel="noopener">X</a>
-        <a href="https://instagram.com/QueensLeague" target="_blank" rel="noopener">Instagram</a>
-      </nav>
     </div>
 
     <div class="header-center">
-      <nav class="main-menu" id="main-menu" aria-label="Menu principal">
-        <button id="btn-sobres">Abrir Sobre</button>
-        <button id="btn-album">Ver Mi Álbum</button>
-        <button id="btn-daily">Bonus Diario</button>
-        <button id="btn-twitter">Bonus X</button>
-        <button id="btn-twitch">Bonus Twitch</button>
-        <button id="btn-creators">Creadores</button>
-      </nav>
+      <div id="monedas-panel" role="status" aria-live="polite">Monedas: 0</div>
     </div>
 
     <div class="header-right">
-      <div id="monedas-panel" role="status" aria-live="polite">Monedas: 0</div>
+      <nav class="redes" aria-label="Redes">
+        <a href="https://instagram.com/QueensLeague" target="_blank" rel="noopener">
+          <img src="https://i.ibb.co/R4snZts1/INSTAGRAM.png" alt="Instagram Logo">
+        </a>
+        <a href="https://x.com/QueensLeague" target="_blank" rel="noopener">
+          <img src="https://i.ibb.co/nqMPfypC/X-Twitter.png" alt="X (Twitter) Logo">
+        </a>
+        <a href="https://www.tiktok.com/@queensleague" target="_blank" rel="noopener">
+          <img src="https://i.ibb.co/FtZQ0j9/TIK-TOK.png" alt="TikTok Logo">
+        </a>
+      </nav>
+      <a href="https://queensleague.pro" target="_blank" rel="noopener">
+        <img src="https://kingsleague-cdn.kama.football/account/production/competition/ql-short-logo.png" alt="Queens League Logo" style="height: 28px; width: auto;">
+      </a>
     </div>
   </header>
 
@@ -306,7 +308,7 @@
 
   <div id="notificacion" role="status" aria-live="polite"></div>
 
-	<footer>
+  <footer>
     <div class="footer-content" style="flex-direction: column; gap: 0.4rem; text-align: center;">
       <span>Hecho con &#x1F497; por IzanDHH</span>
       <span style="font-size: 0.85em; color: rgba(255,255,255,0.7);">
@@ -315,6 +317,7 @@
       <span style="font-size: 0.85em; color: rgba(255,255,255,0.7);">
         Esta web esta hecha para el fandom de la Queens League Oysho Spain & Americas
       </span>
+      <span class="login-btn" style="margin-top: 10px; max-width: 250px; cursor: default;">Redes del proyecto</span>
       <a href="https://x.com/QL_Cards" target="_blank" rel="noopener" style="margin-top: 5px;">
         <img src="https://i.ibb.co/nqMPfypC/X-Twitter.png" alt="X (Twitter) Logo" style="height: 28px; width: auto;">
       </a>
@@ -415,6 +418,7 @@
       const REVERSO = "https://i.ibb.co/F443KZqx/00-REVERSO.png";
       const PACK_COST = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--pack-cost')) || 1000;
       const PACK_SLOTS = 5; // cada sobre da 5 cartas
+      const TOTAL_PACKS_DISPLAY = 10; // Número de sobres a mostrar en la página
 
       // Códigos de creador (simplificados). Escribe solo el código, sin ";cantidad".
       const CREATOR_CODES = {
@@ -464,12 +468,14 @@
       const modalCardsInfo = document.getElementById("modal-cards-info");
       const modalCardsClose = document.getElementById("modal-cards-close");
 
-      const btnSobres = document.getElementById("btn-sobres");
-      const btnAlbum = document.getElementById("btn-album");
-      const btnDaily = document.getElementById("btn-daily");
-      const btnTwitter = document.getElementById("btn-twitter");
-      const btnTwitch = document.getElementById("btn-twitch");
-      const btnCreators = document.getElementById("btn-creators");
+      // Botones del menú principal (ahora en el main-content)
+      const btnSobres = document.getElementById("btn-sobres"); // Este botón ya no está en el header
+      const btnAlbum = document.getElementById("btn-album");   // Este botón ya no está en el header
+      const btnDaily = document.getElementById("btn-daily");   // Este botón ya no está en el header
+      const btnTwitter = document.getElementById("btn-twitter"); // Este botón ya no está en el header
+      const btnTwitch = document.getElementById("btn-twitch");   // Este botón ya no está en el header
+      const btnCreators = document.getElementById("btn-creators"); // Este botón ya no está en el header
+
       const modalCreatorCode = document.getElementById("modal-creator-code");
       const modalCreatorCodeClose = document.getElementById("modal-creator-code-close");
       const creatorCodeInput = document.getElementById("creator-code-input");
@@ -486,9 +492,8 @@
         claimedCreatorCodes = [];
       }
 
-      localStorage.removeItem("packs_opened");
-      let packsOpened = {};
-
+      // Reiniciar packsOpened en cada sesión para la nueva lógica de 10 sobres
+      let packsOpenedCount = 0; // Contador de sobres abiertos en la sesión actual de 10
       let currentFilter = "Todas";
 
       // Utils
@@ -536,10 +541,8 @@
             result.push(card);
           }
         }
-
         return result;
       }
-
 
       // Canje de código (corregido)
       function openCreatorCodeModal() {
@@ -574,12 +577,13 @@
       function renderMenu() {
         mainContent.innerHTML = `
           <div class="menu-principal">
-            <h2 style="margin:0 0 .3rem 0;">Bienvenido al Álbum Virtual</h2>
-            <p style="margin:0 0 .6rem 0; color:var(--white); text-align:center;">Pulsa "Abrir Sobre" para comprar+abrir sobres. Cada sobre cuesta <strong>${PACK_COST} monedas</strong>. Las cartas raras (supercampeonas) aparecen muy rara vez.</p>
+            <h2 style="margin:0 0 .3rem 0;">Bienvenido al juego-albúm de la Queens League Oysho</h2>
             <div class="actions">
               <button id="menu-open-packs" class="login-btn">Abrir Sobre (ir a página de sobres)</button>
               <button id="menu-view-album" class="login-btn">Ver Mi Álbum</button>
               <button id="menu-daily" class="login-btn">Bonus Diario</button>
+              <button id="menu-twitter" class="login-btn">Bonus X (+1500 monedas)</button>
+              <button id="menu-twitch" class="login-btn">Bonus Twitch (+1500 monedas)</button>
               <button id="menu-creators" class="login-btn">Canjear código de creador</button>
             </div>
           </div>
@@ -587,6 +591,8 @@
         document.getElementById("menu-open-packs")?.addEventListener("click", renderPacksPage);
         document.getElementById("menu-view-album")?.addEventListener("click", renderAlbumPage);
         document.getElementById("menu-daily")?.addEventListener("click", handleDailyBonus);
+        document.getElementById("menu-twitter")?.addEventListener("click", handleTwitterBonus);
+        document.getElementById("menu-twitch")?.addEventListener("click", handleTwitchBonus);
         document.getElementById("menu-creators")?.addEventListener("click", openCreatorCodeModal);
       }
 
@@ -594,21 +600,27 @@
         mainContent.innerHTML = `
           <h2 style="margin:0 0 .4rem 0;">Abrir Sobres</h2>
           <p style="margin:0 0 .6rem 0;">Pulsa un sobre para comprarlo y abrirlo. Cada sobre cuesta <strong>${PACK_COST} monedas</strong>. Los sobres pueden darte cartas de cualquier tipo; las supercampeonas son muy raras.</p>
+          <div style="display:flex; gap:12px; justify-content:center; margin-bottom:12px;">
+            <button id="open-1-pack" class="login-btn">Abrir 1 Sobre</button>
+            <button id="open-5-packs" class="login-btn">Abrir 5 Sobres</button>
+            <button id="open-10-packs" class="login-btn">Abrir 10 Sobres</button>
+          </div>
           <div style="display:flex; gap:12px; justify-content:flex-end;">
-            <button id="open-all" class="login-btn">Abrir todos los sobres</button>
             <button id="back-menu" class="login-btn" style="background:transparent; color:var(--accent); border:2px solid var(--accent);">Volver al menú</button>
           </div>
           <div class="packs-grid" id="packs-grid" style="margin-top:12px;"></div>
         `;
         const packsGrid = document.getElementById("packs-grid");
         packsGrid.innerHTML = "";
-        for (let i = 1; i <= 5; i++) {
+
+        // Renderizar los 10 sobres
+        for (let i = 0; i < TOTAL_PACKS_DISPLAY; i++) {
           const div = document.createElement("div");
           div.className = "pack";
           div.dataset.index = String(i);
           const img = document.createElement("img");
           img.src = REVERSO;
-          img.alt = `Sobre ${i}`;
+          img.alt = `Sobre ${i + 1}`;
           div.appendChild(img);
 
           const badge = document.createElement("div");
@@ -625,68 +637,66 @@
           label.style.background = "rgba(0,0,0,0.35)";
           label.style.padding = "6px 8px";
           label.style.borderRadius = "8px";
-          label.textContent = `Sobre ${i}`;
+          label.textContent = `Sobre ${i + 1}`;
           div.appendChild(label);
 
-          if (packsOpened[String(i)]) div.classList.add("opened");
+          // Marcar como abierto si ya se abrió en esta "ronda"
+          if (i < packsOpenedCount) {
+            div.classList.add("opened");
+          }
 
-          div.addEventListener("click", () => handlePackClick(div));
           packsGrid.appendChild(div);
         }
 
-        document.getElementById("open-all")?.addEventListener("click", openAllPacks);
+        document.getElementById("open-1-pack")?.addEventListener("click", () => handleOpenMultiplePacks(1));
+        document.getElementById("open-5-packs")?.addEventListener("click", () => handleOpenMultiplePacks(5));
+        document.getElementById("open-10-packs")?.addEventListener("click", () => handleOpenMultiplePacks(10));
         document.getElementById("back-menu")?.addEventListener("click", renderMenu);
       }
 
-      function handlePackClick(packDiv) {
-        const idx = String(packDiv?.dataset?.index || "");
-        if (!packDiv || !idx) return;
-        if (packsOpened[idx]) {
-          showNotificacion("Este sobre ya está abierto (durante esta sesión).");
+      function handleOpenMultiplePacks(numPacksToOpen) {
+        let packsToActuallyOpen = Math.min(numPacksToOpen, TOTAL_PACKS_DISPLAY - packsOpenedCount);
+
+        if (packsToActuallyOpen <= 0) {
+          showNotificacion("Todos los sobres de esta ronda ya han sido abiertos. Reiniciando sobres...");
+          resetPacksDisplay();
           return;
         }
-        if (monedas < PACK_COST) {
-          showNotificacion(`Necesitas ${PACK_COST} monedas para abrir este sobre.`);
+
+        if (monedas < PACK_COST * packsToActuallyOpen) {
+          showNotificacion(`Necesitas ${PACK_COST * packsToActuallyOpen} monedas para abrir ${packsToActuallyOpen} sobres.`);
           return;
         }
-        monedas -= PACK_COST;
+
+        monedas -= PACK_COST * packsToActuallyOpen;
         updateMonedas();
 
-        const newCards = generatePack();
-        newCards.forEach(c => album[c.id] = (album[c.id] || 0) + 1);
-        packsOpened[idx] = true;
+        const openedCards = [];
+        for (let i = 0; i < packsToActuallyOpen; i++) {
+          const newCards = generatePack();
+          newCards.forEach(c => album[c.id] = (album[c.id] || 0) + 1);
+          openedCards.push(...newCards);
+
+          // Marcar el sobre como abierto visualmente
+          const packDiv = document.querySelector(`.pack[data-index="${packsOpenedCount}"]`);
+          if (packDiv) {
+            packDiv.classList.add("opened");
+          }
+          packsOpenedCount++;
+        }
+
         saveState();
-        packDiv.classList.add("opened");
-        showPackCardsModal(`Has comprado y abierto el Sobre ${idx}. Contenido:`, newCards);
+        showPackCardsModal(`Has abierto ${packsToActuallyOpen} sobres. Contenido:`, openedCards);
+
+        if (packsOpenedCount >= TOTAL_PACKS_DISPLAY) {
+          showNotificacion("¡Todos los sobres de esta ronda han sido abiertos! Reiniciando sobres...");
+          setTimeout(resetPacksDisplay, 2000); // Pequeño retraso para que el usuario vea la notificación
+        }
       }
 
-      function openAllPacks() {
-        const packDivs = document.querySelectorAll(".packs-grid .pack");
-        let countOpened = 0;
-        let cannotOpen = 0;
-        const openedCards = [];
-        packDivs.forEach(div => {
-          const idx = String(div.dataset.index);
-          if (!packsOpened[idx]) {
-            if (monedas >= PACK_COST) {
-              monedas -= PACK_COST;
-              const pCards = generatePack();
-              pCards.forEach(c => { album[c.id] = (album[c.id] || 0) + 1; openedCards.push(c); });
-              packsOpened[idx] = true;
-              div.classList.add("opened");
-              countOpened++;
-            } else {
-              cannotOpen++;
-            }
-          }
-        });
-        if (countOpened === 0) {
-          showNotificacion("No tienes suficientes monedas para abrir nuevos sobres.");
-          return;
-        }
-        saveState();
-        updateMonedas();
-        showPackCardsModal(`Has abierto ${countOpened} sobres.` + (cannotOpen ? ` No hubo monedas para ${cannotOpen} sobres.` : ''), openedCards);
+      function resetPacksDisplay() {
+        packsOpenedCount = 0;
+        renderPacksPage(); // Vuelve a renderizar la página de sobres para mostrar todos disponibles
       }
 
       function showPackCardsModal(titleText, cards) {
@@ -844,6 +854,7 @@
           showNotificacion("Ya reclamaste el bonus diario en las últimas 24h.");
         }
       }
+      // Los bonus de Twitter y Twitch ya no están en el header, pero se mantienen las funciones por si se usan en otro lado.
       function handleTwitterBonus() {
         window.open("https://x.com/izandhh", "_blank", "noopener");
         if (claimedTwitter) { showNotificacion("Bonus X ya reclamado."); return; }
@@ -857,18 +868,12 @@
         showNotificacion("Bonus por seguir en Twitch: +1500 monedas");
       }
 
-      // Header buttons
-      btnSobres && btnSobres.addEventListener("click", renderPacksPage);
-      btnAlbum && btnAlbum.addEventListener("click", renderAlbumPage);
-      btnDaily && btnDaily.addEventListener("click", handleDailyBonus);
-      btnTwitter && btnTwitter.addEventListener("click", handleTwitterBonus);
-      btnTwitch && btnTwitch.addEventListener("click", handleTwitchBonus);
-      btnCreators && btnCreators.addEventListener("click", openCreatorCodeModal);
-      redeemCreatorCodeBtn && redeemCreatorCodeBtn.addEventListener("click", handleRedeemCreatorCode);
-
       // Init
       updateMonedas();
       renderMenu();
+      
+      // Añadimos el event listener para el botón de canjear código
+      redeemCreatorCodeBtn.addEventListener("click", handleRedeemCreatorCode);
     });
   </script>
 </body>
