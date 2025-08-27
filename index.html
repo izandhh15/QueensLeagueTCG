@@ -6,75 +6,84 @@
     <title>Lanzamiento</title>
     <style>
         body {
-            background-color: #06ccbd; /* Fondo lila */
+            background-color: #9253c5; /* Color de fondo lila */
             display: flex;
             flex-direction: column;
-            align-items: center; /* Centra horizontalmente todo el contenido */
-            justify-content: center; /* Centra verticalmente si no hay mucho contenido */
-            min-height: 100vh; /* Ocupa al menos el 100% de la altura de la ventana */
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
             margin: 0;
-            font-family: Arial, sans-serif; /* Fuente por defecto */
-            color: white; /* Color de texto para que contraste con el fondo */
-            text-align: center; /* Centra el texto dentro de sus contenedores */
+            font-family: Arial, sans-serif;
+            color: #06ccbd; /* Color de texto verde azulado */
+            text-align: center;
+        }
+
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            flex-grow: 1; /* Permite que el contenido principal ocupe el espacio disponible */
         }
 
         img {
-            max-width: 80%; /* Hace el logo responsivo */
+            width: 300px; /* Tamaño del logo */
             height: auto;
-            margin-bottom: 20px; /* Espacio debajo del logo */
+            margin-bottom: 20px;
         }
 
         p {
-            font-size: 1.5em; /* Tamaño de fuente para el texto de lanzamiento */
+            font-size: 1.5em;
             margin-bottom: 30px;
         }
 
         footer {
-            width: 100%; /* Ocupa todo el ancho */
+            width: 100%;
             padding: 20px 0;
-            background-color: rgba(0, 0, 0, 0.2); /* Un fondo ligeramente oscuro para el footer */
-            margin-top: auto; /* Empuja el footer hacia abajo */
+            background-color: rgba(0, 0, 0, 0.2);
+            color: white; /* El texto del footer será blanco para que se lea mejor */
         }
 
         .footer-content {
             display: flex;
             flex-direction: column;
+            align-items: center; /* Centra el contenido del footer */
             gap: 0.4rem;
-            text-align: center;
         }
 
         .footer-content span {
             font-size: 0.9em;
         }
 
-        .footer-content span[style*="font-size: 0.85em"] { /* Para los disclaimers */
+        .footer-content span[style*="font-size: 0.85em"] {
             font-size: 0.85em;
             color: rgba(255,255,255,0.8);
         }
 
         .login-btn {
             margin-top: 10px;
-            max-width: 250px;
             cursor: default;
-            /* Aquí puedes añadir más estilos para el botón si lo necesitas */
+            font-size: 1em;
+            color: white; /* Color del texto del botón */
             border: 1px solid white;
             padding: 5px 10px;
             border-radius: 5px;
-            display: inline-block; /* Para que max-width funcione */
+            display: inline-block;
         }
 
-        footer a img { /* Estilos para el logo de Twitter dentro del footer */
+        footer a img {
             height: 28px;
             width: auto;
             margin-top: 5px;
-            /* Resetea los márgenes que el estilo general de img pudiera aplicar */
-            margin-bottom: 0; 
         }
     </style>
 </head>
 <body>
 
-    <img src="https://i.ibb.co/cS626KXD/000-LOGO.png" alt="Logo de la empresa" style="width: 300px;"> <p>Lanzamiento: 27/08 a las 22:30h ESP</p>
+    <div class="main-content">
+        <img src="https://i.ibb.co/cS626KXD/000-LOGO.png" alt="Logo de la empresa">
+        <p>Lanzamiento: 27/08 a las 22:30h ESP</p>
+    </div>
     
     <footer>
         <div class="footer-content">
@@ -85,8 +94,8 @@
           <span style="font-size: 0.85em; color: rgba(255,255,255,0.7);">
             Esta web esta hecha para el fandom de la Queens League Oysho Spain & Americas
           </span>
-          <span class="login-btn" style="margin-top: 10px; max-width: 250px; cursor: default;">Redes del proyecto</span>
-          <a href="https://x.com/QL_Cards" target="_blank" rel="noopener" style="margin-top: 5px;">
+          <span class="login-btn">Redes del proyecto</span>
+          <a href="https://x.com/QL_Cards" target="_blank" rel="noopener">
             <img src="https://i.ibb.co/nqMPfypC/X-Twitter.png" alt="X (Twitter) Logo">
           </a>
         </div>
