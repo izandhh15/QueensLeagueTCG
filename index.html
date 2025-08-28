@@ -19,7 +19,7 @@
       --radius: 12px;
       --transition: 200ms ease;
       --header-height: 72px;
-      --pack-cost: 1000;
+      --pack-cost: 750;
       --cromo-dark-bg: #4b2b6c; /* Fondo oscuro para cromos */
     }
     *{box-sizing:border-box}
@@ -432,7 +432,7 @@
 
       const REVERSO = "https://i.ibb.co/F443KZqx/00-REVERSO.png";
       const PACK_COST = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--pack-cost')) || 1000;
-      const PACK_SLOTS = 5; // cada sobre da 5 cartas
+      const PACK_SLOTS = 3; // cada sobre da 5 cartas
       const TOTAL_PACKS_DISPLAY = 10; // Número de sobres a mostrar en la página
 
       // Códigos de creador (simplificados). Escribe solo el código, sin ";cantidad".
@@ -665,7 +665,7 @@
       function renderPacksPage() {
         mainContent.innerHTML = `
           <h2 style="margin:0 0 .4rem 0;">Abrir Sobres</h2>
-          <p style="margin:0 0 .6rem 0;">Pulsa un sobre para comprarlo y abrirlo. Cada sobre cuesta <strong>${PACK_COST} monedas</strong>. Los sobres pueden darte cartas de cualquier tipo; las supercampeonas son muy raras.</p>
+          <p style="margin:0 0 .6rem 0;">Pulsa un sobre para comprarlo y abrirlo. Cada sobre cuesta <strong>${PACK_COST} monedas</strong>. Los sobres pueden darte cartas de cualquier tipo; las especiales son muy raras.</p>
           <div style="display:flex; gap:12px; justify-content:center; margin-bottom:12px;">
             <button id="open-1-pack" class="login-btn">Abrir 1 Sobre</button>
             <button id="open-5-packs" class="login-btn">Abrir 5 Sobres</button>
@@ -944,6 +944,7 @@
   </script>
 </body>
 </html>
+
 
 
 
