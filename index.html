@@ -657,11 +657,11 @@
               <button id="menu-open-packs" class="login-btn">Abrir Sobre (ir a página de sobres)</button>
               <button id="menu-view-album" class="login-btn">Ver Mi Álbum</button>
               <button id="menu-daily" class="login-btn">Bonus Diario</button>
-              <button id="menu-izan-x" class="login-btn">Bonus X (IzanDHH) (+1500 monedas)</button>
-              <button id="menu-izan-twitch" class="login-btn">Bonus Twitch (IzanDHH) (+1500 monedas)</button>
-              <button id="menu-izan-instagram" class="login-btn">Bonus Instagram (IzanDHH) (+1500 monedas)</button>
-              <button id="menu-qlcards-x" class="login-btn">Bonus X (QL Cards) (+1500 monedas)</button>
-              <button id="menu-qlcards-instagram" class="login-btn">Bonus Instagram (QL Cards) (+1500 monedas)</button>
+              <button id="menu-izan-x" class="login-btn">Bonus X (IzanDHH) (+3500 monedas)</button>
+              <button id="menu-izan-twitch" class="login-btn">Bonus Twitch (IzanDHH) (+3500 monedas)</button>
+              <button id="menu-izan-instagram" class="login-btn">Bonus Instagram (IzanDHH) (+3500 monedas)</button>
+              <button id="menu-qlcards-x" class="login-btn">Bonus X (QL Cards) (+3500 monedas)</button>
+              <button id="menu-qlcards-instagram" class="login-btn">Bonus Instagram (QL Cards) (+3500 monedas)</button>
               <button id="menu-creators" class="login-btn">Canjear código de creador</button>
             </div>
           </div>
@@ -939,34 +939,34 @@
       function handleTwitterBonus() {
         window.open("https://x.com/izandhh", "_blank", "noopener");
         if (claimedTwitter) { showNotificacion("Bonus X (IzanDHH) ya reclamado."); return; }
-        claimedTwitter = true; monedas += 1500; saveState(); updateMonedas();
-        showNotificacion("Bonus por seguir a IzanDHH en X: +1500 monedas");
+        claimedTwitter = true; monedas += 3500; saveState(); updateMonedas();
+        showNotificacion("Bonus por seguir a IzanDHH en X: +3500 monedas");
       }
       function handleTwitchBonus() {
         window.open("https://twitch.tv/izandhh", "_blank", "noopener");
         if (claimedTwitch) { showNotificacion("Bonus Twitch (IzanDHH) ya reclamado."); return; }
-        claimedTwitch = true; monedas += 1500; saveState(); updateMonedas();
-        showNotificacion("Bonus por seguir a IzanDHH en Twitch: +1500 monedas");
+        claimedTwitch = true; monedas += 3500; saveState(); updateMonedas();
+        showNotificacion("Bonus por seguir a IzanDHH en Twitch: +3500 monedas");
       }
       function handleInstagramBonus() {
         window.open("https://instagram.com/izandhh", "_blank", "noopener");
         if (claimedInstagram) { showNotificacion("Bonus Instagram (IzanDHH) ya reclamado."); return; }
-        claimedInstagram = true; monedas += 1500; saveState(); updateMonedas();
-        showNotificacion("Bonus por seguir a IzanDHH en Instagram: +1500 monedas");
+        claimedInstagram = true; monedas += 3500; saveState(); updateMonedas();
+        showNotificacion("Bonus por seguir a IzanDHH en Instagram: +3500 monedas");
       }
 
       function handleQlCardsXBonus() {
         window.open("https://x.com/QL_Cards", "_blank", "noopener");
         if (claimedQlCardsX) { showNotificacion("Bonus X (QL Cards) ya reclamado."); return; }
-        claimedQlCardsX = true; monedas += 1500; saveState(); updateMonedas();
-        showNotificacion("Bonus por seguir a QL Cards en X: +1500 monedas");
+        claimedQlCardsX = true; monedas += 3500; saveState(); updateMonedas();
+        showNotificacion("Bonus por seguir a QL Cards en X: +3500 monedas");
       }
 
       function handleQlCardsInstagramBonus() {
         window.open("https://instagram.com/QL_Cards", "_blank", "noopener");
         if (claimedQlCardsInstagram) { showNotificacion("Bonus Instagram (QL Cards) ya reclamado."); return; }
-        claimedQlCardsInstagram = true; monedas += 1500; saveState(); updateMonedas();
-        showNotificacion("Bonus por seguir a QL Cards en Instagram: +1500 monedas");
+        claimedQlCardsInstagram = true; monedas += 3500; saveState(); updateMonedas();
+        showNotificacion("Bonus por seguir a QL Cards en Instagram: +3500 monedas");
       }
 
       // Init
