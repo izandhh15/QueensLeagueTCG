@@ -898,7 +898,7 @@
           if (qty > 1) {
             const duplicates = qty - 1;
             const card = CARDS.find(c => String(c.id) === cardId);
-            const perDuplicateValue = (card && card.tipo === "supercampeonas") ? 250 : 100;
+            const perDuplicateValue = (card && card.tipo === "supercampeonas") ? 750 : 250;
             const gained = duplicates * perDuplicateValue;
             totalGained += gained;
             totalSold += duplicates;
@@ -979,3 +979,4 @@
   </script>
 </body>
 </html>
+
