@@ -551,10 +551,11 @@
       const redeemCreatorCodeBtn = document.getElementById("redeem-creator-code");
 
       // Estado
-      let monedas = parseInt(localStorage.getItem("monedas_queens")) || 2000;
+      let monedas = parseInt(localStorage.getItem("monedas_queens")) || 7500;
       let album = JSON.parse(localStorage.getItem("album_queens")) || {};
       let claimedTwitter = JSON.parse(localStorage.getItem("bonus_twitter_claimed")) || false;
       let claimedTwitch = JSON.parse(localStorage.getItem("bonus_twitch_claimed")) || false;
+	  let claimedInstagram = JSON.parse(localStorage.getItem("bonus_instagram_claimed")) || false;
       let claimedCreatorCodes = JSON.parse(localStorage.getItem("claimed_creator_codes"));
       // Asegurarse de que claimedCreatorCodes sea siempre un array
       if (!Array.isArray(claimedCreatorCodes)) {
@@ -571,6 +572,7 @@
         localStorage.setItem("album_queens", JSON.stringify(album));
         localStorage.setItem("bonus_twitter_claimed", JSON.stringify(claimedTwitter));
         localStorage.setItem("bonus_twitch_claimed", JSON.stringify(claimedTwitch));
+		localStorage.setItem("bonus_instagram_claimed", JSON.stringify(claimedInstagram));
         localStorage.setItem("claimed_creator_codes", JSON.stringify(claimedCreatorCodes));
       }
       function updateMonedas() {
@@ -653,6 +655,7 @@
               <button id="menu-daily" class="login-btn">Bonus Diario</button>
               <button id="menu-twitter" class="login-btn">Bonus X (+1500 monedas)</button>
               <button id="menu-twitch" class="login-btn">Bonus Twitch (+1500 monedas)</button>
+			  <button id="menu-twitch" class="login-btn">Bonus Instagram (+1500 monedas)</button>
               <button id="menu-creators" class="login-btn">Canjear código de creador</button>
             </div>
           </div>
@@ -662,6 +665,7 @@
         document.getElementById("menu-daily")?.addEventListener("click", handleDailyBonus);
         document.getElementById("menu-twitter")?.addEventListener("click", handleTwitterBonus);
         document.getElementById("menu-twitch")?.addEventListener("click", handleTwitchBonus);
+		document.getElementById("menu-instagram")?.addEventListener("click", handleInstagramBonus);
         document.getElementById("menu-creators")?.addEventListener("click", openCreatorCodeModal);
       }
 
@@ -936,6 +940,12 @@
         claimedTwitch = true; monedas += 1500; saveState(); updateMonedas();
         showNotificacion("Bonus por seguir en Twitch: +1500 monedas");
       }
+	  function handleInstagramBonus() {
+        window.open("https://instagram.com/izandhh", "_blank", "noopener");
+        if (claimedTwitch) { showNotificacion("Bonus Instagram ya reclamado."); return; }
+        claimedTwitch = true; monedas += 1500; saveState(); updateMonedas();
+        showNotificacion("Bonus por seguir en Instagram: +1500 monedas");
+      }
 
       // Init
       updateMonedas();
@@ -947,6 +957,7 @@
   </script>
 </body>
 </html>
+
 
 
 
