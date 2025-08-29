@@ -436,6 +436,8 @@
       const PACK_COST = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--pack-cost')) || 1000;
       const PACK_SLOTS = 3; // cada sobre da 5 cartas
       const TOTAL_PACKS_DISPLAY = 10; // Número de sobres a mostrar en la página
+      const BONUS_PACKS = 5;
+      const BONUS_AMOUNT = PACK_COST * BONUS_PACKS;
 
       // Códigos de creador (simplificados). Escribe solo el código, sin ";cantidad".
        const CREATOR_CODES = {
@@ -653,8 +655,9 @@
               <button id="menu-open-packs" class="login-btn">Abrir Sobre (ir a página de sobres)</button>
               <button id="menu-view-album" class="login-btn">Ver Mi Álbum</button>
               <button id="menu-daily" class="login-btn">Bonus Diario</button>
-              <button id="menu-x-bonus" class="login-btn">Bonus X (@QL_Cards)</button>
-              <button id="menu-instagram-bonus" class="login-btn">Bonus Instagram (@QL_Cards)</button>
+              <button id="menu-x-bonus" class="login-btn">Bonus X (@izandhh)</button>
+              <button id="menu-instagram-bonus" class="login-btn">Bonus Instagram (@izandhh)</button>
+              <button id="menu-twitch-bonus" class="login-btn">Bonus Twitch (@izandhh)</button>
               <button id="menu-creators" class="login-btn">Canjear código de creador</button>
             </div>
           </div>
@@ -664,6 +667,7 @@
         document.getElementById("menu-daily")?.addEventListener("click", handleDailyBonus);
         document.getElementById("menu-x-bonus")?.addEventListener("click", handleXBonus);
         document.getElementById("menu-instagram-bonus")?.addEventListener("click", handleInstagramBonus);
+        document.getElementById("menu-twitch-bonus")?.addEventListener("click", handleTwitchBonus);
         document.getElementById("menu-creators")?.addEventListener("click", openCreatorCodeModal);
       }
 
@@ -926,22 +930,22 @@
         }
       }
       function handleXBonus() {
-        window.open("https://x.com/QL_Cards", "_blank", "noopener");
+        window.open("https://x.com/izandhh", "_blank", "noopener");
         if (claimedTwitter) { showNotificacion("Bonus X ya reclamado."); return; }
-        claimedTwitter = true; monedas += 1500; saveState(); updateMonedas();
-        showNotificacion("Bonus por seguir en X: +1500 monedas");
+        claimedTwitter = true; monedas += BONUS_AMOUNT; saveState(); updateMonedas();
+        showNotificacion(`Bonus por seguir en X: +${BONUS_AMOUNT} monedas`);
       }
       function handleInstagramBonus() {
-        window.open("https://instagram.com/QL_Cards", "_blank", "noopener");
+        window.open("https://instagram.com/izandhh", "_blank", "noopener");
         if (claimedInstagram) { showNotificacion("Bonus Instagram ya reclamado."); return; }
-        claimedInstagram = true; monedas += 1500; saveState(); updateMonedas();
-        showNotificacion("Bonus por seguir en Instagram: +1500 monedas");
+        claimedInstagram = true; monedas += BONUS_AMOUNT; saveState(); updateMonedas();
+        showNotificacion(`Bonus por seguir en Instagram: +${BONUS_AMOUNT} monedas`);
       }
 	  function handleTwitchBonus() {
         window.open("https://twitch.tv/izandhh", "_blank", "noopener");
         if (claimedTwitch) { showNotificacion("Bonus Twitch ya reclamado."); return; }
-        claimedTwitch = true; monedas += 1500; saveState(); updateMonedas();
-        showNotificacion("Bonus por seguir en Twitch: +1500 monedas");
+        claimedTwitch = true; monedas += BONUS_AMOUNT; saveState(); updateMonedas();
+        showNotificacion(`Bonus por seguir en Twitch: +${BONUS_AMOUNT} monedas`);
       }
       
       // Init
